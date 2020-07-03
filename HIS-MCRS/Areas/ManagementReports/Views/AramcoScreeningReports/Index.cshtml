@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Aramco Screening Reports";
+}
+@Styles.Render("~/Styles/arcustom")
+
+<div class="row">
+    <br />
+    <div class="col-sm-12">
+        <ul>
+            @*<li>
+                <a class="mc_rep_continer" href="@Url.Action("frmAramcoScreeningMaint","AramcoScreeningReports")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                       File Maintenance
+                    </section>
+                </a>
+            </li>*@
+            <li>
+                <a class="mc_rep_continer" href="@Url.Action("AramcoScreeningTest","AramcoScreeningReports")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        Aramco Screening Test Profile
+                    </section>
+                </a>
+            </li>
+            @*<li>
+                <a class="mc_rep_continer" href="@Url.Action("frmUpdateAramcoPatient","AramcoScreeningReports")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                       Update Aramco Patient Form
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Action("frmAramcoInvoice","AramcoScreeningReports")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                       Aramco OP Invoice Viewing
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Action("frmAramcoInvoiceIP","AramcoScreeningReports")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                     Aramco IP Invoice Viewing  
+                    </section>
+                </a>
+            </li>*@
+        </ul>
+    </div>
+</div>

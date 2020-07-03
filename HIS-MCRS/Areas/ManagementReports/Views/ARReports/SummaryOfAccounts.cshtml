@@ -1,0 +1,156 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.ARSummaryOfAccounts
+
+@using HIS_MCRS.Enumerations
+@{
+    ViewBag.Title = "AR Reports";
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+@using (Ajax.BeginForm(options)){
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Summary Of Accounts Report</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+                  <button id="RunReport" type="submit" class="btn btn-success col" value="RunReport">
+                        <span class="glyphicon glyphicon-tasks"></span>Run Report
+                    </button>
+                    <a id="Close"  href="@Url.Action("Index", "ARReports")" class="btn btn-danger" style="margin-right:15px;">
+                        <span class="glyphicon glyphicon-off"></span>Close
+                    </a>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body" style="height: auto;">
+        <div class="form-group">
+                <div class="row col-xs-6 border-right push-right5">
+                    @Html.LabelFor(m => m.StartDate, new { @class = "col-xs-2 top5" })
+                    <div class="col-xs-4"> <div class="col-xs-12 input-group">
+                        @Html.TextBoxFor(m => m.StartDate, Model.StartDate.ToString("dd-MMM-yyyy"), new
+                       {
+                           @readonly = true,
+                           @class = "datepicker form-control",
+                           style = "z-index:0 !important;",
+                           data_bind = "datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                       })
+                        <span class="input-group-btn ">
+                            <button data-bind="glyphfor:'@Html.IdFor(m => m.StartDate)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                        </span>
+                    </div></div>
+                   
+                    @Html.LabelFor(m => m.EndDate, new { @class = "col-xs-2 top5" })
+                    <div class="col-xs-4">
+                          <div class="col-xs-12 input-group">
+                        @Html.TextBoxFor(m => m.EndDate, Model.EndDate.ToString("dd-MMM-yyyy"), new
+                       {
+                           @readonly = true,
+                           @class = "datepicker form-control",
+                           style = "z-index:0 !important;",
+                           data_bind = "datepicker:$root.EndDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                       })
+                        <span class="input-group-btn ">
+                            <button data-bind="glyphfor:'@Html.IdFor(m => m.EndDate)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                        </span>
+                    </div>
+                     </div>
+                   
+                    @Html.LabelFor(model=>model.CategoryId, new{@class="col-xs-2 top10"})
+                    <div class="col-xs-10 top5">
+                    <select class="form-control select2"id="@Html.IdFor(model=>model.CategoryId)" name="@Html.NameFor(model=>model.CategoryId)"
+                        data-bind="options: $root.CategoryList, optionsValue:'Id', optionsText:'Name', value: $root.SelectedCategory, select2:{}">
+
+                    </select>
+
+                   @Html.HiddenFor(model => model.Category, new { data_bind = "value:$root.SelectedCategoryText" })
+                   </div>
+                    @Html.LabelFor(model=>model.CompanyId, new{@class="col-xs-2 top10"})
+                    <div class="col-xs-10 top5">
+                    <select class="form-control select2"id="@Html.IdFor(model=>model.CompanyId)" name="@Html.NameFor(model=>model.CompanyId)"
+                        data-bind="options: $root.CompanyList, 
+                                   optionsAfterRender: function(option, item){option.value = item.Id,
+                                   option.text = item.Code + '  ' + item.Name} , 
+                                   value: $root.SelectedCompany,
+                                   select2:{}
+                                   ">
+                    </select>
+                   </div>
+                    @Html.LabelFor(model=>model.GradeId, new{@class="col-xs-2 top10"})
+                    <div class="col-xs-10 top5">
+                    <select class="form-control select2"id="@Html.IdFor(model=>model.GradeId)" name="@Html.NameFor(model=>model.GradeId)"
+                        data-bind="options: $root.GradeList, optionsValue:'Id', optionsText:'Name', value: $root.SelectedGrade, select2:{}">
+
+                    </select>
+
+                   </div>
+                </div>
+                <div class="col-xs-6">
+                  <div class="col-xs-6 border10">
+                      @Html.LabelFor(model=>model.Type, new {@class="row col-xs-12"})
+                     <div class="row col-xs-12">
+                      @Html.RadioButtonFor(model=>Model.Type, 1, new {@class="push-left20",id="TypeDetail", data_bind="value:1, checked:$root.Type, enable:$root.EnableType()"})
+                      @Html.Label("Detail", new { @style = "margin-right:5px, margin-left:5px;" })
+                      @Html.RadioButtonFor(model=>Model.Type, 0, new {@class="push-left20" ,id="TypeSummary", data_bind="value:0, checked:$root.Type, enable:$root.EnableType()"})
+                      @Html.Label("Summary", new { @style = "margin-right:5px, margin-left:5px;" })
+                     </div>
+                  </div>
+                  <div class="col-xs-6">
+                      <br />
+                      @Html.CheckBoxFor(model=>model.BankDetails,new{@class="push-left20", data_bind="value:true,checked:$root.BankDetails"})
+                      @Html.LabelFor(model => model.BankDetails, new { @class = "push-left10" })
+                     
+                  </div>
+                    <div class="col-xs-6">
+                      <br />
+                      @Html.CheckBoxFor(model=>model.AfterCoveringLetter,new{@class="push-left20", data_bind="value:true,checked:$root.AfterCoveringLetter"})
+                      @Html.LabelFor(model => model.AfterCoveringLetter, new { @class = "push-left10" })
+                     
+                  </div>
+       
+                  <div class="row col-xs-12 top10">
+                     @Html.LabelFor(model=>model.SubCategoryId, new{@class="col-xs-3 top10"})
+                    <div class="col-xs-9 top5">
+                    <select class="form-control select2"id="@Html.IdFor(model=>model.SubCategoryId)" name="@Html.NameFor(model=>model.SubCategoryId)"
+                        data-bind="options: $root.SubCategoryList, optionsValue:'Id', optionsText:'Name', value: $root.SelectedSubCategory, select2:{}">
+
+                    </select>
+                     @Html.HiddenFor(model => model.SubCategory,  new { data_bind = "value:$root.SelectedSubCategoryText" })
+                   </div>
+                   </div>
+                 </div>
+               
+            
+
+                <div id="reportWrapper" class="col-xs-12 top10 container-fluid" style="min-height: 330px; background-color: #6C7A89;"></div>
+            </div>
+    </div>
+</div>
+}
+
+<input id="urlActions" class="hidden"
+    data-getcompanybycategory="getCompanyByCategory"
+    data-getgradebycompanyid="getGradeByCompanyId"/>
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+ <script type="text/javascript" src="~/Scripts/ManagementReports/ARReports/SummaryOfAccounts.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            var viewModel = new ViewModel(JSON.parse(data), $("#urlActions"));
+            ko.applyBindings(viewModel);
+        });
+    </script>
+}

@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "Audit Reports";
+}
+@Styles.Render("~/Styles/arcustom")
+
+<div class="row">
+    <br />
+    <div class="col-sm-12">
+
+        <a class="mc_rep_continer" href="@Url.Action("IPOPCharge","AuditReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               1. IP/OP Charged and Billed Reports
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("OPCancelledBillByDept","AuditReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               2. OP Cancelled Bills By Department
+            </section>
+        </a>
+
+
+        <a class="mc_rep_continer" href="@Url.Action("ListSubAccount","AuditReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               3. List of Sub Accounts
+            </section>
+        </a>
+
+
+        <a class="mc_rep_continer" href="@Url.Action("IPRevenue","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               4. IP Revenue Summary Report
+            </section>
+        </a>
+
+
+
+
+        <a class="mc_rep_continer" href="@Url.Action("DischargeInfo","AuditReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               5. Discharge Information Report
+            </section>
+        </a>
+
+
+
+
+
+        <a class="mc_rep_continer" href="@Url.Action("IPChargeBilledReport","AuditReports")">
+              <span class="glyphicon glyphicon-list-alt"></span>
+              <section>
+                 6. IP Charged and Billed Report
+              </section>
+          </a>
+
+
+        <a class="mc_rep_continer" href="@Url.Action("CompanyProfLogs","AuditReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+              7. Company Profile Logs
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("OPBilledReport","AuditReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               8. OP Billed Reports
+            </section>
+        </a>
+      
+        <a class="mc_rep_continer" href="@Url.Action("ArOpBillMonthWise","AuditReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               9. AR OP Bill MonthWise
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("SummaryBillPercentage","AuditReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               10. Summary of Bill Percentage
+            </section>
+        </a>
+
+
+
+
+
+       
+
+
+
+    </div>
+</div>
+

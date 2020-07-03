@@ -1,0 +1,53 @@
+﻿@model HIS_MCRS.Areas.MCRS.Models.ParamIDandDateModel
+
+@using System.Web.UI.WebControls
+@using ReportViewerForMvc
+
+<div class="panel panel-default ">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-3">
+                <h4><b class="navbar-header">OPD Patient Count</b></h4>
+            </div>
+            <div class="navbar-collapse navbar-right col-xs-9">
+                @using (Html.BeginForm("Index", "OPDPatientCount", FormMethod.Post))
+                {
+                    <div class="col-xs-10">
+                        <div class="col-xs-5">
+                            @Html.TextBox("txtSelection", null, new { id = "txtSelection", name = "txtSelection", @class = "form-control", @placeholder = "Selection" })
+                            @Html.HiddenFor(model => model.Id)
+                        </div>
+                        <div class="col-xs-2" style="text-align: right;">
+                            <label class="label-control">Date</label>
+                        </div>
+                        <div class="col-xs-5">
+                            <div class="input-group input-daterange">
+                                @Html.TextBoxFor(model => model.DateFrom, new { id = "txtFromDate", name = "DateFrom", @class = "form-control datepicker", @placeholder = "From Date", @onkeydown = "return false" })
+                                <span class="input-group-addon">
+                                </span>
+                                @Html.TextBoxFor(model => model.DateTo, new { id = "txtToDate", name = "DateTo", @class = "form-control datepicker", @placeholder = "To Date", @onkeydown = "return false" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-2">
+                        <input id="button1" type="submit" value="Submit" class="btn btn-default" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>@*Header Panel*@
+    <div class="panel-body">
+        @if (ViewBag.ReportViewer != null)
+        {
+            @Html.ReportViewer(ViewBag.ReportViewer as Microsoft.Reporting.WebForms.ReportViewer, new { SizeToReportContent = true, Width = Unit.Percentage(100), Height = "450px" })
+        }
+    </div>@*Body*@
+</div>@*Panel Head*@
+
+<input type="hidden" id="url" data-getselection="@Url.Action("GetSelection")" />
+
+@section scripts {
+    <script src="~/Scripts/MCRS/polyclinic/jqGlobal.js"></script>
+    <script src="~/Scripts/MCRS/polyclinic/jqReport.js"></script>
+    <script src="~/Scripts/MCRS/polyclinic/jqOPDPatientCount.js"></script>
+}

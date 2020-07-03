@@ -1,0 +1,118 @@
+﻿@{
+    ViewBag.Title = "AR Bill Deletion";
+}
+@Styles.Render("~/Styles/arcustom")
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">AR Bill Deletion</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+                <button type="button" class="btn btn-sm btn-default" id="btn_clear">
+                    <span class="glyphicon glyphicon-erase"></span> Clear
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="IT_custom_filter_container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <form class="form-horizontal IT_custom_label_left_align">
+                        <div class="form-group">
+                            <label class="control-label col-sm-1">From</label>
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <input type="text" class="form-control datepicker def_datepicker" id="fdate" name="fdate" value="@DateTime.Today.ToString("dd-MMM-yyyy")" data-date-end-date="0d" />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" id="fdatebtn" type="button" onclick="_common.dateshow('#fdate');"><span class="glyphicon glyphicon-calendar"></span></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <label class="control-label col-sm-1">To</label>
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <input type="text" class="form-control datepicker def_datepicker" id="tdate" name="tdate" value="@DateTime.Today.ToString("dd-MMM-yyyy") " />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" id="tdatebtn" type="button" onclick="_common.dateshow('#tdate');"><span class="glyphicon glyphicon-calendar"></span></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-sm-6">
+                    <form class="form-horizontal IT_custom_label_left_align">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" style="text-align:left !important;">Reason Type</label>
+                            <div class="col-sm-9">
+                                <div class="radio" style="margin-top:-5px;">
+                                    <label>
+                                        <input type="radio" id="reafin" checked="checked" name="finrea" />
+                                        <span style="margin-top:5px;margin-left:0px;float:left;">Financial</span>
+                                    </label>
+                                    <label>
+                                        <input type="radio" id="reatech" name="finrea" style="margin-left:0px;" />
+                                        <span style="margin-top:5px;margin-left:20px;float:left;">Technical</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-1" for="opbpin">PIN</label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="opbbcode">@ViewBag.IssueAuthorityCode</span>
+                                    <input type="text" class="form-control" id="pin" autofocus />
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="checkbox">
+                                    
+                                    <input type="checkbox" id="use_inv" /> <span style="margin-top:0px;">Inv. Type</span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-sm-6">
+                    <form class="form-horizontal IT_custom_label_left_align">
+                        <div class="form-group">
+                            <label for="finreason" class="col-sm-2 control-label">Reason</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="finreason" disabled="disabled" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+<input type="hidden" value="@ViewBag.MyOperatorId" id="his_opeid" />
+<input type="hidden" id="url"
+       data-reporturl="@Url.Content("~/Areas/AROPBILLING/Reports/Reports.aspx")"
+       data-arcommon="@Url.Content("~/Common")"
+       data-savebillofficer="@Url.Action("save_billing_officer_mapping")"
+       data-getbillofficer="@Url.Action("get_billing_officer_list")"
+       data-getbillofficercompany="@Url.Action("get_billing_officer_com_list")"
+       data-getbillofficercategory="@Url.Action("get_billing_officer_cat_list")" />
+
+
+@Scripts.Render("~/Scripts/commonwrapper")
+@Scripts.Render("~/Scripts/jsARBillDeletion")

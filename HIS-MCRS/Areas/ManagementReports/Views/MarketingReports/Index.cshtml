@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Marketing Reports";
+}
+@Styles.Render("~/Styles/arcustom")
+
+<div class="row">
+    <br />
+    <div class="col-sm-12">
+        <a class="mc_rep_continer" href="@Url.Action("AramcoPatient")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               1. Aramco Patient Report 
+            </section>
+        </a>
+
+         <a class="mc_rep_continer" href="@Url.Action("NoOfCashVisit")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               2. No. of Cash Patient Visit with date range
+            </section>
+        </a>
+         
+           
+    </div>
+</div>

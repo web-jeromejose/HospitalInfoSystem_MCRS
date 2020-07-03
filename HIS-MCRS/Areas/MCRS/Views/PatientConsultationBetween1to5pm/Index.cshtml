@@ -1,0 +1,49 @@
+﻿@model HIS_MCRS.Areas.MCRS.Models.ParamYearandDeptModel
+
+@using System.Web.UI.WebControls
+@using ReportViewerForMvc
+
+<div class="panel panel-default ">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-3">
+                <h4><b class="navbar-header">Patient Consultation Between 1pm to 5pm</b></h4>
+            </div>
+            <div class="col-xs-9">
+                @using (Html.BeginForm("Index", "PatientConsultationBetween1to5pm", FormMethod.Post))
+                {
+                    <div class="col-xs-10">
+                        <div class="col-xs-4"></div>
+                        <div class="col-xs-4">
+                            @Html.TextBox("txtYear", null, new { id = "txtYear", name = "txtYear", @class = "form-control", @placeholder = "Select Year" })
+                            @Html.HiddenFor(model => model.Year)
+                        </div>
+                        <div class="col-xs-4">
+                            @Html.TextBox("txtDepartment", null, new { id = "txtDepartment", name = "txtDepartment", @class = "form-control", @placeholder = "Select Department" })
+                            @Html.HiddenFor(model => model.Dept)
+                        </div>
+                    </div>
+                    <div class="col-xs-2">
+                        <input id="button1" type="submit" value="Submit" class="btn btn-default" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>@*Header Panel*@
+    <div class="panel-body">
+        @if (ViewBag.ReportViewer != null)
+        {
+            @Html.ReportViewer(ViewBag.ReportViewer as Microsoft.Reporting.WebForms.ReportViewer, new { SizeToReportContent = true, Width = Unit.Percentage(100), Height = "450px" })
+        }
+    </div>@*Body*@
+</div>@*Panel Head*@
+
+<input type="hidden" id="url"
+       data-getdepartment="@Url.Action("GetDepartment")"
+       data-getyear="@Url.Action("GetYear")" />
+
+@section scripts {
+    <script src="~/Scripts/MCRS/patientstatistics/jqGlobal.js"></script>
+    <script src="~/Scripts/MCRS/patientstatistics/jqReport.js"></script>
+    <script src="~/Scripts/MCRS/patientstatistics/jqConsultationBetween1to5.js"></script>
+}

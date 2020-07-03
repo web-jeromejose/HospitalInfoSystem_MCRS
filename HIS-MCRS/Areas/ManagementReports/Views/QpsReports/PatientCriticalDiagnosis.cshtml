@@ -1,0 +1,159 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.QpsPatientCriticalDiagnosis
+
+@{  
+    ViewBag.Title = "QPS Reports ";
+
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Currently-In Patients (For JCIA)</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body" style="height: auto;">
+        @using (Ajax.BeginForm(options))
+            {
+            <div class="row ">
+                @Html.HiddenFor(mbox=>mbox.strName,Model.strName)
+               <div class="col-xs-3 ">
+                   <div class="radio form-group">
+                       <label>
+                           @*<input type="radio" name="" id="optionsRadios1" value="0" checked>*@
+                           @Html.RadioButtonFor(model => model.stroption, "0", new {@checked="true" })
+                           Currently-In
+                           @*Current In-Patient*@
+                       </label>
+                   </div>
+               </div>
+                <div class="col-xs-3 ">
+                   <div class="radio form-group">
+                       <label>
+                           @*<input type="radio" name="@Model.stroption" id="optionsRadios2" value="1">*@
+                           @Html.RadioButtonFor(model => model.stroption, "1", true)
+                          In Patient on a Specific
+                       </label>
+                   </div>
+                </div>
+                    <div class="col-xs-3 ">
+                   <div class="radio form-group">
+                       <label>
+                           @*<input type="radio" name="@Model.stroption" id="optionsRadios3" value="2">*@
+                           @Html.RadioButtonFor(model => model.stroption, "2", true)
+                           Discharge for the day
+                       </label>
+                   </div>
+                    </div>
+
+              
+            </div>
+            
+            <div class="row">
+            <div class="form-inline">
+                <div class="col-xs-offset-2 col-xs-3 top10" style="">
+                    @*<div class="form-group">
+                        @Html.LabelFor(m => m.StartDate, new { @class = " " })
+                        @Html.TextBoxFor(m => m.StartDate,Model.StartDate.ToString("dd-MMM-yyyy"),new
+                       {
+                           @readOnly="true",
+                           @class = "datepicker form-control",
+                           style = " ",
+                           data_bind = "datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                       })
+                        <button data-bind="glyphfor:'@Html.IdFor(m=>m.StartDate)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-left: -4px;margin-top:-2px;"></button>
+
+                    </div>*@
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.EndDate, new { @class = " " })&nbsp;&nbsp;&nbsp;
+                        @Html.TextBoxFor(m => m.EndDate,Model.EndDate.ToString("dd-MMM-yyyy"),new
+                       {
+                           @readOnly="true",
+                           @class = "datepicker form-control",
+                           style = " ",
+                           data_bind = "datepicker:$root.EndDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                       })
+                        <button data-bind="glyphfor:'@Html.IdFor(m=>m.EndDate)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-left: -4px;margin-top:-2px;"></button>
+
+                    </div>
+
+                </div>@*  col-xs-3*@
+                <div class="col-xs-4 "></div>
+                <div class="col-xs-3" style="width: auto;">
+
+                    <button id="RunReport" data-bind="click:$root.submit" type="submit" class="btn btn-success" value="RunReport">
+                        <span class="glyphicon glyphicon-tasks"></span>Run Report
+                    </button>
+
+
+                    <a id="Close"  href="@Url.Action("Index", "QpsReports")" class="btn btn-danger ">
+                        <span class="glyphicon glyphicon-off"></span>Close
+                    </a>
+                </div>
+
+                <div id="reportWrapper" class="col-xs-12 top10 container-fluid" style="min-height: 390px; background-color: #6C7A89;"></div>
+
+            </div>
+</div>
+            }
+    </div>@*panel-body*@
+</div>
+
+
+<input id="urlActions" class="hidden" 
+    data-searchcompanies="@Url.Action("SearchCompanies")"
+    data-searchdoctors="@Url.Action("SearchDoctors")" />
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/ManagementReports/FinanceReports/IPDischargesStatement.js"></script>*@
+    <script type="text/javascript" src="~/Scripts/ManagementReports/MarketingReports/NoofCashVisit.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+           
+            var viewModel = new ViewModel(JSON.parse(data));
+            viewModel.inputUrlActions = $("#urlActions");
+            ko.applyBindings(viewModel);
+            $('#strName').val('Current In-Patient');
+            $('.datepicker,.glyphicon-calendar').prop('disabled', true);
+            $('input[type=radio][name=stroption]').change(function () {
+                if (this.value == '0') {
+                    $('#strName').val('Current In-Patient');
+                    $('.datepicker,.glyphicon-calendar').prop('disabled', true);
+                }
+                else if (this.value == '1') {
+                    $('#strName').val('Current In-Patient as of ');
+                    $('.datepicker,.glyphicon-calendar').prop('disabled', false);
+                } else if (this.value == '2') {
+                    $('#strName').val('Discharges for ');
+                    $('.datepicker,.glyphicon-calendar').prop('disabled', false);
+                }
+                console.log($('#strName').val());
+                console.log(this.value);
+                
+            });
+
+
+
+        });
+    </script>
+}

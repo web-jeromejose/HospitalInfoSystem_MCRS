@@ -1,0 +1,466 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.FinanceReportsVatDetails
+@using HIS_MCRS.Common
+
+@{
+    ViewBag.Title = "Finance Report";
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header"> Zero Rated Sales  - All Pharmacy</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+    <div class="panel-body" style="height: auto;">
+        @using (Ajax.BeginForm(options))
+        {
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <div class="col-xs-4 ">
+                        <fieldset>
+                            <legend style="font-size: 13px; margin-bottom: 3px;"><strong>Report Parameters</strong></legend>
+                            @Html.LabelFor(m => m.StartDate, new { @class = "col-xs-4 top5" })
+
+                            <div class="col-xs-7 input-group">
+                                @Html.TextBoxFor(m => m.StartDate, Model.StartDate.ToString("dd-MMM-yyyy"), new
+                                       {
+                                           @class = "datepicker form-control",
+                                           style = "z-index:0 !important;",
+                                           data_bind = "datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                                       })
+                                <span class="input-group-btn ">
+                                    <button data-bind="glyphfor:'@Html.IdFor(m => m.StartDate)    '" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                                </span>
+                            </div>
+
+
+                            @Html.LabelFor(m => m.EndDate, new { @class = "col-xs-4 top10" })
+
+                            <div class="col-xs-7 input-group top5">
+                                @Html.TextBoxFor(m => m.EndDate, Model.EndDate.ToString("dd-MMM-yyyy"), new
+                                       {
+                                           @class = "datepicker form-control",
+                                           style = "z-index:0 !important;",
+                                           data_bind = "datepicker:$root.EndDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                                       })
+                                <span class="input-group-btn ">
+                                    <button data-bind="glyphfor:'@Html.IdFor(m => m.EndDate)    '" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                                </span>
+                            </div>
+
+
+
+                        </fieldset>
+                    </div>
+
+
+                    <div class="col-xs-2 row">
+                        <button id="RunReport" type="submit" class="btn btn-success col-xs-12" value="RunReport">
+                            <span class="glyphicon glyphicon-tasks"></span>Run Report
+                        </button>
+                        <a id="Close"  href="@Url.Action("Index", "FinanceReports")" class="top5 btn btn-danger col-xs-12">
+                            <span class="glyphicon glyphicon-off"></span>Close
+                        </a>
+                    </div>
+
+                </div>
+                @*<p><strong>Report Date Range (Bill Date)</strong></p>*@
+
+                <div class="col-xs-4 row" style="margin-left: -50px;">
+                </div>
+
+                <div id="DTtablediv" class="col-xs-12 top10 container-fluid" style="min-height: 360px; background-color: #6C7A89;">
+                    <table id="DTLoadDashboard" class="Hide Show table table-nomargin table-condensed fahad" style="cursor: pointer; width: 100%!important; color: white;">
+                        <thead class="cAR-tlist-header">
+                        </thead>
+                    </table>
+                </div>
+                <div id="reportWrapper" class="col-xs-12 container-fluid" style="min-height: 300px;"></div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+<input id="urlActions" class="hidden"
+    data-dashboarddatatable="@Url.Action("OPRevenueDataTAble")"
+    data-searchcompanies="@Url.Action("SearchCompanies")"
+    data-searchdoctors="@Url.Action("SearchDoctors")" />
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+
+    <script defer src="@Url.Content("~/Scripts/DataTabletoPDF.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            var viewModel = new ViewModel(JSON.parse(data));
+            viewModel.inputUrlActions = $("#urlActions");
+            ko.applyBindings(viewModel);
+        });
+
+        
+        $('#reportWrapper').show();
+        $('#DTtablediv').hide();
+
+        $('#DataTablePdf').click(function () {
+
+            // $('#preloader').show();
+            console.log($('#form0').serialize());
+            ajaxWrapper.Get($("#urlActions").data("dashboarddatatable"), $('#form0').serialize(), function (data, e) {
+                if ($('#BillType').val() == "2")
+                { BindLoadDashboard(data.list); }
+                else { BindLoadDashboardDeptName(data.list);  }
+         
+        
+            });
+
+            $('#DTtablediv').show();
+            $('#reportWrapper').hide();
+        });
+        $('#RunReport').click(function () {
+            $('#reportWrapper').show();
+            $('#DTtablediv').hide();
+        });
+
+        // ----------------------------------------- Dasboard------------------------------------------------------------------------------------------------------------------
+
+
+        var TblLoadDashboard;
+        var TblLoadDashboardId = '#DTLoadDashboard';
+        var TblLoadDashboardDataRow;
+        var ennLoadDashboard = { Btn: 0, del: 1, ctr: 2, ID: 3, Name: 4, Edited: 5, Deleted: 6 };
+
+        var Format24 = "HH:mm";
+        var calcHeightLoadDashboard = function () {
+            return $(window).height() * 80 / 100;
+        };
+
+        function ShowDashboardRowCallLoadDashboard() {
+            var rc = function (nRow, aData) {
+                var $nRow = $(nRow);
+                //if (aData["HasAccess"] === 1) {
+                //    //$('td:eq(3)', nRow).html("Yes");
+                //    $nRow.addClass("row_green");
+                //    $('#checkFunctionConfigRole', nRow).prop('checked', true);
+                //}
+ 
+                var $nRow = $(nRow);
+                //if (status == 1) { // not screen
+                //    $nRow.css({ "background-color": "#fcc9c9" })
+                //    $('td:eq(6)', nRow).html('<b class="btn-margin-right btn btn-xs blue"> <i class="glyphicon glyphicon-unchecked"></i> NO </b>');
+                //}
+                //else if (status == 2) { // screen
+                //    $nRow.css({ "background-color": "#ffffd9" })
+                //    $('td:eq(6)', nRow).html('<b class="btn-margin-right btn btn-xs blue"> <i class="glyphicon glyphicon-check"></i> YES </b>');
+                //}
+                //if (screenresult == 1) {
+                //    $('td:eq(5)', nRow).html(' <i class="  glyphicon glyphicon-minus"></i><small>Negative</small> ');
+                //} else {
+                //    $('td:eq(5)', nRow).html(' <i class="glyphicon glyphicon-plus"></i><small>Positive</small>  ');
+                //}
+                //$('td:eq(4)', nRow).html(' <i class="glyphicon glyphicon-tint"></i>  ' + aData['bloodgroupname']);
+
+
+
+                //else if (value == 1) { // Crossmatched/Reserved
+                //    $nRow.css({ "background-color": "#b7f5ff" })
+                //    //$('# *').prop('disabled', true);
+                //}
+                //else if (value == 3) { // Incompatible unit(s) order
+                //    $nRow.css({ "background-color": "#d3d3d2" })
+                //}
+                //else if (value == 10) { // Unreserved Units
+                //    $nRow.css({ "background-color": "#ffffff" })
+                //}
+
+                //if (aData['status'] == 2) { // Stat Request Type
+                //    //$('td:eq(0)', nRow).addClass("btn-data-priority");
+
+                //}
+
+            };
+            return rc;
+        }
+
+
+        function BindLoadDashboardDeptName(data) {
+            console.log(data);
+            // http://legacy.datatables.net/release-datatables/examples/basic_init/scroll_x.html
+            TblLoadDashboard = $(TblLoadDashboardId).DataTable({
+                cache: false,
+                destroy: true,
+                data: data,
+                paging: true,
+                ordering: false,
+                searching: true,
+                info: true,
+                processing: false,
+                autoWidth: false,
+
+                scrollCollapse: false,
+                pageLength: 100,
+                lengthChange: false,
+                scrollY: calcHeightLoadDashboard(),
+                scrollX: "100%",
+                sScrollXInner: "100%",
+                dom: '<"tbLoadDashboard">Bfrtip',
+                //  dom: '<"tbLoadDashboard">Rlfrtip',
+                columns: [
+
+                    { data: "OPID", title: 'OPID', className: '  ', visible: true, searchable: true, width: "2%" },
+                    { data: "BillNumber", title: 'Bill Number', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "BillDate", title: 'Bill Date', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "CancelDate", title: 'Cancel Date', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "TransactionMonth", title: 'TransactionMonth', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "PinNumber", title: 'PinNumber', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "BillType", title: 'Bill Type', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "DoctorCode", title: 'DoctorCode', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "CompanyCode", title: 'CompanyCode', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "CompanyName", title: 'CompanyName', className: '  ', visible: true, searchable: true, width: "2%" },
+
+                     { data: "DeptName", title: 'Medical Dept', className: '  ', visible: true, searchable: true, width: "2%" },//--not cancelled--canceellled
+
+                    // { data: "DepartmentName", title: 'Medical Dept', className: '  ', visible: true, searchable: true, width: "2%" },//--all
+                     { data: "ModeOfPayment", title: 'ModeOfPayment', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "ReceiptNo", title: 'ReceiptNo', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "EmployeeID", title: 'EmployeeID', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "Name", title: 'Name', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "ItemCode", title: 'Service Code', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "ItemName", title: 'Service Name', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "Quantity", title: 'Quantity', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "Rate", title: 'Rate', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "HISCashRevenue", title: 'HIS Revenue', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "DiscountPercentage", title: 'Discount Percentage', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "DiscountAmount", title: 'HIS Discount', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "PaidAmount", title: 'HIS Deductible', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "ChargeRevenue", title: 'HIS ChargeRevenue', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "Recievable", title: 'HIS Receivable', className: '  ', visible: true, searchable: true, width: "2%" },
+
+
+                ],
+                fnRowCallback: ShowDashboardRowCallLoadDashboard()
+                // , buttons: [{ extend: 'pdfHtml5', orientation: 'landscape', pageSize: 'a4', filename: 'MCRS-IPRevenue', footer: true, message: 'messagef', messageBotton: 'test', messageTop: ' ', title: 'MCRS -IP Revenue', text: '<button type="button" style="color: #fff;background-color: #5cb85c;border-color: #4cae4c;" class="btn-margin-left btn btn-xs pull-left"> <i class="glyphicon glyphicon-print"></i> PRINT </button><br><br>' }]
+                 , buttons: [{ extend: 'excelHtml5', orientation: 'landscape', pageSize: 'a4', filename: 'MCRS-OPRevenue', footer: true, message: 'messagef', messageBotton: 'test', messageTop: ' ', title: 'MCRS -OP Revenue', text: '<button type="button" style="color: #fff;background-color: #5cb85c;border-color: #4cae4c;" class="btn-margin-left btn btn-xs pull-left"> <i class="glyphicon glyphicon-print"></i> Excel </button><br><br>' }]
+
+            });
+
+
+            var btns = '';
+            var toolbar = btns.concat(
+                 '<div style="float:left;">'
+                 , '<button type="button" class="btn-margin-right btn btn-xs blue" Id="btnCheckAllFunctions"> <i class="glyphicon glyphicon-check"></i> PRINT </button>'
+              //  , '<button type="button" class="btn-margin-right btn btn-xs blue" Id="btnUNCheckAllFunctions"> <i class="glyphicon glyphicon-unchecked"></i> All </button>'
+                , '</div><br><br>');
+            // $("div.tbLoadDashboard").html(toolbar);
+
+            $('#btnCheckAllFunctions').click(function () {
+                $('#preloader').show();
+                $.each(TblLoadDashboard.rows().data(), function (i, row) {
+                    TblLoadDashboard.cell(i, 0).data('<input id="checkFunctionConfigRole" type="checkbox" checked="checked" >');
+                });
+                $('#preloader').hide();
+            });
+            $('#btnUNCheckAllFunctions').click(function () {
+                $('#preloader').show();
+                $.each(TblLoadDashboard.rows().data(), function (i, row) {
+                    TblLoadDashboard.cell(i, 0).data('<input id="checkFunctionConfigRole" type="checkbox">');
+                });
+                $('#preloader').hide();
+
+            });
+
+            $(TblLoadDashboardId + ' tbody').on('click', '#checkFunctionConfigRole', function (e) {
+                var $cell = $(this).closest('td');
+                var $row = $(this).closest('tr');
+                var Tbl = TblLoadDashboard;
+                var data = Tbl.row($row).data();
+                var rowId = data[0];
+                var col = Tbl.cell($(this).closest('td')).index();
+                if (this.checked) {
+                    $row.addClass("row_green");
+                } else {
+                    $row.removeClass("row_green");
+                }
+                e.stopPropagation();
+            });
+        }
+
+        function BindLoadDashboard(data) {
+            console.log(data);
+            // http://legacy.datatables.net/release-datatables/examples/basic_init/scroll_x.html
+            TblLoadDashboard = $(TblLoadDashboardId).DataTable({
+                cache: false,
+                destroy: true,
+                data: data,
+                paging: true,
+                ordering: false,
+                searching: true,
+                info: true,
+                processing: false,
+                autoWidth: false,
+
+                scrollCollapse: false,
+                pageLength: 100,
+                lengthChange: false,
+                scrollY: calcHeightLoadDashboard(),
+                scrollX: "100%",
+                sScrollXInner: "100%",
+                dom: '<"tbLoadDashboard">Bfrtip',
+                //  dom: '<"tbLoadDashboard">Rlfrtip',
+                columns: [
+ 
+                    { data: "OPID", title: 'OPID', className: '  ', visible: true, searchable: true, width: "2%" },
+                    { data: "BillNumber", title: 'Bill Number', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "BillDate", title: 'Bill Date', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "CancelDate", title: 'Cancel Date', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "TransactionMonth", title: 'TransactionMonth', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "PinNumber", title: 'PinNumber', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "BillType", title: 'Bill Type', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "DoctorCode", title: 'DoctorCode', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "CompanyCode", title: 'CompanyCode', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "CompanyName", title: 'CompanyName', className: '  ', visible: true, searchable: true, width: "2%" },
+             
+                     //{ data: "DeptName", title: 'Medical Dept', className: '  ', visible: true, searchable: true, width: "2%" },--not cancelled--canceellled
+
+                     { data: "DepartmentName", title: 'Medical Dept', className: '  ', visible: true, searchable: true, width: "2%" },//--all
+                     { data: "ModeOfPayment", title: 'ModeOfPayment', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "ReceiptNo", title: 'ReceiptNo', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "EmployeeID", title: 'EmployeeID', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "Name", title: 'Name', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "ItemCode", title: 'Service Code', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "ItemName", title: 'Service Name', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "Quantity", title: 'Quantity', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "Rate", title: 'Rate', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "HISCashRevenue", title: 'HIS Revenue', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "DiscountPercentage", title: 'Discount Percentage', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "DiscountAmount", title: 'HIS Discount', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "DeductablePaid", title: 'HIS Deductible', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "ChargeRevenue", title: 'HIS ChargeRevenue', className: '  ', visible: true, searchable: true, width: "2%" },
+                     { data: "Recievable", title: 'HIS Receivable', className: '  ', visible: true, searchable: true, width: "2%" },
+           
+
+                ],
+                fnRowCallback: ShowDashboardRowCallLoadDashboard()
+                  , buttons: [{ extend: 'excelHtml5', orientation: 'landscape', pageSize: 'a4', filename: 'MCRS-OPRevenue', footer: true, message: 'messagef', messageBotton: 'test', messageTop: ' ', title: 'MCRS -OP Revenue', text: '<button type="button" style="color: #fff;background-color: #5cb85c;border-color: #4cae4c;" class="btn-margin-left btn btn-xs pull-left"> <i class="glyphicon glyphicon-print"></i> Excel </button><br><br>' }]
+
+            });
+
+
+            var btns = '';
+            var toolbar = btns.concat(
+                 '<div style="float:left;">'
+                 , '<button type="button" class="btn-margin-right btn btn-xs blue" Id="btnCheckAllFunctions"> <i class="glyphicon glyphicon-check"></i> PRINT </button>'
+              //  , '<button type="button" class="btn-margin-right btn btn-xs blue" Id="btnUNCheckAllFunctions"> <i class="glyphicon glyphicon-unchecked"></i> All </button>'
+                , '</div><br><br>');
+            // $("div.tbLoadDashboard").html(toolbar);
+
+            $('#btnCheckAllFunctions').click(function () {
+                $('#preloader').show();
+                $.each(TblLoadDashboard.rows().data(), function (i, row) {
+                    TblLoadDashboard.cell(i, 0).data('<input id="checkFunctionConfigRole" type="checkbox" checked="checked" >');
+                });
+                $('#preloader').hide();
+            });
+            $('#btnUNCheckAllFunctions').click(function () {
+                $('#preloader').show();
+                $.each(TblLoadDashboard.rows().data(), function (i, row) {
+                    TblLoadDashboard.cell(i, 0).data('<input id="checkFunctionConfigRole" type="checkbox">');
+                });
+                $('#preloader').hide();
+
+            });
+
+            $(TblLoadDashboardId + ' tbody').on('click', '#checkFunctionConfigRole', function (e) {
+                var $cell = $(this).closest('td');
+                var $row = $(this).closest('tr');
+                var Tbl = TblLoadDashboard;
+                var data = Tbl.row($row).data();
+                var rowId = data[0];
+                var col = Tbl.cell($(this).closest('td')).index();
+                if (this.checked) {
+                    $row.addClass("row_green");
+                } else {
+                    $row.removeClass("row_green");
+                }
+                e.stopPropagation();
+            });
+        }
+
+
+        function ViewModel(OpRevenue) {
+            self = this;
+            self.inputUrlActions = null;
+            self.StartDate = ko.observable(new Date(moment(OpRevenue.StartDate)));
+            self.EndDate = ko.observable(new Date(moment(OpRevenue.EndDate)));
+            self.PatientBillTypes = ko.observableArray(OpRevenue.PatientBillTypes);
+            self.BillTypes =  ko.observableArray(OpRevenue.BillTypes);
+            self.SortByCancellationDate = ko.observable(OpRevenue.SortByCancellationDate);
+            self.Departments = ko.observableArray(OpRevenue.DepartmentList);
+
+            self.SelectedDoctor = ko.observable(0);
+            self.SelectedCompany = ko.observable(0);
+            self.SelectedDepartment = ko.observable(self.Departments()[0]);
+            self.SelectedPatienBillType = ko.observable(self.PatientBillTypes()[0]);
+            self.SelectedBillType = ko.observable(self.BillTypes()[0]);
+ 
+            self.SearchCompanies = function (query) {
+                param = { searchString: query.term };
+                url = self.inputUrlActions.data('searchcompanies');
+                ajaxWrapper.Get(url, param, function (data, e) {
+                    var filteredData = [];
+                    ko.utils.arrayForEach(data, function (company) {
+                        filteredData.push({ id: company.Id, text: company.Code + " - " + company.Name });
+                 
+                    });
+                    query.callback({
+                        results: filteredData
+                    });
+                }); 
+            };
+
+            self.SearchDoctors = function (query) {
+                param = { searchString: query.term };
+                url = self.inputUrlActions.data('searchdoctors');
+                ajaxWrapper.Get(url, param, function (data, e) {
+                    var filteredData = [];
+                    ko.utils.arrayForEach(data, function (doctor) {
+                        filteredData.push({ id: doctor.OperatorId, text: doctor.EmpCode + " - " + doctor.FullName });
+
+                    });
+                    query.callback({
+                        results: filteredData
+                    });
+                });
+            };
+
+            self.init = function () {
+
+                self.Departments.unshift({ Name: "", Id: "0" });
+            }
+
+            self.init();
+        }
+
+    </script>
+}

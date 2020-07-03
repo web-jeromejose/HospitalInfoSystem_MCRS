@@ -1,0 +1,118 @@
+﻿@{
+    ViewBag.Title = "QPS Reports";
+}
+
+@Styles.Render("~/Styles/arcustom")
+
+<div class="row">
+    <br />
+    <div class="col-sm-12">
+        <a class="mc_rep_continer" href="@Url.Action("PatientOrDone")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                1. Patient Or Done Statistics
+            </section>
+        </a>
+
+       <a class="mc_rep_continer" href="@Url.Action("PatientAdmittedICU")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                2. Patient Admitted in ICUs
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("PatientAdmittedErOr")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                3. Patient Admitted in ER-OR
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("PatientVisitedInER")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                4. Patient Re-visited in ER (multiple)
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("PatientListByAge")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                5. Patient List By Age Range
+            </section>
+        </a>
+
+
+        <a class="mc_rep_continer" href="@Url.Action("ErConsultationStats")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+              6. ER Consultation Statistics per Hour
+            </section>
+        </a>
+
+
+        <a class="mc_rep_continer" href="@Url.Action("MrdAdmissionDischargeStats")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               7. MRD Admission and Discharge Statistics Report
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("AvgLengthStayCriticalAreas")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                8. Average Length of Stay - Critical Areas
+            </section>
+        </a>
+        
+        <a class="mc_rep_continer" href="@Url.Action("XrayReferral")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                9. Xray Referral from ER Report
+            </section>
+        </a>
+
+        @*<a class="mc_rep_continer" href="@Url.Action("BedOccupancy")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+              Bed Occupancy Rate
+            </section>
+        </a>*@
+
+        <a class="mc_rep_continer" href="@Url.Action("PatientCriticalDiagnosis")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                10. Currently-In Patients (For JCIA)
+            </section>
+        </a>
+        
+          <a class="mc_rep_continer" href="@Url.Action("BedOccupancyFloorWise")">
+              <span class="glyphicon glyphicon-list-alt"></span>
+              <section>
+                 11. Bed Occupancy (Floor-Wise)
+              </section>
+          </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("DiagnosisReportICD")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               12. Diagnosis Report (ICD10)
+            </section>
+        </a>
+
+       
+
+         <a class="mc_rep_continer" href="@Url.Action("MedicalTowerCases")">
+             <span class="glyphicon glyphicon-list-alt"></span>
+             <section>
+                13. Medical Tower Cases
+             </section>
+         </a>
+
+    
+
+        
+
+
+    </div>
+</div>

@@ -1,0 +1,155 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.PolyClinicOPItemBillCount
+
+@{  
+    ViewBag.Title = "PolyClinic Reports";
+
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">OP Bill Item Procedure Count</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+    <div class="panel-body" style="height: auto;">
+        @using(Ajax.BeginForm(options)){
+        <div class="form-group">
+            <p><strong>Report Date Range</strong></p>
+            <div class="col-xs-4">
+                @Html.LabelFor(m => m.StartDate, new { @class = "col-xs-3 top10" })
+               
+                    <div class="col-xs-6 input-group top5">
+                      @Html.TextBoxFor(m => m.StartDate,Model.StartDate.ToString("dd-MMM-yyyy"),new
+                       {
+                           @readOnly="true",
+                           @class = "datepicker form-control",
+                           style = "z-index:0 !important;",
+                           data_bind = "datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                       })
+                         <span class="input-group-btn ">
+                            <button data-bind="glyphfor:'@Html.IdFor(m=>m.StartDate)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                     </span>
+                   </div>
+                    
+                 
+
+                @Html.LabelFor(m=>m.EndDate, new { @class = "col-xs-3 top10" })
+              
+     
+                    <div class="col-xs-6 input-group top5">
+                      @Html.TextBoxFor(m => m.EndDate,Model.EndDate.ToString("dd-MMM-yyyy"),new
+                       {
+                           @readOnly="true",
+                           @class = "datepicker form-control",
+                           style = "z-index:0 !important;",
+                           data_bind = "datepicker:$root.EndDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                       })
+                         <span class="input-group-btn ">
+                            <button data-bind="glyphfor:'@Html.IdFor(m=>m.EndDate)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                     </span>
+               
+               </div>
+            </div>
+
+             <div class="col-xs-6 border10">
+                @Html.Label("Services", new { @class = "col-xs-10" })
+                <div  class="col-xs-9">
+
+                    <select id="@Html.IdFor(m=>m.ServiceId)" name ="@Html.NameFor(m=>m.ServiceId)" class="form-control">
+                        
+                        @foreach (var item in Model.Services)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                  
+                </div>
+
+                   <div class="col-xs-6">
+                  @Html.LabelFor(m => m.StrItemCodes, new { @class = "col-xs-10 top10" })
+                        <div class="row col-xs-12 top5">
+                            <input id="@Html.IdFor(m => m.StrItemCodes)" name="@Html.NameFor(m => m.StrItemCodes)" class="form-control top5"
+                                   data-bind="value:$root.SelectedServiceCodes , 
+    select2: {minimumInputLength: 2, query:$root.SearchServiceItem, placeholder:'Input Item Code or Item Name', allowClear: true, multiple: true}" />
+            </div>
+            </div>
+
+
+
+                </div> 
+
+
+          
+
+
+
+            
+
+
+
+
+            <div class="col-xs-2">
+               <button id="RunReport" data-bind="click:$root.submit" type="submit" class="btn btn-success col-xs-12 top5" value="RunReport" >
+                        <span class="glyphicon glyphicon-tasks"></span> Run Report
+               </button>
+                <a id="Close"  href="@Url.Action("Index", "ARReports")" class="top5 btn btn-danger col-xs-12">
+                        <span class="glyphicon glyphicon-off"></span>Close
+                    </a>
+            </div>
+           
+          <div id="reportWrapper" class="col-xs-12 top10 container-fluid" style="min-height: 390px; background-color: #6C7A89;"></div>
+        </div>
+            
+        
+        }
+    </div>
+</div>
+
+<input id="urlActions" class="hidden"
+    data-searchserviceitem="@Url.Action("SearchServiceItem")" />
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    
+    <script type="text/javascript" src="~/Scripts/knockout.validation.js"></script>
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    <script type="text/javascript" src="~/Scripts/ManagementReports/PolyClinicReports/OPItembillCount.js"></script>
+
+    <script id="customMessageTemplate" type="text/html">
+    <em class="customMessage" data-bind='validationMessage: field'></em>
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+           
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            var viewModel = new ViewModel(JSON.parse(data));
+            viewModel.inputUrlActions = $("#urlActions");
+
+          
+       
+
+            ko.applyBindings(viewModel);
+            $("#ServiceId").focus(); 
+            $("#ServiceId").select(); 
+
+        });
+    </script>
+}

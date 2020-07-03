@@ -1,0 +1,150 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.OTOrCathLabOperation
+@{
+    ViewBag.Title = "Operation Theatre Reports";
+   AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+
+<div class="panel panel-default">
+    <div class="panel-heading" style="padding-top: 0px;">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">
+                Operation Theatre and Cath Lab Procedures Reports
+            </span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+
+    @using(Ajax.BeginForm(options)){
+        <div class="panel-body">
+            <div class="row">
+                <div class=" col-xs-12">
+                    <div class="col-xs-3 border10 top5">
+                        @Html.Label("Report Date Range", new { @class = "col-xs-12" })
+                        @Html.LabelFor(m => m.StartDate, new { @class = "col-xs-2" })
+                        <div class="col-xs-10">
+
+                            <div class="input-group">
+                                @Html.TextBoxFor(m => m.StartDate,Model.StartDate.ToString("dd-MMM-yyyy"), new { @readonly="true",@required="true" ,@class = "datepicker form-control", style = "z-index:0 !important;", 
+                                                                    data_bind="datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy', autoclose: true}" })
+                                <span class="input-group-btn ">
+                                    <button data-bind="glyphfor:'@Html.IdFor(m=>m.StartDate)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                                </span>
+                            </div>
+
+                        </div>
+                        @Html.LabelFor(m => m.EndDate, new { @class = "col-xs-2 top10" })
+                        <div class="col-xs-10 top5">
+                            <div class="input-group">
+                                @Html.TextBoxFor(m => m.EndDate,Model.EndDate.ToString("dd-MMM-yyyy"), new {@readonly="true",@required="true", @class = "datepicker form-control ", style = "z-index:0 !important;",
+                                                                  data_bind="datepicker:$root.EndDate, datepickerOptions:{format: 'dd-M-yyyy', autoclose: true}"})
+                                <span class="input-group-btn">
+                                    <button  data-bind="glyphfor:'@Html.IdFor(m=>m.EndDate)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-3 top5">
+                     
+                        <div class="col-xs-12 border10">
+                            <div class="col-xs-12">
+
+                                <div class="col-xs-12 ">
+                                    @Html.CheckBoxFor(m => m.isDone,
+                                           new { @checked="true",@class="disabled",@disabled="true",@value="true",data_bind="value:true, checked:$root.isDone" })
+                                    <label class="top5 disabled">Done Only</label>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="">
+
+                                        @Html.RadioButtonFor(m => m.OperationOrCatLab, "0", new { @checked = "checked",id = "Operation", data_bind="value:'0', checked:$root.OperationOrCatLab" })
+                                        <label class="row top5" style="font-size: 12px; margin-left: 10px;">OPERATION</label>
+                                       @* <div class="">
+                                            @Html.RadioButtonFor(m => m.OperationOrCatLab, "1", new { id = "Cath", data_bind="value:'1', checked:$root.OperationOrCatLab" })
+                                            <label class="row top5" style="font-size: 12px;margin-left:10px;">CATH LAB</label>
+                                        </div>*@
+
+                                    </div>
+                                </div>
+                                  
+                               
+                                 
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 top5">
+                       @* <div class="col-xs-12 border10">
+                            <br />
+
+                        </div>*@
+                    </div>
+                    <div class="col-xs-2 top10">
+                        <div class="pull-right col-xs-10 top10">
+                            <button id="RunReport" type="submit" class="btn btn-sm btn-success col-xs-12" value="RunReport">
+                                <span class="glyphicon glyphicon-tasks"></span>Run Report
+                            </button>
+                            <a id="Close"  href="@Url.Action("Index", "OperationTheatre")" class="top5 btn btn-sm btn-danger col-xs-12">
+                                <span class="glyphicon glyphicon-off"></span>Close
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div id="reportWrapper" class="container-fluid" />
+                </div>
+
+            </div>
+
+        </div>
+    }
+</div>
+
+<input id="urlInput" class="hidden" 
+    data-print="@Url.Action("Preview", "Print", new { Area = "" })"
+    data-searchcompanies="@Url.Action("SearchCompanies")"
+    data-searchdoctors="@Url.Action("SearchDoctors")"
+      />
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    <script type="text/javascript" src="~/Scripts/ManagementReports/OperationTheatreReports/js_OperationCathLabIsDone.js"></script>
+    <script type="text/javascript">
+        var viewModel = ""
+        $(document).ready(function () {
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            viewModel = new ViewModel(JSON.parse(data));
+            viewModel.Uri = $("#urlInput");
+            ko.applyBindings(viewModel);
+
+            if (document.getElementById('isDone').checked) {
+                console.log('checcc lagi');
+                $('#isDone').prop('checked', true);
+            } else {
+                $('#isDone').prop('checked', true);
+                console.log('checcc1');
+            }
+
+        });
+
+
+    </script>
+}
+

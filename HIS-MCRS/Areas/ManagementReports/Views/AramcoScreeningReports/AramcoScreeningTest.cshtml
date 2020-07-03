@@ -1,0 +1,106 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.AramcoReportsViewModel
+
+@{  
+    ViewBag.Title = "Aramco Screening Reports ";
+
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Aramco Screening Test Profile Report</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body" style="height: auto;">
+        @using (Ajax.BeginForm(options))
+            {
+            <div class="form-inline">
+                <div class="row">
+                    <div class="col-xs-6">
+
+
+                 
+                    <label class="col-xs-5">Category</label>
+                    <select id="@Html.IdFor(m=>m.CategoryAgeId)" name="@Html.NameFor(m=>m.CategoryAgeId)" class="col-xs-6" 
+                                data-bind="options:$root.CategoryAgeIdList, optionsText:'Name', optionsValue:'Id', 
+                                           value: $root.SelectedCategoryAgeIdList, select2:{allowClear: true, placeholder:'Select Service'}">
+                    </select>
+                    </div>
+
+                    <div class="col-xs-6" style="">
+                        <button id="RunReport" data-bind="click:$root.submit" type="submit" class="btn btn-success" value="RunReport">
+                            <span class="glyphicon glyphicon-tasks"></span>Run Report
+                        </button>
+                        <a id="Close"  href="@Url.Action("Index", "HumanResources")" class="btn btn-danger ">
+                            <span class="glyphicon glyphicon-off"></span>Close
+                        </a>
+                    </div>
+                </div>
+                </div>
+                <input id="SelectedCategoryText" name="SelectedCategoryText" type="hidden" value="1" data-bind="value:$root.SelectedCategoryText" />
+                <div id="reportWrapper" class="col-xs-12 top10 container-fluid" style="min-height: 390px; background-color: #6C7A89;"></div>
+            }
+    </div>@*panel-body*@
+</div>
+
+<input id="urlActions" class="hidden"
+    data-getcompanybycategory="getCompanyByCategory"
+    data-getperformanceeval="getPerformanceEval" />
+
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/MCRS/otherreports/js_generalexpenses.js"></script>*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            var viewModel = new ViewModel(JSON.parse(data), $("#urlActions"));
+            viewModel.inputUrlActions = $("#urlActions");
+            ko.applyBindings(viewModel);
+
+
+        });
+
+        function ViewModel(model, elem) {
+
+            self = this;
+            self.inputUrlActions = elem;
+            
+
+            self.SelectedCategoryAgeIdList = ko.observable();
+            self.CategoryAgeId = ko.observable();
+            self.CategoryAgeIdList = ko.observableArray(model.CategoryAgeList);
+
+            console.log(model.CategoryAgeList);
+            self.SelectedCategoryAgeIdList.subscribe(function () {
+             
+            });
+             
+        }
+
+    </script>
+}
+
+
+

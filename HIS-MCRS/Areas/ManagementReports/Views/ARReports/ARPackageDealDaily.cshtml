@@ -1,0 +1,143 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.ARPackageDealDaily
+@{
+    ViewBag.Title = "AR Reports";
+   AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">AR Package Patient</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="panel-body" >
+        
+        <div class=" col-xs-12">
+            @using(Ajax.BeginForm(options)){
+            <div class="col-xs-7 border10">
+             @Html.LabelFor(m => m.StartDate, new { @class = "col-xs-1 top5" })
+             <div class="col-xs-5">
+                     <div class="col-xs-12 input-group">
+                            @Html.TextBoxFor(m => m.StartDate,Model.StartDate.ToString("dd-MMM-yyyy"), new { @readonly=true, @class = "datepicker form-control", style = "z-index:0 !important;", 
+                                                                    data_bind="datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy', autoclose: true}" })
+                            <span class="input-group-btn ">
+                                <button data-bind="glyphfor:'StartDate'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                            </span>
+                        </div>
+                </div>
+             @Html.LabelFor(m => m.EndDate, new { @class = "col-xs-1 top5" })
+             <div class="col-xs-5">
+                     <div class="col-xs-12 input-group">
+                            @Html.TextBoxFor(m => m.EndDate,Model.StartDate.ToString("dd-MMM-yyyy"), new {@readonly=true, @class = "datepicker form-control ", style = "z-index:0 !important;",
+                                                                  data_bind="datepicker:$root.EndDate, datepickerOptions:{format: 'dd-M-yyyy', autoclose: true}"})
+                            <span class="input-group-btn">
+                                <button  data-bind="glyphfor:'EndDate'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                            </span>
+                        </div>
+                 </div>
+            </div>
+            
+       
+            <div class="col-xs-3">
+              
+
+           </div>
+          
+            <div class="col-xs-2">
+                <div class="pull-right col-xs-10">
+                    <button id="RunReport" type="submit" class="btn btn-success col-xs-12" value="RunReport">
+                        <span class="glyphicon glyphicon-tasks"></span> Run Report
+                    </button>
+                    <a id="Close"  href="@Url.Action("Index", "ARReports")" class="top5 btn btn-danger col-xs-12">
+                        <span class="glyphicon glyphicon-off"></span> Close
+                    </a>
+                </div>
+            </div>
+            
+            @Html.HiddenFor(model=>model.Packages, new {data_bind="value:$root.SelectedPackageToJSON"})
+           }
+        </div>
+        <div class="col-xs-4">
+            <div class="col-xs-12">
+              <input data-bind="textInput:$root.SearchString" class="form-control" placeholder="Filter Package" />
+               <div >
+                <a  href="#" style="font-size:12px;" data-bind="event:{click:$root.ShowPackages},visible:$root.ShowFilteredPackage()"> Show All </a>
+                <span data-bind="visible:$root.ShowFilteredPackage()">|</span> <a  href="#" style="font-size:12px;" data-bind="event:{click:$root.ShowSelectedPackage}"> Selected <span class="badge" style="border-radius: 10px !important;font-size:10px;" data-bind="text:$root.SelectedPackages().length"></span></a>
+               </div>
+               
+             </div>
+             
+             <div class="table-responsive col-xs-12" style="margin-top:1%;" data-bind="style:{height:$root.PackageWrapperHeight()}">
+             <table id="tbl_Allbillpackages" data-bind="css:{hidden:!$root.ShowAllPackage()}"class="table table-striped table-condensed">
+               <tbody>
+                       @foreach(var item in Model.PackageBillList)
+                       {
+                             <tr >
+                                 <td style="padding-top:1px !important;padding-bottom:0px !important;">
+                                     <input type="checkbox" data-bind="checkedInArray: { array: $root.SelectedPackages, value:'@item.PackageName' }"/>
+                                 </td>
+                                 <td>@item.PackageName</td>
+                            </tr>
+                       }
+                     </tbody>
+               </table>
+
+             <table id="tbl_FilteredBillpackages" class="table" data-bind="css:{hidden:!$root.ShowFilteredPackage()}">
+                     <tbody data-bind="foreach: $root.FilterPackage">
+                             <tr>
+                                 <td style="padding-top:1px !important;padding-bottom:0px !important;">
+                                   <input type="checkbox" data-bind="checkedInArray: { array: $root.SelectedPackages, value:$data }"/>
+                                </td>
+                                 <td data-bind="text:$data"></td>
+                            </tr>
+                     </tbody>
+               </table>
+
+
+        </div>
+
+        </div>
+       
+        <div id="reportWrapper" class="col-xs-8 container-fluid" data-bind="event:{'resize':$root.ChangeHeight}" style="margin-top:1%;min-height:28em;" />
+     
+
+    </div>
+
+</div>
+
+<input id="urlActions" class="hidden" data-getarpackagebills="@Url.Action("getARPackageBills")" />
+
+@Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript" src="~/Scripts/jqresize.js"></script>
+@Scripts.Render("~/Scripts/knockoutjs")
+
+@section Scripts{ 
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    <script type="text/javascript" src="~/Scripts/ManagementReports/ARReports/ARPackageDealDaily.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var startDate = '@Html.Raw(Json.Encode(this.Model.StartDate))';
+            var endDate = '@Html.Raw(Json.Encode(this.Model.EndDate))';
+            var viewModel = new ViewModel(JSON.parse(startDate), JSON.parse(endDate), $("#urlActions"));
+            ko.applyBindings(viewModel);
+        });   
+    </script>
+}
+
+

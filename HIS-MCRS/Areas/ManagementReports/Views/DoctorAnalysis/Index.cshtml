@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Doctor's Analysis Reports";
+}
+@Styles.Render("~/Styles/arcustom")
+
+<div class="row">
+    <br />
+    <div class="col-sm-12">
+        <ul>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Action("PatientMovementAnalysis","DoctorAnalysis")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        1. Patient Movement Analysis
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Action("AppointmentSchedAnalysis","DoctorAnalysis")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                       2. Appointment Schedule Analysis
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Action("ClinicalTimeAnalysis","DoctorAnalysis")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        3. Clinical Time Analysis
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Action("DoctorLeaveHistory","DoctorAnalysis")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                       4. Leave History Report
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Action("PcAdminLeaveHistory","DoctorAnalysis")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                      5. PC Admin Leave History
+                    </section>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

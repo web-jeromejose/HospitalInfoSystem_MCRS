@@ -1,0 +1,82 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.ARReportsARAMCOPatientList
+@{
+    ViewBag.Title = "AR Reports";
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+
+
+<div class="panel panel-default">
+   @using (Ajax.BeginForm(options))
+     {
+    <div class="panel-heading" style="color:#333;background-color: #f5f5f5; border-color: #ddd;">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">ARAMCO Active Patient List</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right" style="margin-right:1%">
+                
+                 <button id="RunReport" type="submit" class="btn btn-success" value="RunReport">
+                        <span class="glyphicon glyphicon-tasks"></span> View   
+                    </button>
+                    <a id="Close"  href="@Url.Action("Index", "ARReports")" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-off"></span>Close
+                    </a>
+               
+            </div>
+        </div>
+    </div>
+    <div class="panel-body" style="height: auto;">
+       <div class="form-group">
+         <div class="row col-xs-12">
+            
+              @Html.LabelFor(model => model.RelationshipId, new { @class = "col-xs-3" })
+              @Html.LabelFor(model => model.PatientStatus, new { @class = "col-xs-3" })
+              </div>
+         <div class="row col-xs-12">
+             <div class="col-xs-3">
+                            <select id="@Html.IdFor(m=>m.RelationshipId)" name="@Html.NameFor(m=>m.RelationshipId)" class="form-control"
+                                data-bind="options:$root.RelationshipList ,optionsValue:'Id',optionsText:'Name' , 
+                                           value: $root.SelectedRelation, select2:{}">
+                             </select>
+                          @Html.HiddenFor(model=>model.Relationship, new{data_bind="value:$root.RelationshipText"})
+              </div>
+              
+             <div class="col-xs-3">
+                            <select id="@Html.IdFor(m=>m.PatientStatus)" name="@Html.NameFor(m=>m.PatientStatus)" class="form-control"
+                                data-bind="options:$root.PatientStatusList ,optionsValue:'Key',optionsText:'Value' , 
+                                           value: $root.SelectedPatientStatus, select2:{}">
+                             </select>
+                          
+             </div>
+
+         </div>
+         <div id="reportWrapper" class="col-xs-12 top10 container-fluid" style="min-height: 30em; background-color: #6C7A89;"></div>
+        </div>   
+    </div>
+         
+     }
+</div>
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{ 
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    <script type="text/javascript" src="~/Scripts/ManagementReports/ARReports/ARAMCOPatientList.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            var viewModel = new ViewModel(JSON.parse(data));
+            ko.applyBindings(viewModel);
+        });   
+    </script>
+}

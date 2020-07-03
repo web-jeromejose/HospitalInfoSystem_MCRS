@@ -1,0 +1,175 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.QpsDiagnosisReportICD
+
+@{  
+    ViewBag.Title = "QPS Reports ";
+
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Diagnosis Report (ICD10)</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body" style="height: auto;">
+        @using (Ajax.BeginForm(options))
+            {
+            
+            <div class="form">
+                <div class="col-xs-12 border10 " style=" ">
+                        <div class="col-xs-3 ">
+                            <div class="form-group">
+                                @Html.RadioButtonFor(m => m.InPatient, "0", new { @checked = "checked",id = "InPatient", data_bind="value:'0', checked:$root.InPatient" })
+                                <label class="row top5" style="font-size: 12px; margin-left: 10px;">In-Patient</label>
+                                <div class="">
+                                    @Html.RadioButtonFor(m => m.InPatient, "1", new { id = "OutPatient", data_bind="value:'1', checked:$root.InPatient" })
+                                    <label class="row top5" style="font-size: 12px; margin-left: 10px;">Out-Patient</label>
+                                </div>
+
+                              
+                                    @Html.LabelFor(model=>model.CategoryId, new{@class=""})
+                                    <div class=" ">
+                                      
+
+                                        <select id="@Html.IdFor(m=>m.CategoryId)" name="@Html.NameFor(m=>m.CategoryId)"
+                         class="select2 form-control" style="font-size:12px;"
+                          data-bind="options:$root.Categories,
+                              value: $root.SelectedCategory,
+                              optionsText:'Name' ,
+                              optionsValue:'Id',
+                              select2: {allowClear: true,placeholder:'Select Category'}">
+                                        </select>
+
+                                    </div>
+                                
+                            </div>
+                        </div>
+                 
+                    <div class="col-xs-3 ">
+                        <div class=" ">
+                            @Html.LabelFor(m => m.StartDate, new { @class = " " })
+                            @Html.TextBoxFor(m => m.StartDate,Model.StartDate.ToString("dd-MMM-yyyy"),new
+                       {
+                           @readOnly="true",
+                           @class = "datepicker form-control ",
+                           style = " ",
+                           data_bind = "datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                       })
+                            
+                        </div>
+                        <div class=" ">
+                            @Html.LabelFor(m => m.EndDate, new { @class = " " })
+                            @Html.TextBoxFor(m => m.EndDate,Model.EndDate.ToString("dd-MMM-yyyy"),new
+                       {
+                           @readOnly="true",
+                           @class = "datepicker form-control",
+                           style = " ",
+                           data_bind = "datepicker:$root.EndDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                       })
+                         
+                        </div>
+
+                    </div>
+
+                    <div class="col-xs-3">
+                    
+                        @Html.LabelFor(m => m.DepartmentId, new { @class = " " })
+                        <select id="@Html.IdFor(m=>m.DepartmentId)" name="@Html.NameFor(m=>m.DepartmentId)"
+                         class="select2 form-control" style="font-size:12px;"
+                          data-bind="options:$root.Departments,
+                              value: $root.SelectedDepartment,
+                              optionsText:'Name' ,
+                              optionsValue:'Id',
+                              select2: {allowClear: true,placeholder:'Select Department'}">
+                        </select>
+
+                        @Html.LabelFor(m => m.CompanyId, new { @class = " " })
+                        <input id="@Html.IdFor(m=>m.CompanyId)" name="@Html.NameFor(m=>m.CompanyId)"
+                         class="select2 form-control" style="font-size:12px;"
+                          data-bind="value:$root.Company, 
+                                   select2: {minimumInputLength: 2, query:$root.SearchCompanies, placeholder:'Search Company', allowClear: true}"/>
+
+                    </div>
+                    <div class="col-xs-3">
+
+                        <button id="RunReport" data-bind="click:$root.submit" type="submit" class="btn btn-success" value="RunReport">
+                            <span class="glyphicon glyphicon-tasks"></span>Run Report
+                        </button>
+
+
+                        <a id="Close"  href="@Url.Action("Index", "QpsReports")" class="btn btn-danger ">
+                            <span class="glyphicon glyphicon-off"></span>Close
+                        </a>
+                    </div>
+
+                </div>
+              
+
+               
+               
+                <div id="reportWrapper" class="col-xs-12 top10 container-fluid" style="min-height: 390px; background-color: #6C7A89;"></div>
+            </div>
+            }
+    </div>@*panel-body*@
+</div>
+
+<input id="urlActions" class="hidden" 
+    data-searchcompanies="@Url.Action("SearchCompanies")"
+    data-searchdoctors="@Url.Action("SearchDoctors")" />
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/ManagementReports/FinanceReports/IPDischargesStatement.js"></script>*@
+    <script type="text/javascript" src="~/Scripts/MCRS/qpsreports/js_patientDiagnosis.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            viewModel = new ViewModel(JSON.parse(data));
+            viewModel.inputUrlActions = $("#urlActions");
+            ko.applyBindings(viewModel);
+        });
+
+
+        //Date.prototype.yyyymmdd = function () {
+        //    var yyyy = this.getFullYear().toString();
+        //    var mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
+        //    var dd = this.getDate().toString();
+        //    //return yyyy + "/" + (mm[1] ? mm : "0" + mm[0]) + "/" + (dd[1] ? dd : "0" + dd[0]); // padding
+        //    return (dd[1] ? dd : "0" + dd[0]) + "/" + (mm[1] ? mm : "0" + mm[0]) + "/" + yyyy;
+        //};
+
+        //function checkdate() {
+        //    if ($('#EndDate').val() == '')
+        //    {
+        //        $('#EndDate').val(new Date().yyyymmdd());
+        //    }
+        //    if ($('#StartDate').val() == '') {
+        //        $('#StartDate').val(new Date().yyyymmdd());
+        //    }
+        //}
+
+     
+
+       
+    </script>
+}
+
+

@@ -1,0 +1,61 @@
+﻿@model HIS_MCRS.Areas.MCRS.Models.ERConsultationStatisticCountModel
+
+@using System.Web.UI.WebControls
+@using ReportViewerForMvc
+
+@using (Html.BeginForm("Index", "ERConsultationStatisticCount", FormMethod.Post))
+{
+    <div class="panel panel-default ">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-xs-3">
+                    <h4><b class="navbar-header">ER Consultation Statistic Count</b></h4>
+                </div>
+                <div class="col-xs-9">
+                    <div class="col-xs-10">
+                        <div class="col-xs-5">
+
+                        </div>
+                        <div class="col-xs-2" style="text-align: right;">
+                            <label class="label-control">Date</label>
+                        </div>
+                        <div class="col-xs-5">
+                            <div class="input-group input-daterange">
+                                @Html.TextBoxFor(model => model.DateFrom, new { id = "txtFromDate", name = "DateFrom", @class = "form-control datepicker", @placeholder = "From Date" })
+                                <span class="input-group-addon">
+                                </span>
+                                @Html.TextBoxFor(model => model.DateTo, new { id = "txtToDate", name = "DateTo", @class = "form-control datepicker", @placeholder = "To Date" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-2">
+                        <input id="button1" type="submit" value="Submit" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        </div>@*Header Panel*@
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-3">@Html.LabelFor(model => model.ERDoctors, "No. Of Consultation (ER Doctors)")</div>
+                <div class="col-xs-2">@Html.TextBoxFor(model => model.ERDoctors, new { @class = "form-control", @disabled = "disabled" })</div>
+                <div class="col-xs-7"></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3">@Html.LabelFor(model => model.NonERDoctors, "No. Of Consultation (Non-ER Doctors)")</div>
+                <div class="col-xs-2">@Html.TextBoxFor(model => model.NonERDoctors, new { @class = "form-control", @disabled = "disabled" })</div>
+                <div class="col-xs-7"></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3">@Html.LabelFor(model => model.TotalChargeinER, "Total Consultation Charge in ER")</div>
+                <div class="col-xs-2">@Html.TextBoxFor(model => model.TotalChargeinER, new { @class = "form-control", @disabled = "disabled" })</div>
+                <div class="col-xs-7"></div>
+            </div>
+        </div>@*Body*@
+    </div>@*Panel Head*@
+}
+            <input type="hidden" id="url" />
+
+            @section scripts {
+                <script src="~/Scripts/MCRS/patientstatistics/jqGlobal.js"></script>
+                <script src="~/Scripts/MCRS/patientstatistics/jqReport.js"></script>
+            }

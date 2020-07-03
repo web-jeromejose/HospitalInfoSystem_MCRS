@@ -1,0 +1,94 @@
+﻿@{
+    ViewBag.Title = "AR Reason for Cancellation";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">AR Reason for Cancellation</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+                <button type="button" id="btn_new" class="btn btn-sm btn-success" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus"></span> New</button>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-bordered table-hover table-striped" id="displaytable">
+                    <thead class="AR_custom_table_header">
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="width:50% !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">New Reason for Cancellation</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="control-label" for="code">Code</label>
+                            <input type="text" class="form-control AR_custom_required" id="code" />
+                            <input type="hidden" class="form-control " id="hdn_id" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label class="control-label" for="name">Name (*Description)</label>
+                            <input type="text" class="form-control AR_custom_required" id="name" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label class="control-label" for="type">Type</label>
+                            <input type="text" class="form-control" id="type" />
+                        </div>
+                    </div>
+                </div>
+                <div class="clear-both"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btn_update" class="btn btn-sm btn-primary">
+                    <span class="glyphicon glyphicon-floppy-save"></span>
+                    Update
+                </button>
+                <button type="button" id="btn_save" class="btn btn-sm btn-primary">
+                    <span class="glyphicon glyphicon-floppy-save"></span>
+                    Save
+                </button>
+                <button type="button" id="progress_ok" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden" id="hdn_opeid" value="@ViewBag.OperatorId" />
+
+<input type="hidden" id="url"
+       data-getcancellationreasonlist="@Url.Action("get_ar_cancellation_reasons")"
+       data-savecncellationreason="@Url.Action("save_ar_cancellation_reasons")"
+       data-deletecanreason="@Url.Action("delete_ar_cancellation_reasons")"
+       data-updatecancellation="@Url.Action("update_ar_cancellation_reasons")"
+       data-arcommon="@Url.Content("~/Common")" />
+@Scripts.Render("~/Scripts/commonwrapper")
+@Scripts.Render("~/Scripts/jsARReasonforCancellation")

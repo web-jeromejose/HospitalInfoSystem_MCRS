@@ -1,0 +1,95 @@
+﻿@model HIS_MCRS.Areas.MCRS.Models.DeficiencyFilesModel
+
+@using System.Web.UI.WebControls
+@using ReportViewerForMvc
+
+@using (Html.BeginForm("Index", "DeficiencyFiles", FormMethod.Post))
+{
+    <div class="panel panel-default ">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-xs-5">
+                    <h4><b class="navbar-header">Deficiency Files</b></h4>
+                </div>
+                <div class="col-xs-7">
+                    <div class="col-xs-11">
+                        <div class="col-xs-7"></div>
+                        <div class="col-xs-5">
+
+                        </div>
+                    </div>
+                    <div class="col-xs-1">
+                        <input id="button1" type="submit" value="Submit" class="btn btn-default pull-right" />
+                    </div>
+
+                </div>
+            </div>
+        </div>@*Header Panel*@
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-4">
+                    <label>Date</label>
+                    <label class="pull-right">Include 2014 Standards : @Html.CheckBoxFor(m => m.BoolValue)</label>
+                    <div class="input-group input-daterange">
+                        @Html.TextBoxFor(model => model.StartDate, new { id = "txtFromDate", name = "DateFrom", @class = "form-control datepicker", @placeholder = "From Date" })
+                        <span class="input-group-addon">
+                        </span>
+                        @Html.TextBoxFor(model => model.EndDate, new { id = "txtToDate", name = "DateTo", @class = "form-control datepicker", @placeholder = "To Date" })
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    @Html.RadioButtonFor(model => model.ReportType, 0, new { @checked = "checked" })
+                    @Html.LabelFor(model => model.ReportType, "Deficiency List")
+                    @Html.RadioButtonFor(model => model.ReportType, 1)
+                    @Html.LabelFor(model => model.ReportType, "Department Summary")
+                    <fieldset id="fieldDeficiencyList">
+                        <legend id="LabelReportType">Deficiency List</legend>
+                        @Html.RadioButtonFor(model => model.Group, "D")
+                        @Html.LabelFor(model => model.Group, "Doctor")
+
+                        @Html.RadioButtonFor(model => model.Group, "N")
+                        @Html.LabelFor(model => model.Group, "Nurse")
+
+                        @Html.RadioButtonFor(model => model.Group, "A")
+                        @Html.LabelFor(model => model.Group, "Anesthesia")
+                    </fieldset>
+                </div>
+                <div class="col-xs-4">
+                    @Html.LabelFor(model => model.Floors, "Floors")
+                    @Html.TextBox("txtFloor", null, new { id = "txtFloor", name = "txtFloor", @class = "form-control", @placeholder = "Select Floor" })
+                    @Html.HiddenFor(model => model.Floors)
+                    @{
+                        object objectenabled = new { @class = "" };
+                        object objectdisabled = new { @disabled = "disabled" };
+                    }
+                    @Html.RadioButtonFor(model => model.GraphType, 1, Model.ReportType == 0 ? objectdisabled : objectenabled)
+                    @Html.LabelFor(model => model.GraphType, "Graph (Department)")
+                    @Html.RadioButtonFor(model => model.GraphType, 2, Model.ReportType == 0 ? objectdisabled : objectenabled)
+                    @Html.LabelFor(model => model.GraphType, "Graph (Summary)")
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    @if (ViewBag.ReportViewer != null)
+                    {
+                        @Html.ReportViewer(ViewBag.ReportViewer as Microsoft.Reporting.WebForms.ReportViewer, new { SizeToReportContent = true, Width = Unit.Percentage(100), Height = "450px" })
+                    }
+                </div>
+            </div>
+        </div>@*Body*@
+    </div>@*Panel Head*@
+}
+
+<input type="hidden" id="url" data-getfloors="@Url.Action("GetFloors")" />
+
+@section scripts {
+    <script src="~/Scripts/MCRS/patientstatistics/jqGlobal.js"></script>
+    <script src="~/Scripts/MCRS/patientstatistics/jqReport.js"></script>
+    <script src="~/Scripts/MCRS/patientstatistics/jqDeficiencyFiles.js"></script>
+}
+
+@*
+    <script src="~/Scripts/CATHLAB/jqCathLabGlobal.js"></script>
+    <script src="~/Scripts/CATHLAB/jqGlobal.js"></script>
+    <script src="~/Scripts/CATHLAB/jqCathReport.js"></script>
+*@

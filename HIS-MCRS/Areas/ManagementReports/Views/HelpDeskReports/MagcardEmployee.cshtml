@@ -1,0 +1,161 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.OtherReportsDateTimeOnly
+
+@{  
+    ViewBag.Title = "Help Desk Reports ";
+
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Missing Duty Roster Report</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body" style="height: auto;">
+        @using (Ajax.BeginForm(options))
+            {
+            <div class="form-inline">
+                <div class="row">
+                    <div class="col-xs-3 " style="width: auto;">
+                        <div class="form-group">
+ 
+                     @Html.LabelFor(m => m.StartDate, new { @class = " " })
+                            @Html.TextBoxFor(m => m.StartDate,Model.StartDate.ToString("MMM-yyyy"),new
+                       {
+                           @readOnly="true",
+                           @class = "datepicker2 form-control",
+                           style = " ",
+                           data_bind = "datepicker:$root.StartDate, datepickerOptions:{format: 'M-yyyy',startView:'months',minViewMode:'months',autoclose: true}"
+                       })
+<button data-bind="glyphfor:'@Html.IdFor(m=>m.StartDate)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-left: -4px;margin-top:-2px;"></button>
+
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.EndDate, new { @class = " " })
+                            @Html.TextBoxFor(m => m.EndDate,Model.EndDate.ToString("MMM-yyyy"),new
+                       {
+                           @readOnly="true",
+                           @class = "datepicker form-control",
+                           style = " ",
+                          data_bind = "datepicker:$root.EndDate, datepickerOptions:{format: 'M-yyyy',startView:'months',minViewMode:'months',autoclose: true}"//format: 'dd-M-yyyy',autoclose: true}"
+                       })
+                            <button data-bind="glyphfor:'@Html.IdFor(m=>m.EndDate)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-left: -4px;margin-top:-2px;"></button>
+
+
+
+                        </div>
+
+                    </div>@*  col-xs-3*@
+                    <div class="col-xs-4 ">
+                        
+                   
+                    <div class="col-xs-12 ">
+                        <label class="">Category:</label>
+                      @*  <select id="@Html.IdFor(m=>m.DepartmentId)" name="@Html.NameFor(m=>m.DepartmentId)" class="form-control col-xs-5  "
+                                data-bind="options:$root.DepartmentList, optionsText:'Name', optionsValue:'Id', 
+                                           value: $root.SelectedDepartmentList, select2:{allowClear: true, placeholder:'',  multiple:multiple}">
+                        </select>*@
+                        <select class="js-example-basic-multiple form-control" multiple="multiple"  id="@Html.IdFor(m=>m.DepartmentId)" name="@Html.NameFor(m=>m.DepartmentId)">
+                                <option value="0">ALL</option>
+                                @foreach (var item in Model.DepartmentList)
+                                    {
+                                                <option value="@item.Id">@item.Name</option>
+                                    }
+                            </select>    
+                    </div>
+                    </div>
+                    <div class="col-xs-3" style="width: auto;">
+
+                        <button id="RunReport" data-bind="click:$root.submit" type="submit" class="btn btn-success" value="RunReport">
+                            <span class="glyphicon glyphicon-tasks"></span>Run Report
+                        </button>
+
+
+                        <a id="Close"  href="@Url.Action("Index", "HelpDeskReports")" class="btn btn-danger ">
+                            <span class="glyphicon glyphicon-off"></span>Close
+                        </a>
+                    </div>
+                </div>
+             
+
+               @* <textarea class="form-control"
+                    id="DepartmentIdArraytext"
+                    name="DepartmentIdArraytext"
+                    rows="2"
+                    cols="20">This is value</textarea>*@
+
+                <div id="reportWrapper" class="col-xs-12 top10 container-fluid" style="min-height: 390px; background-color: #6C7A89;"></div>
+
+            </div>
+           @Html.Hidden("DepartmentIdArray","0")
+            @Html.Hidden("DepartmentIdArraytext","ALL")
+          
+            }
+    </div>@*panel-body*@
+</div>
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+  @*  <script type="text/javascript" src="~/Scripts/MCRS/otherreports/js_generalexpenses.js"></script>*@
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            var viewModel = new ViewModel(JSON.parse(data));
+            viewModel.inputUrlActions = $("#urlActions");
+            ko.applyBindings(viewModel);
+
+            $(".js-example-basic-multiple").select2();
+            var test = $('.js-example-basic-multiple');
+            $(".js-example-basic-multiple").change(function () {
+                 var ids = $("#DepartmentId").val();     
+                var selections = (JSON.stringify($(test).select2('data')));
+                
+                console.log('Selected options: ' + selections);
+                $('#DepartmentIdArray').val(ids);
+                var data = $('.js-example-basic-multiple').select2('data')
+                var text = [""];
+                $(".js-example-basic-multiple option:selected").each(function () {
+                    text.push($(this).text());
+                });
+                $('#DepartmentIdArraytext').val(text);
+            });
+
+        });
+
+        function ViewModel(model) {
+
+            self = this;
+            self.Uri;
+            self.StartDate = ko.observable(new Date(moment(model.StartDate)));
+            self.EndDate = ko.observable(new Date(moment(model.EndDate)));
+        self.DepartmentId = ko.observable(0);
+
+        self.DepartmentList = ko.observableArray(model.DepartmentList);
+            self.init = function () {
+            };
+            self.init();
+        }
+    </script>
+}
+

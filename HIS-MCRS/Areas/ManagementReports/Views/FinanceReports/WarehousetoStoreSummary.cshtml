@@ -1,0 +1,201 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.FinanceReport
+@using HIS_MCRS.Enumerations;
+
+@{
+    ViewBag.Title = "Finance Reports";
+
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Warehouse Issueance to Store Summary</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+
+    @using (Ajax.BeginForm(options))
+    {
+        <div class="panel-body" style="height: auto; font-size: 10px;">
+            <div class="col-xs-12">
+                <div class="col-xs-3 ">
+                    <fieldset>
+                        <legend style="font-size: 13px;"><strong>Date</strong></legend>
+                        <div class="col-xs-12">
+                            @Html.LabelFor(m => m.StartDate, new { @class = "col-xs-3 top5" })
+                            <div class="col-xs-8 input-group">
+                                @* @Html.TextBoxFor(m => m.StartDate, new { @class = "datepicker form-control",disabled="disabled", style = "z-index:0 !important;", 
+                                                                    data_bind="datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy', autoclose: true}" })
+                                *@
+                                @*@Html.TextBoxFor(m => m.StartDate, "{0:d-MMM-yyyy}", new { @class = "form-control" })*@
+                                @Html.TextBoxFor(m => m.StartDate, new
+                           {
+                               @class = "datepicker form-control",
+                               style = "z-index:0 !important;",
+                               data_bind = "datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy', autoclose: true}"
+                           })
+
+                                <span class="input-group-btn ">
+                                    <button data-bind="glyphfor:'StartDate'" class=" btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                                </span>
+
+                            </div>
+                        </div>
+                        <div class="col-xs-12 top5 ">
+                            @Html.LabelFor(m => m.EndDate, new { @class = "col-xs-3 top5" })
+                            <div class="col-xs-8 input-group">
+                                @Html.TextBoxFor(m => m.EndDate, new
+                           {
+                               @class = "datepicker form-control",
+                               style = "z-index:0 !important;",
+                               data_bind = "datepicker:$root.EndDate, datepickerOptions:{format: 'dd-M-yyyy', autoclose: true}"
+                           })
+                                <span class="input-group-btn">
+                                    <button data-bind="glyphfor:'EndDate'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                                </span>
+                            </div>
+                        </div>
+
+
+
+                    </fieldset>
+                </div>
+           
+
+                <div class="col-xs-3 ">
+                    <fieldset>
+                        @*<legend style="font-size: 13px; margin-bottom: 3px;"><strong></strong></legend>*@
+                        <legend style="font-size: 13px;"><strong>Area Store</strong></legend>
+                        <div class="col-xs-12">
+                            <div class="col-xs-12">
+
+                         
+
+                                <select class="form-control select2"id="@Html.IdFor(model => model.StationId)" name="@Html.NameFor(model => model.StationId)"
+                        data-bind="options: $root.StationList, optionsValue:'Id', optionsText:'Name', value: $root.SelectedStationList, select2:{}">
+                                </select>
+
+
+                            </div>
+                        </div>
+                     
+                    </fieldset>
+                </div>
+
+                <div class="col-xs-3 ">
+                    <fieldset>
+                        @*<legend style="font-size: 13px; margin-bottom: 3px;"><strong></strong></legend>*@
+                        <legend style="font-size: 13px;"><strong>Category</strong></legend>
+                       
+                        <div class="col-xs-12">
+                            <div class="col-xs-12">
+                                <select class="form-control select2"id="@Html.IdFor(model => model.ItemGroupId)" name="@Html.NameFor(model => model.ItemGroupId)"
+                        data-bind="options: $root.ItemGroupList, optionsValue:'Id', optionsText:'Name', value: $root.SelectedItemGroupList, select2:{}">
+                                </select>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                
+                <div class="col-xs-2">
+                    <div class="pull-right col-xs-10">
+                        <button id="RunReport" type="submit" class="btn btn-success col-xs-12" value="RunReport">
+                            <span class="glyphicon glyphicon-tasks"></span>Run Report
+                        </button>
+                        <a id="Close"  href="@Url.Action("Index", "FinanceReports")" class="top5 btn btn-danger col-xs-12">
+                            <span class="glyphicon glyphicon-off"></span>Close
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="height: auto;"></div>
+            <div id="reportWrapper" class="container-fluid">
+            </div>
+            @Html.Hidden("CategoryName", "Central Storage")
+            @Html.Hidden("StationName", "ALL")
+            
+        </div>
+    }
+</div>
+
+<input id="urlActions" class="hidden"
+    data-getcompanybycategory="getCompanyByCategory"
+    data-getcashcategory="getCashCategory" />
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/ManagementReports/ARReports/StatementSummaryByCategory.js"></script>*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            var viewModel = new ViewModel(JSON.parse(data), $("#urlActions"));
+            ko.applyBindings(viewModel);
+            console.log($("#CategoryName").val());
+            $('#ItemGroupId').on('change', function () {
+                console.log($("#ItemGroupId option:selected").text());
+                $('#CategoryName').val($("#ItemGroupId option:selected").text());
+            });
+            $('#StationId').on('change', function () {
+                console.log($("#StationId option:selected").text());
+                $('#StationName').val($("#StationId option:selected").text());
+            });
+            
+ 
+
+        });
+
+        function ViewModel(model, elem) {
+            self = this;
+            console.log(model.StartDate);
+            self.StartDate = ko.observable(model.StartDate);
+            self.EndDate = ko.observable(model.EndDate);
+            self.inputUrlActions = elem;
+           
+           
+
+            self.SelectedCategoryList = ko.observable(0);
+            self.CategoryList = ko.observableArray(model.CategoryList);
+
+            self.SelectedItemGroupList = ko.observable(0);
+            self.ItemGroupList = ko.observableArray(model.ItemGroupList);
+
+            self.SelectedStationList = ko.observable(0);
+            self.StationList = ko.observableArray(model.StationList);
+
+            self.Init = function () {
+           self.StationList.unshift({ Id: '0', Name: 'ALL' });
+           //self.ItemGroupList.unshift({ Id: '0', Name: 'ALL' });
+            //self.getCompanyByCategory();
+            };
+
+          
+            self.Init();
+
+
+        }
+
+
+      
+
+    </script>
+}
+
+

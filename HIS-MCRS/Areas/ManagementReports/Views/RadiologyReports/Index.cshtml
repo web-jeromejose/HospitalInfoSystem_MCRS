@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@Styles.Render("~/Styles/arcustom")
+
+<div class="row">
+    <br />
+    <div class="col-sm-12">
+        <ul>
+            <a class="mc_rep_continer" href="@Url.Action("xrayreferral","RadiologyReports")">
+                <span class="glyphicon glyphicon-list-alt"></span>
+                <section>
+               1. Xray Referral from ER Report
+                </section>
+            </a>
+
+           @* <a class="mc_rep_continer" href="@Url.Action("proceduredonepatient","RadiologyReports")">
+                <span class="glyphicon glyphicon-list-alt"></span>
+                <section>
+               Procedure Done Patient and Time In/Out
+                </section>
+            </a>*@
+
+            <a class="mc_rep_continer" href="@Url.Action("xrayprocedure","RadiologyReports")">
+                <span class="glyphicon glyphicon-list-alt"></span>
+                <section>
+                   2. Xray Procedure Charges Report
+                </section>
+            </a>
+
+            <a class="mc_rep_continer" href="@Url.Action("anesthesiaschedule","RadiologyReports")">
+                <span class="glyphicon glyphicon-list-alt"></span>
+                <section>
+                  3. Anathesia Schedule Report
+                </section>
+            </a>
+
+         
+
+
+        </ul>
+    </div>
+</div>

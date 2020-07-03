@@ -1,0 +1,366 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.FinanceReportsOPRevenue
+ 
+@using HIS_MCRS.Common
+
+@{
+    ViewBag.Title = "Finance Report";
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+
+
+<div class="nav-tabs-custom" style="cursor: move;">
+    <!-- Tabs within a box -->
+    <ul class="nav nav-tabs pull-right ui-sortable-handle">
+        <li class="active"><a href="#revenue-chart" data-toggle="tab" aria-expanded="false">Report</a></li>
+        <li class=""><a href="#downloadexcel" data-toggle="tab" aria-expanded="true">Download Excel </a></li>
+        <li class="pull-left header"><i class="fa fa-inbox"></i>OP</li>
+    </ul>
+    <div class="tab-content no-padding">
+        <!-- Morris chart - Sales -->
+        <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: auto; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-5">
+                            <h4><span class="navbar-header">OP Revenue Report</span></h4>
+                        </div>
+                        <div class="navbar-collapse navbar-right">
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body" style="height: auto;">
+                    @using (Ajax.BeginForm(options))
+                    {
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <div class="col-xs-4 ">
+                                    <fieldset>
+                                        <legend style="font-size: 13px; margin-bottom: 3px;"><strong>Report Parameters</strong></legend>
+                                        @Html.LabelFor(m => m.StartDate, new { @class = "col-xs-4 top5" })
+
+                                        <div class="col-xs-7 input-group">
+                                            @Html.TextBoxFor(m => m.StartDate, Model.StartDate.ToString("dd-MMM-yyyy"), new
+                                       {
+                                           @class = "datepicker form-control",
+                                           style = "z-index:0 !important;",
+                                           data_bind = "datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                                       })
+                                            <span class="input-group-btn ">
+                                                <button data-bind="glyphfor:'@Html.IdFor(m => m.StartDate)    '" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                                            </span>
+                                        </div>
+
+
+                                        @Html.LabelFor(m => m.EndDate, new { @class = "col-xs-4 top10" })
+
+                                        <div class="col-xs-7 input-group top5">
+                                            @Html.TextBoxFor(m => m.EndDate, Model.EndDate.ToString("dd-MMM-yyyy"), new
+                                       {
+                                           @class = "datepicker form-control",
+                                           style = "z-index:0 !important;",
+                                           data_bind = "datepicker:$root.EndDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                                       })
+                                            <span class="input-group-btn ">
+                                                <button data-bind="glyphfor:'@Html.IdFor(m => m.EndDate)    '" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                                            </span>
+                                        </div>
+
+                                        @Html.LabelFor(m => m.PatientBillType, new { @class = "col-xs-4 top10" })
+                                        <div class="col-xs-7 input-group top5">
+                                            <select id="@Html.IdFor(m => m.PatientBillType)" name="@Html.NameFor(m => m.PatientBillType)"
+                         class="select2 form-control"
+                          data-bind="options:$root.PatientBillTypes,
+    value: $root.SelectedPatienBillType,
+    optionsText:'Value' ,
+    optionsValue:'Key',
+    select2: {allowClear: true}">
+                                            </select>
+                                        </div>
+                                        @Html.LabelFor(m => m.BillType, new { @class = "col-xs-4 top10" })
+                                        <div class="col-xs-7 input-group top5">
+                                            <select id="@Html.IdFor(m => m.BillType)" name="@Html.NameFor(m => m.BillType)"
+                         class="select2 form-control" style="font-size:12px;"
+                          data-bind="options:$root.BillTypes,
+    value: $root.SelectedBillType,
+    optionsText:'Value' ,
+    optionsValue:'Key',
+    select2: {allowClear: true}">
+                                            </select>
+                                        </div>
+                                        <div class="col-xs-12 pull-right">
+                                            @Html.CheckBoxFor(m => m.SortByCancellationDate,
+                                           new { data_bind = "value:$root.SortByCancellationDate,checkedValue:true, enable:$root.SelectedBillType() != 0" })
+                                            @Html.LabelFor(m => m.SortByCancellationDate)
+                                        </div>
+
+
+
+                                    </fieldset>
+                                </div>
+                                <div class="col-xs-4 ">
+                                    <fieldset>
+                                        <legend style="font-size: 13px; margin-bottom: 3px;"><strong>Report Filters</strong></legend>
+
+                                        @Html.LabelFor(m => m.PIN, new { @class = "col-xs-3 top10" })
+                                        <div class="col-xs-8 top5">
+                                            @Html.TextBoxFor(m => m.PIN, new { @class = "form-control", placeholder = Global.OrganizationDetails.IssueAuthorityCode + ".XXXXXXXXX", Value = "0" })
+                                        </div>
+
+                                        @Html.LabelFor(m => m.DoctorId, new { @class = "col-xs-3 top10" })
+                                        <div class="col-xs-8 top5">
+                                            <input id="@Html.IdFor(m => m.DoctorId)" name="@Html.NameFor(m => m.DoctorId)"
+                         class="select2 form-control" style="font-size:12px;"
+                          data-bind="value:$root.SelectedDoctor, 
+    select2: {minimumInputLength: 2, query:$root.SearchDoctors, placeholder:'Search Doctor', allowClear: true}"/>
+                                        </div>
+
+
+
+
+                                        @Html.LabelFor(m => m.CompanyId, new { @class = "col-xs-3 top5" })
+                                        <div class="col-xs-8">
+                                            <input id="@Html.IdFor(m => m.CompanyId)" name="@Html.NameFor(m => m.CompanyId)"
+                         class="select2 form-control" style="font-size:12px;"
+                          data-bind="value:$root.SelectedCompany, 
+    select2: {minimumInputLength: 2, query:$root.SearchCompanies, placeholder:'Search Company', allowClear: true}"/>
+
+                                        </div>
+                                        @Html.LabelFor(m => m.DepartmentId, new { @class = "col-xs-3 top10" })
+                                        <div class="col-xs-8 top5">
+                                            <select id="@Html.IdFor(m => m.DepartmentId)" name="@Html.NameFor(m => m.DepartmentId)"
+                         class="select2 form-control" style="font-size:12px;"
+                          data-bind="options:$root.Departments,
+    value: $root.SelectedDepartment,
+    optionsText:'Name' ,
+    optionsValue:'Id',
+    select2: {allowClear: true,placeholder:'Select Medical Department'}">
+                                            </select>
+                                        </div>
+
+
+
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-xs-4 ">
+                                    <fieldset>
+                                        <legend style="font-size: 13px; margin-bottom: 3px;"><strong>&nbsp;</strong></legend>
+
+
+                                        <label class="col-xs-4 top10 ">Employee Id </label>
+                                        <div class="col-xs-6 top5">
+
+                                            <input class="form-control" id="EmpId" name="EmpId" placeholder="xxxxxxx" type="number" value="0">
+                                        </div>
+
+                                        <label class="col-xs-4 top10 ">Mode Of Payment </label>
+                                        <div class="col-xs-6 top5">
+
+                                            <select class="form-control" id="ModeofPayment" name="ModeofPayment">
+                                                <option value="0" selected>ALL</option>
+                                                <option value="1">Cash</option>
+                                                <option value="2">Advance</option>
+                                            </select>
+                                            <br />
+
+
+                                            <div class="col-xs-12">
+
+                                                <div class="form-group">
+
+                                               @*   not used pero pwede namn  <button id="DataTablePdf" type="button" class="btn btn-info col-xs-12">
+                                                        <span class="glyphicon glyphicon-tasks"></span>View Data                                                
+                                                    </button>*@
+
+                                                    <br />
+
+                                                    <button id="RunReport" type="submit" class="btn top5  btn-success col-xs-12" value="RunReport">
+                                                        <span class="glyphicon glyphicon-tasks"></span>Run Report
+                                                    </button>
+                                                    <a id="Close"  href="@Url.Action("Index", "FinanceReports")" class="top5 btn btn-danger col-xs-12">
+                                                        <span class="glyphicon glyphicon-off"></span>Close
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </fieldset>
+                                </div>
+
+
+                                @*      <div class="col-xs-2 row"  >
+                    <button id="RunReport" type="submit" class="btn btn-success col-xs-12" value="RunReport">
+                        <span class="glyphicon glyphicon-tasks"></span>Run Report
+                    </button>
+                    <a id="Close"  href="@Url.Action("Index", "FinanceReports")" class="top5 btn btn-danger col-xs-12">
+                        <span class="glyphicon glyphicon-off"></span>Close
+                    </a>
+                </div>*@
+
+                            </div>
+                            @*<p><strong>Report Date Range (Bill Date)</strong></p>*@
+
+                            <div class="col-xs-4 row" style="margin-left: -50px;">
+                            </div>
+
+                            <div id="DTtablediv" class="col-xs-12 top10 container-fluid" style="min-height: 360px; background-color: #6C7A89;">
+                                <table id="DTLoadDashboard" class="Hide Show table table-nomargin table-condensed fahad" style="cursor: pointer; width: 100%!important; color: white;">
+                                    <thead class="cAR-tlist-header">
+                                    </thead>
+                                </table>
+                            </div>
+                            <div id="reportWrapper" class="col-xs-12 container-fluid" style="min-height: 300px;"></div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+
+
+
+        </div>
+        <div class="chart tab-pane " id="downloadexcel" style="position: relative; height: 500px;">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-5">
+                            <h4><span class="navbar-header"> Download Excel Sheets</span></h4>
+                        </div>
+                        <div class="navbar-collapse navbar-right">
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body" style="height: auto;">
+                    @*@using (Ajax.BeginForm(options))
+            *@
+
+                    @using (Html.BeginForm("OPRevenue2018", "FinanceReports", FormMethod.Post))
+                    {<div class="form-group">
+            <div class="col-xs-12">
+                <div class="col-xs-4 ">
+                    <fieldset>
+                        <legend style="font-size: 13px; margin-bottom: 3px;"><strong>Report Parameters</strong></legend>
+                        @Html.LabelFor(m => m.StartDate2, new { @class = "col-xs-4 top5" })
+
+                        <div class="col-xs-7 input-group">
+                            @Html.TextBoxFor(m => m.StartDate2, Model.StartDate2.ToString("dd-MMM-yyyy"), new
+                       {
+                           @class = "datepicker form-control",
+                           style = "z-index:0 !important;",
+                           data_bind = "datepicker:$root.StartDate2, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                       })
+                            <span class="input-group-btn ">
+                                <button data-bind="glyphfor:'@Html.IdFor(m => m.StartDate2)    '" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                            </span>
+                        </div>
+
+
+                        @Html.LabelFor(m => m.EndDate2, new { @class = "col-xs-4 top10" })
+
+                        <div class="col-xs-7 input-group top5">
+                            @Html.TextBoxFor(m => m.EndDate2, Model.EndDate2.ToString("dd-MMM-yyyy"), new
+                       {
+                           @class = "datepicker form-control",
+                           style = "z-index:0 !important;",
+                           data_bind = "datepicker:$root.EndDate2, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                       })
+                            <span class="input-group-btn ">
+                                <button data-bind="glyphfor:'@Html.IdFor(m => m.EndDate2)    '" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                            </span>
+                        </div>
+
+                        @Html.LabelFor(m => m.PatientBillType2, new { @class = "col-xs-4 top10" })
+                        <div class="col-xs-7 input-group top5">
+                            <select id="@Html.IdFor(m => m.PatientBillType2)" name="@Html.NameFor(m => m.PatientBillType2)"
+                         class="select2 form-control"
+                          data-bind="options:$root.PatientBillTypes2,
+    value: $root.SelectedPatienBillType2,
+    optionsText:'Value' ,
+    optionsValue:'Key',
+    select2: {allowClear: true}">
+                            </select>
+                        </div>
+
+
+
+                    </fieldset>
+                </div>
+
+                <div class="col-xs-4 ">
+                    <fieldset>
+                        <legend style="font-size: 13px; margin-bottom: 3px;"><strong>&nbsp;</strong></legend>
+
+
+
+                        <div class="col-xs-6 top5">
+
+
+
+
+                            <div class="col-xs-12">
+
+                                <div class="form-group">
+
+
+                                    <button id="RunReport1" type="submit" class="btn top5  btn-success col-xs-12" value="RunReport">
+                                        <span class="glyphicon glyphicon-tasks"></span> Excel
+                                    </button>
+                                    <a id="Close1"  href="@Url.Action("Index", "FinanceReports")" class="top5 btn btn-danger col-xs-12">
+                                        <span class="glyphicon glyphicon-off"></span>Close
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </fieldset>
+                </div>
+
+
+            </div>
+
+        </div>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<input id="urlActions" class="hidden"
+    data-dashboarddatatable="@Url.Action("OPRevenueDataTAble")"
+    data-searchcompanies="@Url.Action("SearchCompanies")"
+    data-searchdoctors="@Url.Action("SearchDoctors")" />
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    <script type="text/javascript" src="~/Scripts/ManagementReports/FinanceReports/OPRevenue.js"></script>
+    <script defer src="@Url.Content("~/Scripts/DataTabletoPDF.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            var viewModel = new ViewModel(JSON.parse(data));
+            viewModel.inputUrlActions = $("#urlActions");
+            ko.applyBindings(viewModel);
+        });
+    </script>
+}

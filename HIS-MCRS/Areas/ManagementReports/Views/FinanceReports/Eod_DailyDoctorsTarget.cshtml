@@ -1,0 +1,190 @@
+﻿@model  HIS_MCRS.Areas.ManagementReports.Models.NetRevenueVM
+
+@{
+    ViewBag.Title = "Finance EOD Reports ";
+
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+
+@using (Ajax.BeginForm(options))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-xs-5">
+                    <h4><span class="navbar-header">Daily Doctors Target Report<small>(EOD)</small></span></h4>
+                </div>
+                <div class="col-xs-offset-3 col-xs-4">
+                    <div class="navbar-collapse navbar-right" style="width: auto;margin-left:10px;">
+                        <button id="RunReport" data-bind="click:$root.submit" type="submit" class="btn btn-success" value="RunReport">
+                            <span class="glyphicon glyphicon-tasks"></span>Run Report
+                        </button>
+                        <a id="Close" href="@Url.Action("Index", "FinanceReports")" class="btn btn-danger ">
+                            <span class="glyphicon glyphicon-off"></span>Close
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body" style="height: auto;">
+
+
+
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="box box-solid">
+                        @*<div class="box-header with-border">
+                    <i class="fa fa-text-width"></i>
+
+                    <h3 class="box-title">Unordered List</h3>
+                </div>*@
+                        <!-- /.box-header -->
+                        <div class="box-body">
+
+                            <!-- Date -->
+                            <div class="form-group-sm">
+                                <label>Monthly Date:</label>
+
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i data-bind="glyphfor:'@Html.IdFor(m=>m.StartDate)'" class="fa fa-calendar"></i>
+                                    </div>
+                                    @*<input type="text" class="form-control pull-right" id="datepicker">*@
+                                    @Html.TextBoxFor(m => m.StartDate,Model.StartDate.ToString("dd-MMM-yyyy"),new
+                                      {
+                                          @readOnly="true",
+                                          @class = "datepicker form-control pull-right",
+                                          style = " ",
+                                          data_bind = "datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                                      })
+
+                                </div>
+                                <!-- /.input group -->
+                            </div>
+                            <!-- /.form group -->
+                            <!-- Date range -->
+
+
+
+
+
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+                <div class="col-md-offset-4 col-md-4">
+                    <div class="  col-xs-12">
+                        <div class="alert alert-danger alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                            Please don't run this report during peak hours, because it will take time to process.
+                            <small>Think before you click. </small> Thank you.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>@*panel-body*@
+    </div>
+}
+<div id="reportWrapper" class="col-xs-12 top10 container-fluid" style="min-height: 390px; background-color: #6C7A89;"></div>
+
+
+<input id="urlActions" class="hidden"
+       data-searchcompanies="@Url.Action("SearchCompanies")"
+       data-searchdoctors="@Url.Action("SearchDoctors")" />
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            SecureFunction();
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            //console.log(data);
+            var viewModel = new ViewModel(JSON.parse(data));
+            viewModel.inputUrlActions = $("#urlActions");
+            ko.applyBindings(viewModel);
+
+        });
+ 
+        function ViewModel(OpRevenue) {
+            self = this;
+            self.inputUrlActions = null;
+            self.StartDate = ko.observable(new Date(moment(OpRevenue.StartDate)));
+            self.EndDate = ko.observable(new Date(moment(OpRevenue.EndDate)));
+
+            self.PatientTypeList = ko.observableArray(OpRevenue.PatientTypeList);
+            self.SelectedPatientType = ko.observable(0);
+            self.SelectedPatientTypeText = ko.observable();
+
+            self.SelectedPatientType.subscribe(function (newValue) {
+                if (newValue) {
+                    $.each(self.PatientTypeList(), function (i, item) {
+                        if (item.Key == newValue) {
+                            self.SelectedPatientTypeText(item.Value);
+                        }
+                    });
+                }
+            });
+
+            self.BillTypeList = ko.observableArray(OpRevenue.BillTypeList);
+            self.SelectedBillType = ko.observable(0);
+            self.SelectedBillTypeText = ko.observable();
+
+            self.SelectedBillType.subscribe(function (newValue) {
+                if (newValue) {
+                    $.each(self.BillTypeList(), function (i, item) {
+                        if (item.Key == newValue) {
+                            self.SelectedBillTypeText(item.Value);
+                        }
+                    });
+                }
+            });
+
+            self.BillFinalizeList = ko.observableArray(OpRevenue.BillFinalizeList);
+            self.SelectedBillFinalize = ko.observable(true);
+
+            self.Categories = ko.observableArray(OpRevenue.Categories);
+            self.SelectedCategory = ko.observable(0);
+            self.SelectedCategoryText = ko.observable();
+
+            self.SelectedCategory.subscribe(function (newValue) {
+                if (newValue) {
+                    $.each(self.Categories(), function (i, item) {
+                        if (item.Id == newValue) {
+                            self.SelectedCategoryText(item.Name);
+                        }
+                    });
+                }
+            });
+ 
+            self.init = function () {
+
+
+            }
+
+            self.init();
+
+
+        }
+    </script>
+}

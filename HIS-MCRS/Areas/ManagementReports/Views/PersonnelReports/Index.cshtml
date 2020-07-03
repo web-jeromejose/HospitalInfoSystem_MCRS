@@ -1,0 +1,85 @@
+﻿@{
+    ViewBag.Title = "Personnel Reports";
+}
+@Styles.Render("~/Styles/arcustom")
+
+<div class="row">
+    <br />
+    <div class="col-sm-12">
+
+        <a class="mc_rep_continer" href="@Url.Action("ListEmployeeByCategory","PersonnelReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                1. List of Employee by Category
+            </section>
+        </a>
+
+
+        <a class="mc_rep_continer" href="@Url.Action("ExpireIqama","PersonnelReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               2. Employee by Expiring Iqama  
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("SaudiSixMonth","PersonnelReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               3. Saudi Staff who completed 6 Months
+            </section>
+        </a>
+
+
+        <a class="mc_rep_continer" href="@Url.Action("PassportDetailsReport","PersonnelReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                4. Passport Details Report
+            </section>
+        </a>
+
+
+        <a class="mc_rep_continer" href="@Url.Action("ProfLicenseReport","PersonnelReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               5. Professional License Report
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("EmployeeExclusionMaster","PersonnelReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               6. Employee Exclusion Master
+            </section>
+        </a>
+
+
+
+        <a class="mc_rep_continer" href="@Url.Action("DependentSummaryList","PersonnelReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+              7. Dependent Summary List
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("EmployeeDependentInfoSheet","PersonnelReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+              8. Employee Dependent Info Sheet
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("StaffDocMonitoring","PersonnelReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+              9. Staff Documents Monitoring
+            </section>
+        </a>
+
+
+
+
+
+
+    </div>
+</div>
+

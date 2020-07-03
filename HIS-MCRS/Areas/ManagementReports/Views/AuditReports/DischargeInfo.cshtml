@@ -1,0 +1,161 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.AuditReportDischarge
+@using HIS_MCRS.Enumerations;
+
+@{
+    ViewBag.Title = "Audit Reports";
+
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Discharge Intimation Reports</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+
+    @using(Ajax.BeginForm(options)){
+        <div class="panel-body" style="height: auto;">
+            <div class="col-xs-12">
+                <div class="col-xs-3">
+                    <fieldset>
+                        <legend style="font-size: 13px; margin-bottom: 3px;"><strong>Date</strong></legend>
+                        <div class="col-xs-12">
+                            @Html.LabelFor(m => m.StartDate, new { @class = "col-xs-3 top5 disabled" })
+                            <div class="col-xs-8 input-group">
+                                @* @Html.TextBoxFor(m => m.StartDate, new { @class = "datepicker form-control",disabled="disabled", style = "z-index:0 !important;", 
+                                                                    data_bind="datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy', autoclose: true}" })
+                                *@
+                                @*@Html.TextBoxFor(m => m.StartDate, "{0:d-MMM-yyyy}", new { @class = "form-control" })*@
+                                @Html.TextBoxFor(m => m.StartDate, new { @class = "datepicker form-control", style = "z-index:0 !important;",
+                                                                  data_bind="datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy', autoclose: true}"})
+
+                                <span class="input-group-btn ">
+                                    <button data-bind="glyphfor:'StartDate'" class=" btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 top10">
+                            @Html.LabelFor(m => m.EndDate, new { @class = "col-xs-3 top5" })
+                            <div class="col-xs-8 input-group">
+                                @Html.TextBoxFor(m => m.EndDate, new { @class = "datepicker form-control", style = "z-index:0 !important;",
+                                                                  data_bind="datepicker:$root.EndDate, datepickerOptions:{format: 'dd-M-yyyy', autoclose: true}"})
+                                <span class="input-group-btn">
+                                    <button data-bind="glyphfor:'EndDate'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                                </span>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+              @*  <div class="col-xs-4">
+                    <fieldset>
+                        <legend style="font-size: 13px; margin-bottom: 3px;"><strong>Package</strong></legend>
+                        <div class="col-xs-12">
+                            <div class="col-xs-12">
+                          
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>*@
+                <div class="col-xs-3">
+                    <fieldset>
+                        <legend style="font-size: 13px; margin-bottom: 3px;"><strong>Doctor</strong></legend>
+                        <div class="col-xs-12">
+                            <div class="col-xs-12">
+                                <select id="@Html.IdFor(m => m.DoctorId)" name="@Html.NameFor(m => m.DoctorId)" class="form-control select2"
+                              data-bind="options: $root.DoctorsList,
+                                         value: $root.SelectedDoctor, 
+                                         optionsText: 'FullName', optionsValue: 'EmpCode',
+                                         select2:{allowClear: true}">
+                                </select>
+
+                                @Html.CheckBoxFor(m => m.DocOrNone, new { @onclick="return calc()"  })
+                                
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="col-xs-2">
+                    <div class="pull-right col-xs-10">
+                        <button id="RunReport" type="submit" class="btn btn-success col-xs-12" value="RunReport">
+                            <span class="glyphicon glyphicon-tasks"></span>Run Report
+                        </button>
+                        <a id="Close"  href="@Url.Action("Index", "AuditReports")" class="top5 btn btn-danger col-xs-12">
+                            <span class="glyphicon glyphicon-off"></span>Close
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="height: 100px;"></div>
+            <div id="reportWrapper" class="container-fluid">
+            </div>
+
+        </div>
+    }
+</div>
+
+
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/ManagementReports/ARReports/StatementSummaryByCategory.js"></script>*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            var viewModel = new ViewModel(JSON.parse(data));
+            ko.applyBindings(viewModel);
+            $('#DoctorId').prop("disabled", true);
+            $('#DocOrNone').prop("checked", true);
+        });
+
+        function ViewModel(model) {
+            self = this;
+            console.log(model.StartDate);
+            self.StartDate = ko.observable(model.StartDate);
+            self.EndDate = ko.observable(model.EndDate);
+
+            self.SelectedDoctor = ko.observable(0);
+            self.DoctorsList = ko.observableArray(model.DoctorsList);
+
+            self.Init = function () {
+                self.DoctorsList.unshift({ Id: '', Name: '' });
+            };
+            self.Init();
+        }
+
+
+        function calc() {
+            if ($("#DocOrNone").is(':checked')) {
+                $('#DoctorId').prop("disabled", true);
+              
+                $('#DocOrNone').val(true);
+                console.log('test1' + $('#DocOrNone').val());
+                console.log('DoctorId' + $('#DoctorId').val());
+            } else
+            {
+                $('#DoctorId').prop("disabled", false);
+                $('#DocOrNone').val(false);
+                console.log('test2' + $('#DocOrNone').val());
+            }
+
+
+        }
+
+    </script>
+}

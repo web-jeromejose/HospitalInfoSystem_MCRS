@@ -1,0 +1,195 @@
+﻿@{
+    ViewBag.Title = "Other Reports";
+}
+@Styles.Render("~/Styles/arcustom")
+
+<div class="row">
+    <br />
+    <div class="col-sm-12">
+       
+        <a class="mc_rep_continer" href="@Url.Action("GeneralExpenseSummary","OtherReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+              1. General Expense Summary Report
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("RespiratoryProcedureCharges","OtherReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               2. Respiratory Procedure IP Charges
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("IPChargesMoreThanTenK","OtherReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+         3. IP Charges more then 10,000SR
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("OpdReceptionCancelled","OtherReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               4. OPD Receptionist Cancelled Charges
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("XrayIpOpCharges","OtherReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+              5. XRAY Combined IP & OP Charges
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("BedClearance","OtherReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               6. Bed Clearance Report
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("IpRevokeDischarge","OtherReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               7. IP Revoke Discharges
+            </section>
+        </a>
+
+
+        <a class="mc_rep_continer" href="@Url.Action("IpPackageDealDischarges","OtherReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               8. IP Package Deal Discharges
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("CancellationReportMonth","OtherReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               9. Cancellation Report Month-Wise
+            </section>
+        </a>
+
+
+
+        <a class="mc_rep_continer" href="@Url.Action("CurrentlyAdmittedCashPatients","OtherReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               10. Currently Admitted Cash Patients
+            </section>
+        </a>
+
+
+        <a class="mc_rep_continer" href="@Url.Action("EodStatSummary","OtherReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               11. EOD Statistics Summary
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("CancelledBillsReport","OtherReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               12. Cancelled Bills Report
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("DailyCancellationReport","OtherReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               13. Daily Cancellation Report - Mgt
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("CashPDDailyIncome","OtherReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               14. Cash and PD Daily Income Report
+            </section>
+        </a>
+      @*  not updated database ramadan <a class="mc_rep_continer" href="@Url.Action("RamadanIncome","OtherReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                Ramadan Income per Day
+            </section>
+        </a>*@
+
+
+        <a class="mc_rep_continer" href="@Url.Action("AmcDetailedDailyCollection","OtherReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               15. AMC Detailed Daily Collection Report
+            </section>
+        </a>
+
+
+        @*same As DEtailed Daily collection*@
+      @*  <a class="mc_rep_continer" href="@Url.Action("AmcDailyRevenue","OtherReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                AMC Daily Revenue Report
+            </section>
+        </a>*@
+
+
+      @*  <a class="mc_rep_continer" href="@Url.Action("PharmacyOpCancelledBillsApprover","OtherReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               16. Pharmacy OP Cancelled Bills Approver Updating
+            </section>
+        </a>*@
+
+
+
+
+
+        @*       
+
+       
+
+        
+
+
+
+     
+
+        
+       
+        
+        <a class="mc_rep_continer" href="@Url.Action("GeneralExpenseSummary","OtherReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                OP Cash Bills Assignments
+            </section>
+        </a>
+       
+      
+        <a class="mc_rep_continer" href="@Url.Action("GeneralExpenseSummary","OtherReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               Aramco Patient Update
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("GeneralExpenseSummary","OtherReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                IP Discharges Remarks
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("GeneralExpenseSummary","OtherReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               Block Investigations
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("GeneralExpenseSummary","OtherReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+             Tabarak Reports
+            </section>
+        </a>*@
+
+
+
+
+    </div>
+</div>
+

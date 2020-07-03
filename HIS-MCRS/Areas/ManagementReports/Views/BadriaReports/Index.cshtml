@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Beverly Clinic Reports";
+}
+@Styles.Render("~/Styles/arcustom")
+
+<div class="row">
+    <br />
+    <div class="col-sm-12">
+       
+        <a class="mc_rep_continer" href="@Url.Action("Beverly_CreatedDailyReport","BadriaReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+              1. Created Daily Doctor Commission
+            </section>
+        </a>
+         <a class="mc_rep_continer" href="@Url.Action("Beverly_CreatedDailyReportDetails","BadriaReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+              2. Detailed Daily Doctor Commission
+            </section>
+        </a>
+
+         @*<a class="mc_rep_continer" href="@Url.Action("GeneralExpenseSummary","BadriaReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+              1. General Expense Summary Report
+            </section>
+        </a>*@
+       
+
+
+
+    </div>
+</div>
+

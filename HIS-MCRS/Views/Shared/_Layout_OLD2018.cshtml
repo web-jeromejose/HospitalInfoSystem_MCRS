@@ -1,0 +1,119 @@
+﻿@using HIS_MCRS.Common
+<!DOCTYPE html>
+<html>
+<head>
+    @{        
+        FormsIdentity id = (FormsIdentity)User.Identity;
+        FormsAuthenticationTicket ticket = id.Ticket;
+        var d = ticket.UserData.Split('|');    
+    }
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="~/sghfav.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width" />
+
+    @Styles.Render("~/Styles/plugins/global")
+    @Styles.Render("~/Styles/global")
+    @Styles.Render("~/Styles/custom")
+
+    @RenderSection("styles", required: false)
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Scripts/plugins/global")
+    @Scripts.Render("~/Scripts/global")
+    <script src="~/Content/plugins/blockui/jquery.blockUI.js"></script>
+    @Scripts.Render("~/Scripts/custom")
+
+    <script type="text/javascript">
+        //global variables:
+        var OrganizationDetails = JSON.parse('@Html.Raw(Json.Encode(Global.OrganizationDetails))');
+    </script>  
+</head>
+<body style="background-image: url('../Images/tri.png') !important; background-attachment: fixed;">
+    <nav class="navbar navbar-default navbar-fixed-top yamm" role="navigation">
+        <div class="application-title">
+            <div class="pull-left IT_title" id="txtstationame" 
+                data-urlsecure="@Url.Action("SecurityFeature", "Base", new { area = "" })" 
+                data-urlfunction="@Url.Action("SecurityFunction", "Base", new { area = "" })"
+                data-appmenu="@Url.Action("GetMenu", "Home", new { area = "" })"
+                >
+                @ViewBag.Title
+            </div>
+            <div class="pull-right IT_user_cont">
+                <ul class="nav navbar-nav IT_mini_top_menu" style="margin-right: 5px !important;">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="glyphicon glyphicon-cog"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            @*
+                            <li>
+                                <a href="javascript:show_change_station();" data-toggle="tooltip" title="Click here to Change Station...">
+                                    <span class="glyphicon glyphicon-flag"></span>Change Station
+                                </a>
+                            </li>*@
+                            <li class="divider" style="height: 1px !important; padding: 0 !important;"></li>
+                            <li>
+                                <a href="@Url.Action("LogOff", "Home", new { area = "" }, null)"><span class="glyphicon glyphicon-log-out"></span>Logout</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <user><span class="glyphicon glyphicon-user"></span> @User.Identity.Name!</user>
+            </div>
+            <div class="clear-both"></div>
+        </div>
+        <div class="clear-both"></div>
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/hislogin"><span class="glyphicon glyphicon-home"></span></a>
+            </div>
+            <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
+                <div id="url-menu"></div>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid IT_margin-top _mainiframe" style="height: calc(100% - 60px) !important;">
+
+     
+         
+
+        @RenderBody()
+    </div>
+
+       <!-- Preloader -->
+        <div id="preloader"> 
+            <div id="status">
+                &nbsp;
+            <div id="spinningSquaresG">
+                <div id="spinningSquaresG_1" class="spinningSquaresG">
+                </div>
+                <div id="spinningSquaresG_2" class="spinningSquaresG">
+                </div>
+                <div id="spinningSquaresG_3" class="spinningSquaresG">
+                </div>
+                <div id="spinningSquaresG_4" class="spinningSquaresG">
+                </div>
+                <div id="spinningSquaresG_5" class="spinningSquaresG">
+                </div>
+                <div id="spinningSquaresG_6" class="spinningSquaresG">
+                </div>
+                <div id="spinningSquaresG_7" class="spinningSquaresG">
+                </div>
+                <div id="spinningSquaresG_8" class="spinningSquaresG">
+                </div>
+            </div>
+            </div>
+        </div>
+
+    @RenderPage("~/Views/Shared/_Footer.cshtml")
+
+    @Html.Partial("_ChangeStationPartial")
+    @RenderSection("scripts", required: false)
+
+
+    @Scripts.Render("~/Scripts/changestation")
+
+</body>
+</html>

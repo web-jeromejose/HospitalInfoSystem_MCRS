@@ -1,0 +1,33 @@
+﻿<div class="IT_custom_status_bar">
+    <span class="pull-left">
+        <span style="color: #aaa;">BRANCH:</span>  @ViewBag.IssueAuthorityCode - @ViewBag.BranchName
+    </span>
+@*    <span class="pull-left" style="margin-left: 5px; margin-right: 5px;">|</span>
+    <span class="pull-left _stationName">
+        <span style="color: #aaa;">STATION:</span><span id="modulecurrentstation"></span>
+    </span>*@
+
+    @*HIJRI :
+    <span id="sgh_hjrt_date"></span>
+    |
+    <span id="sgh_arrt_date"></span>
+    | GREGORIAN :
+    <span id="sgh_rt_date"></span>
+    <span id="sgh_rt_time"></span>
+    &nbsp;*@
+    <div class="IT_apps_about_btn" data-appsopen="0" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><span class="glyphicon glyphicon-bookmark"></span>tesrt</div>
+</div>
+<div id="collapseOne" class="panel-collapse collapse out IT_apps_about">
+    <b class="IT_about_title">@ViewBag.Title</b>
+    <hr style="padding: 0; margin: 0; margin-top: 5px; margin-bottom: 5px;" />
+    <span>CONNECTED SERVER: @Html.Raw(ViewBag.ConServer)</span>
+    <br />
+    <span>MY I.P ADDRESS: <span class="IT_my_IP_add">@ViewBag.LocalIPAddress</span></span>
+    <br />
+    <hr style="padding: 0; margin: 0; margin-top: 5px; margin-bottom: 5px;" />
+    <span>VERSION: </span>@ViewBag.VersionID
+    <br />
+    <span>DEV. BY: <span class="IT_dept_color">@ViewBag.Developer</span></span>
+    <br />
+    <span>&copy; @ViewBag.CopyRight</span>
+</div>

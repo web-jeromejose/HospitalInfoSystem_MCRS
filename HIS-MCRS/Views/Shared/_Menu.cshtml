@@ -1,0 +1,55 @@
+﻿@model List<DataLayer.ApplicationMenuModel>
+@{
+    int maxI = Convert.ToInt16(Model.Max(x => x.MenuLevel));
+    string parentID = "0";
+    int ctr = 1;
+    int ctrAll = 1;
+    var dis = "";
+    var sLink = "";
+}
+<ul class="nav navbar-nav">
+    @{
+        foreach (var menu in Model.OrderBy(x => x.ParentSequence))
+        {
+            ctrAll = Model.Where(x => x.ParentID == menu.ParentID).Count();
+
+            if (parentID != menu.ParentID)
+            {
+                @:<li class="dropdown">
+                    @:<a href="#" class="dropdown-toggle" data-toggle="dropdown">@menu.ParentName <span class="caret"></span></a>
+                    @:<ul class="dropdown-menu" role="menu">
+                      parentID = menu.ParentID;
+            }
+            dis = "";
+            sLink = menu.MenuURL;
+            if (menu.Access == "0")
+            {
+                dis = "disabled";
+                sLink = "#";
+            }
+
+            if (menu.NewWindow != "True")
+            {
+                @:<li class="featlink @dis" data-featid="@menu.ID"><a href="@menu.MenuURL">@menu.MenuName</a></li>
+            }
+            else
+            {
+                @:<li class="featlink _iframeload @dis" data-featid="@menu.ID" data-url="@sLink"><a href="#">@menu.MenuName</a></li>
+            }
+
+            if (menu.Bar == "True")
+            {
+                @:<li role="separator" class="divider"></li>
+                }
+            if (ctrAll == ctr)
+            {
+                ctr = 0;
+                @:</ul> </li>
+                }
+            ctr = ctr + 1;
+        }
+    }
+
+</ul>
+
+

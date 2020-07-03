@@ -1,0 +1,219 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.ToolsMenuActualPunchInOutModel
+
+@{  
+    ViewBag.Title = "Personnel Reports ";
+
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "TableWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+ 
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Actual PunchIn PunchOut Viewing Report</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+
+
+
+      <div class="panel-body" style="height: auto;">
+        @using (Ajax.BeginForm(options))
+            {
+            <div class="form-inline">
+                <div class="row">
+                    <div class="col-xs-3 " style="">
+
+                        @Html.LabelFor(m => m.StartDate, new { @class = "col-xs-4 " })
+                        @Html.TextBoxFor(m => m.StartDate,Model.StartDate.ToString("dd-MMM-yyyy"),new
+                       {
+                           @readOnly="true",
+                           @class = "datepicker form-control col-xs-7 ",
+                           style = " ",
+                           data_bind = "datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                       })
+
+
+
+                        @Html.LabelFor(m => m.EndDate, new { @class = "col-xs-4 top10 " })
+                        @Html.TextBoxFor(m => m.EndDate,Model.EndDate.ToString("dd-MMM-yyyy"),new
+                       {
+                           @readOnly="true",
+                           @class = "datepicker form-control col-xs-7 top10",
+                           style = " ",
+                          data_bind = "datepicker:$root.EndDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                       })
+
+
+                    </div>@*  col-xs-3*@
+
+                    <div class="col-xs-4 " style="">
+                        
+                          
+                               <label class="col-xs-5">Department</label>
+                                
+                                    <select id="@Html.IdFor(m=>m.DepartmentId)" name="@Html.NameFor(m=>m.DepartmentId)" class="  col-xs-7" 
+                                data-bind="options: $root.StaffDepartmentList, optionsText: 'Name', optionsValue: 'Id',
+    value: $root.SelectedStaffDepartmentList, select2: { allowClear: true, placeholder: 'Select Department' }">
+                                    </select>
+ 
+                            <label class="col-xs-5 top10">Employee ID:</label>
+      
+                        <select id="@Html.IdFor(m=>m.EmployeeId)" name="@Html.NameFor(m=>m.EmployeeId)" class="col-xs-7 top10 " 
+                                data-bind="options: $root.EmpList, optionsText: 'FullName', optionsValue: 'EmployeeId',
+    value: $root.SelectedEmpList, select2: { allowClear: true, placeholder: 'Select Employee' }">
+                        </select>
+
+                    
+                    </div>
+
+                    <div class="col-xs-3" style="">
+                        @*data-bind="click: function () { $root.generateDataTable(); }"*@
+                        <button id="RunReport"    type="submit" class="btn btn-success" value="RunReport">
+                            <span class="glyphicon glyphicon-tasks"></span> Search 
+                        </button>
+
+
+                        <a id="Close"  href="@Url.Action("Index", "PersonnelReports")" class="btn btn-danger ">
+                            <span class="glyphicon glyphicon-off"></span>Close
+                        </a>
+                    </div>
+                </div>
+              
+                  <div id="reportWrapper" class="col-xs-12 container-fluid" style="min-height: 300px;"></div>
+
+            </div>
+            
+            
+            }
+     
+
+    </div>@*panel-body*@
+
+
+ 
+
+
+   
+</div>
+
+<input id="urlActions" class="hidden" data-getstaffdocmonitoring="ActualPunchInPunchOut"
+    data-savestaffdocmonitoring="saveStaffDocMonitoring"
+    data-episbatchprinting="EPISBatchPrinting" />
+
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/MCRS/otherreports/js_generalexpenses.js"></script>*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+
+
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            var viewModel = new ViewModel(JSON.parse(data));
+            viewModel.inputUrlActions = $("#urlActions");
+            ko.applyBindings(viewModel);
+        });
+
+        function showLoading(e) {
+
+            if (e) {
+                $('#myOverlay').show();
+                $('#loadingGIF').show();
+            } else {
+                $('#myOverlay').hide();
+                $('#loadingGIF').hide();
+            }
+        }
+
+        function ViewModel(model) {
+            self = this;
+            self.Uri;
+            self.StartDate = ko.observable(new Date(moment(model.StartDate)));
+            self.EndDate = ko.observable(new Date(moment(model.EndDate)));
+
+            self.SelectedStaffDepartmentList = ko.observable(0);
+            self.SelectedEmpList = ko.observable(0);
+            self.DepartmentId = ko.observable(0);
+            self.EmpList = ko.observableArray(model.EmployeeList);
+            self.StaffDepartmentList = ko.observableArray(model.DepartmentList);
+
+            self.SelectedEmployees = ko.observableArray([]);
+            self.buttonDisable = ko.observable(false);
+
+
+            self.init = function () {
+                self.StaffDepartmentList.unshift({ Id: "0", Name: "ALL" });
+                self.EmpList.unshift({ EmployeeId: "0", FullName: "ALL" });
+            };
+            self.init();
+
+            self.generateDataTable = function () {
+
+                showLoading(true);
+                self.SelectedEmployees([]);
+                url = self.inputUrlActions.data("getstaffdocmonitoring");
+
+                var StartDate = moment(self.StartDate()).format("MM/DD/YYYY");
+                var EndDate = moment(self.EndDate()).format("MM/DD/YYYY");
+
+                param = { StartDate: StartDate, EndDate: EndDate, EmpId: $('#EmployeeId').val(), DepartmentId: $('#DepartmentId').val() };
+
+                ajaxWrapper.GetWithLoading(url, param, $("#TableWrapper"), function (data, e) {
+                    if (data.Res.length != 0) {
+                        self.buttonDisable(true);
+                    }
+                    for (i = 0; i < data.Res.length; i++) {
+                        console.log(data.Res[i].cv);
+                        self.SelectedEmployees.push(new Employees(data.Res[i].employeeid, data.Res[i].fullname, data.Res[i].deptcode, data.Res[i].name, data.Res[i].cv, data.Res[i].orient_dept, data.Res[i].orient_gen, data.Res[i].jd, data.Res[i].license, data.Res[i].educ_cert, data.Res[i].fs, data.Res[i].ifc, data.Res[i].tqm, data.Res[i].bcls, data.Res[i].acls, data.Res[i].eval_1, data.Res[i].eval_2, data.Res[i].eval_3, data.Res[i].eval_4, data.Res[i].confidentiality, data.Res[i].credentialing, data.Res[i].previledging, self));
+                    };
+                    showLoading(false);
+                });
+
+            };
+            self.Save = function () {
+
+                url = self.inputUrlActions.data("savestaffdocmonitoring");
+                param = { SelectedEmployees: $('#SelectedEmployeeList').val() };
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: param,
+                    beforeSend: function () {
+                        showLoading(true);
+                    },
+                    success: function (data) {
+                        console.log('success');
+                        showLoading(false);
+                        $("#btnModal").trigger("click");//succes message
+
+                    },
+                    dataType: "json"
+                })
+            };
+
+        }
+     </script>
+}
+
+
+

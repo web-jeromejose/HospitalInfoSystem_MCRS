@@ -1,0 +1,19 @@
+﻿@* generic dialog*@
+<div id="Dialog" class="modal fade" tabindex="-1" role="dialog" data-bind="modal:$root.Dialog().Show" style="z-index: 1300">
+    <div class="modal-dialog" style="width: 350px; z-index: 1300;">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" data-bind="css: $root.Dialog().AlertCSS" style="padding: 8px;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" data-bind="text: $root.Dialog().Header">Header</h4>
+            </div>
+            <div class="modal-body">
+                <p data-bind="text:$root.Dialog().Message">error message container</p>
+            </div>
+            <div class="modal-footer">
+                <button data-bind="click: $root.Dialog().FnOK" type="button" class="btn btn-sm btn-default col-xs-2 pull-right" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+
+    </div>
+</div>

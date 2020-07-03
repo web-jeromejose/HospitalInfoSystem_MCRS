@@ -1,0 +1,115 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.AvgLengthStayCriticalAreas
+@{
+    ViewBag.Title = "QPS Reports";
+    AjaxOptions options = new AjaxOptions();
+
+    options.HttpMethod = "POST";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+    
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Average Length of Stay - Critical Areas</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+    <div class="panel-body" style="height: auto;">
+        @using (Ajax.BeginForm(options))
+    {
+            <div class=" ">
+                <div class="col-xs-3 border10" style="/*width: auto;*/">
+                    @Html.Label("Report Date Range", new { @class = "col-xs-12 text-center" })
+                    <div class="form-group">
+
+    @Html.LabelFor(m => m.StartDate, new { @class="" })&nbsp;&nbsp;
+@Html.TextBoxFor(m => m.StartDate, Model.StartDate.ToString("dd-MMM-yyyy"), new { 
+    @readOnly="true",@class="datepicker form-control ",style="z-index: 0 !important;" ,data_bind="datepicker:$root.StartDate, datepickerOptions:{format:'dd-M-yyyy',autoclose:true}" 
+})
+                       
+                         
+                    @Html.LabelFor(m => m.EndDate, new { @class="" })&nbsp;&nbsp;
+                    @Html.TextBoxFor(m => m.EndDate, Model.StartDate.ToString("dd-MMM-yyyy"), new { 
+                        @readOnly="true",@class="datepicker form-control",style="",data_bind="datepicker:$root.EndDate, datepickerOptions:{format:'dd-M-yyyy',autoclose:true}" 
+                    })
+                    </div>
+                </div>
+                <div class="col-xs-offset-1 col-xs-3 border10" style="/*width: auto; */">
+                    @*@Html.Label("Report Date Range", new { @class = "col-xs-12 text-center" })*@
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.DepartmentId, new { @class = "col-xs-12 top10" })
+                        <div class="col-xs-12  top5">
+                            <select id="@Html.IdFor(m=>m.DepartmentId)" name="@Html.NameFor(m=>m.DepartmentId)"class="form-control"
+                                data-bind="options:$root.Departments, optionsText:'Name', optionsValue:'Id',value:$root.SelectedDepartment, select2:{allowClear:true,placeholder:'Select Department'}">
+                            </select>
+                            
+                        </div>
+                        @Html.HiddenFor(m=>m.DeptName,Model.DeptName)
+
+                        @Html.LabelFor(m => m.Area, new { @class = "col-xs-12 top10" })
+                        <div class="col-xs-12  top5">
+                            <select id="@Html.IdFor(m=>m.Area)" name="@Html.IdFor(m=>m.Area)" class="select2 form-control"  data-bind="select2:{}">
+                                <option value="ALL" selected>ALL</option>
+                                <option value="CCU">ICU</option>
+                                <option value="ICU2">ICU2</option>
+                                <option value="NICU">NICU</option>
+                                <option value="OHU">OHU</option>
+                                <option value="PICU">PICU</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-2-offset col-xs-3" style="">
+                    <button id="RunReport" data-bind="click:$root.submit" type="submit" class="btn btn-success" value="RunReport">
+                        <span class="glyphicon glyphicon-tasks"></span>Run Report
+                    </button>
+                    <a id="Close"  href="@Url.Action("Index", "QpsReports")" class="btn btn-danger ">
+                        <span class="glyphicon glyphicon-off"></span>Close
+                    </a>
+                </div>
+
+                <div id="reportWrapper" class="col-xs-12 top10 container-fluid" style="min-height: 390px; background-color: #6C7A89;"></div>
+            </div>
+    }
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/ManagementReports/FinanceReports/IPDischargesStatement.js"></script>*@
+    <script type="text/javascript" src="~/Scripts/MCRS/qpsreports/js_avglengthstaycritical.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#DeptName').val('ALL');
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            console.log(data);
+            var viewModel = new ViewModel(JSON.parse(data));
+            viewModel.inputUrlActions = $("#urlActions");
+            ko.applyBindings(viewModel);
+
+            $("#DeptName").val($("#DepartmentId").find("option:selected").text());
+            $("#DepartmentId").change(function () {
+                //if ($(this).find("option:selected").text() != "All")
+                $("#DeptName").val($(this).find("option:selected").text());
+                //else
+                //    $("#AgeRangeName").val("");
+                console.log($("#DeptName").val());
+            });
+            console.log($("#DeptName").val());
+
+        });
+    </script>
+}
+
+

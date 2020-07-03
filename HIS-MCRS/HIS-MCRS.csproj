@@ -1,0 +1,1755 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BECA8FAE-9EF6-458C-B354-46E2AF746DC0}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HIS_MCRS</RootNamespace>
+    <AssemblyName>HIS_MCRS</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EPPlus, Version=4.5.1.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.5.1\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.8.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\_dll\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportViewer.Runtime.Common.11.0.3452.0\lib\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MicosoftReportViewerWebForms_v11.1.0.1\lib\Microsoft.ReportViewer.WebForms.DLL</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.1016.290\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="ReportViewerForMvc, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ReportViewerForMvc.1.0.1\lib\net45\ReportViewerForMvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.DurableInstancing" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.0.0\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20710.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.2.0.20710.0\lib\net40\WebMatrix.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebPages.OAuth, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.OAuth.2.0.20710.0\lib\net40\Microsoft.Web.WebPages.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.2.0.20710.0\lib\net40\WebMatrix.WebData.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.AspNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.AspNet.4.0.3.12153\lib\net40-full\DotNetOpenAuth.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.Core.4.0.3.12153\lib\net40-full\DotNetOpenAuth.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth.Consumer, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OAuth.Consumer.4.0.3.12153\lib\net40-full\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OAuth.Core.4.0.3.12153\lib\net40-full\DotNetOpenAuth.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OpenId.Core.4.0.3.12153\lib\net40-full\DotNetOpenAuth.OpenId.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OpenId.RelyingParty.4.0.3.12153\lib\net40-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.1.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.1.0\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\AuthConfig.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\DatePickerHelperBundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\ActAdjReportsController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\AramcoScreeningReportsController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\ARReportsController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\AuditReportsController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\BadriaReportsController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\CashInPatientDischargeReportController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\CorporateController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\CurrentlyAdmittedPatientListController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\CurrentlyAdmittedPatientWithChargeController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\DailyPatientVisitStatisticsController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\DashboardMonitoringController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\DeficiencyFilePINWiseController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\DeficiencyFilesController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\DepartmentWiseAdmissionIndexingController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\DoctorAnalysisController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\ERConsultationStatisticCountController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\FamilyMedicineReportController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\FinanceReportsController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\GeneralController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\HelpDeskReportsController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\HumanResourcesController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\ICUAdmissionWithDiagnosisController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\InfectionControlReportController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\InventoryReportsController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\IPAdmissionCensusController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\ListOfORDoneController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\MaintenanceReportsController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\MarketingReportsController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\MmsReportController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\OPCancellationController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\OPDPatientCountController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\OperationTheatreController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\OPVisitCensusController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\ORReportController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\OtherReportsController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\PatientConsultationBetween1to5pmController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\PatientListByAgeRangeController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\PatientMovementAnalysisController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\PatientRegistrationByCityController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\PatientRevisitsController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\PatientStatisticByNationalityController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\PatientStatisticsController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\PersonnelReportsController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\PINRegistrationbyDateRangeController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\PolyClinicController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\QpsReportsController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\RadiologyReportsController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\ReceptionistTransactionSummaryController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\SalesPromotionReportsController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\ToolsMenuController.cs" />
+    <Compile Include="Areas\ManagementReports\MCRSAreaRegistration.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\CommonController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\CoveringLetterPrintingController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\IPBillCorrectionController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\MainController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\OPBillCorrectionController.cs" />
+    <Compile Include="Areas\ManagementReports\Controllers\OPTariffController.cs" />
+    <Compile Include="Areas\ManagementReports\Models\ClinicalDetail.cs" />
+    <Compile Include="Areas\ManagementReports\Models\DeficiencyFilesModel.cs" />
+    <Compile Include="Areas\ManagementReports\Models\DeficiencyFilesPINWiseModel.cs" />
+    <Compile Include="Areas\ManagementReports\Models\ERConsultationStatisticCountModel.cs" />
+    <Compile Include="Areas\ManagementReports\Models\ICUAdmissionWithDiagnosisModel.cs" />
+    <Compile Include="Areas\ManagementReports\Models\InfectionControlVM.cs" />
+    <Compile Include="Areas\ManagementReports\Models\ParamBoolandDateModel.cs" />
+    <Compile Include="Areas\ManagementReports\Models\ParamDateRangeModel.cs" />
+    <Compile Include="Areas\ManagementReports\Models\ParamIDandDateModel.cs" />
+    <Compile Include="Areas\ManagementReports\Models\ParamRadioModel.cs" />
+    <Compile Include="Areas\ManagementReports\Models\ParamYearandDeptModel.cs" />
+    <Compile Include="Areas\ManagementReports\Models\PatientRegistrationByCityModel.cs" />
+    <Compile Include="Areas\ManagementReports\Models\StatementSummaryByAllCategoryVM.cs" />
+    <Compile Include="Areas\ManagementReports\Models\StatementSummaryByCategoryVM.cs" />
+    <Compile Include="Areas\ManagementReports\Models\UCAFBatchPrintingVM.cs" />
+    <Compile Include="Areas\ManagementReports\Models\UCAFVM.cs" />
+    <Compile Include="Areas\ManagementReports\Models\InsertUpdateARClinicalVisitVM.cs" />
+    <Compile Include="Areas\ManagementReports\Reports\PrintPreview.aspx.cs">
+      <DependentUpon>PrintPreview.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Areas\ManagementReports\Reports\PrintPreview.aspx.designer.cs">
+      <DependentUpon>PrintPreview.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\ManagementReports\Reports\Reports.aspx.cs">
+      <DependentUpon>Reports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Areas\ManagementReports\Reports\Reports.aspx.designer.cs">
+      <DependentUpon>Reports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\ManagementReports\ViewModels\ARActiveServiceItem.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\AramcoReportsViewModel.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\ARAverageClaim.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\ARBillingByCategory.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\ARBillingEfficiencyReport.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\ARBillingReportDeptWise.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\ARCancelledServices.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\ARCompanyAuditTrail.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\ARCompanyCharges.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\ARCompanyTariffCodes.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\ARCompanyTotalPatientVisit.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\ARInPatientIPCR.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\ARIPServiceRequiredApproval.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\ARListOfCompanyWithTransactions.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\ARListOfExpiredCompany.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\AROPBillPinWise.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\AROPFrontLineBillingTracker.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\ARPackageAndInvoices.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\ARPackageDeal.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\ARPackageDealDaily.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\ARPhysiotherapyBilling.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\ARPINTransactionSummary.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\ARReportsARAMCOPatientList.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\ARServiceFrequency.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\ARSummaryOfAccounts.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\AuditReportDischarge.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\AuditReportIPChargeBilledReport.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\AuditReportIPOPCharged.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\AuditReportsIPCancelledByDept.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\AuditReportsListSubAccounts.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\AvgLengthStayCriticalAreas.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\DAAppointmentSchedAnalysis.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\DAClinicalTimeAnalysis.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\DADoctorLeaveHistory.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\DAPatientMovementAnalysis.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\DAPcAdminLeaveHistory.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\DoctorOPRevenue.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\ErConsultationStats.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\FinanceReport.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\FinanceReportsIPDischargesStatement.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\FinanceReportsOPRevenue.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\FMRVaccinationReport.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\FROPAdjustment.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\HRDStaffContractDetails.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\HRvaccinationFile.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\IROperatorWiseReport.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\FinanceRevenueAdjustments.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\MaintenanceReportsEquipmentBreakdown.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\McrsAllInPatient.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\MMSReportViewModel.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\MRAramcoPatient.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\MRCashPatientVisit.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\MrdAdmissionDischargeStats.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\OperationTheatreSurgeryRecordSummary.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\OtherReportsDateTimeOnly.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\OtherReports_AmcDailyCollectionReport.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\OTListOrDone.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\OTOrCathLabOperation.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\PatientStatisticsOPDCancellationByDoctor.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\PersonnelReportsVM.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\PolyClinicListOfCancelledPatientAppointment.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\PolyClinicOPItemBillCount.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\PolyClinicOPPatientCount.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\PolyClinicProcedureStatistics.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\PolyClinicSummaryOfCancelledAppointments.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\PolyClinicSummaryPatientReservation.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\PRListOfEmployees.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\PRProfLicenseReport.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\QpsBedOccupancy.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\QpsBedOccupancyFloorWise.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\QpsDiagnosisReportICD.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\QpsMedicalTowerCases.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\QpsPatientAdmiitedICU.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\QpsPatientAdmittedInErOr.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\QpsPatientCriticalDiagnosis.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\QpsPatientListByAge.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\QpsPatientOrDone.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\QpsPatientVisitedER.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\QpsXrayReferral.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\RadiologyReportanesthesiaschedule.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\RadiologyReportproceduredonepatient.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\RadiologyReportXrayReferral.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\RadiologyReportXrayReportCharges.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\SalesPromotionDailyPerformanceActBudget.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\SPCensusGraphs.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\SPDailyIncome.cs" />
+    <Compile Include="Areas\ManagementReports\ViewModels\SPIncomeYearlySummary.cs" />
+    <Compile Include="Bootstrap Html Helpers\DatePickerFor.cs" />
+    <Compile Include="Bootstrap Html Helpers\HelperMethods.cs" />
+    <Compile Include="Common\Global.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IsSGHFeatureAuthorized.cs" />
+    <Compile Include="Controllers\IsSGHModuleAuthorized.cs" />
+    <Compile Include="Controllers\ModelCookieHandler.cs" />
+    <Compile Include="Controllers\PrintController.cs" />
+    <Compile Include="Enumerations\Enumerations.cs" />
+    <Compile Include="Extension\Extensions.cs" />
+    <Compile Include="Extension\LargeJsonResult.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Common\Helper.cs" />
+    <Compile Include="Models\CoveringLetterGenerationModel.cs" />
+    <Compile Include="Models\ReportViewerVm.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="SqlServerTypes\Loader.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\ManagementReports\Reports\logo.png" />
+    <Content Include="Areas\ManagementReports\Reports\PrintPreview.aspx" />
+    <Content Include="Areas\ManagementReports\Reports\Reports.aspx" />
+    <Content Include="Areas\ManagementReports\Reports\ReportViewer.js" />
+    <Content Include="Content\bootstrap-datepicker.css" />
+    <Content Include="Content\bootstrap-datepicker.min.css" />
+    <Content Include="Content\bootstrap-datepicker.standalone.css" />
+    <Content Include="Content\bootstrap-datepicker.standalone.min.css" />
+    <Content Include="Content\bootstrap-datepicker3.css" />
+    <Content Include="Content\bootstrap-datepicker3.min.css" />
+    <Content Include="Content\bootstrap-datepicker3.standalone.css" />
+    <Content Include="Content\bootstrap-datepicker3.standalone.min.css" />
+    <Content Include="Content\bootstrap-responsive.css" />
+    <Content Include="Content\bootstrap-responsive.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\select2.css" />
+    <Content Include="Content\css\select2.min.css" />
+    <Content Include="Content\images\glyphicons-halflings-white.png" />
+    <Content Include="Content\images\glyphicons-halflings.png" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="Content\plugins\blockui\jquery.blockUI.js" />
+    <Content Include="Content\plugins\bootbox\bootbox.js" />
+    <Content Include="Content\plugins\bootbox\jquery.bootbox.js" />
+    <Content Include="Content\plugins\bootstrap\css\bootstrap-theme.css" />
+    <Content Include="Content\plugins\bootstrap\css\bootstrap-theme.min.css" />
+    <Content Include="Content\plugins\bootstrap\css\bootstrap.css" />
+    <Content Include="Content\plugins\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\plugins\bootstrap\js\bootstrap.js" />
+    <Content Include="Content\plugins\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\plugins\bootstrap\js\npm.js" />
+    <Content Include="Content\plugins\caret\jquery.caret.js" />
+    <Content Include="Content\plugins\caret\jquery.migrate.js" />
+    <Content Include="Content\plugins\datatables\css\dataTables.bootstrap.css" />
+    <Content Include="Content\plugins\datatables\css\jquery.dataTables.css" />
+    <Content Include="Content\plugins\datatables\css\scroller.css" />
+    <Content Include="Content\plugins\datatables\editables\jquery.dataTables.editable.js" />
+    <Content Include="Content\plugins\datatables\editables\jquery.jeditable.js" />
+    <Content Include="Content\plugins\datatables\fixedcolumns\css\fixedColumns.bootstrap.css" />
+    <Content Include="Content\plugins\datatables\fixedcolumns\css\fixedColumns.bootstrap.min.css" />
+    <Content Include="Content\plugins\datatables\fixedcolumns\css\fixedColumns.dataTables.css" />
+    <Content Include="Content\plugins\datatables\fixedcolumns\css\fixedColumns.dataTables.min.css" />
+    <Content Include="Content\plugins\datatables\fixedcolumns\css\fixedColumns.foundation.css" />
+    <Content Include="Content\plugins\datatables\fixedcolumns\css\fixedColumns.foundation.min.css" />
+    <Content Include="Content\plugins\datatables\fixedcolumns\css\fixedColumns.jqueryui.css" />
+    <Content Include="Content\plugins\datatables\fixedcolumns\css\fixedColumns.jqueryui.min.css" />
+    <Content Include="Content\plugins\datatables\fixedcolumns\js\dataTables.fixedColumns.js" />
+    <Content Include="Content\plugins\datatables\fixedcolumns\js\dataTables.fixedColumns.min.js" />
+    <Content Include="Content\plugins\datatables\images\back_disabled.png" />
+    <Content Include="Content\plugins\datatables\images\back_enabled.png" />
+    <Content Include="Content\plugins\datatables\images\back_enabled_hover.png" />
+    <Content Include="Content\plugins\datatables\images\favicon.ico" />
+    <Content Include="Content\plugins\datatables\images\forward_disabled.png" />
+    <Content Include="Content\plugins\datatables\images\forward_enabled.png" />
+    <Content Include="Content\plugins\datatables\images\forward_enabled_hover.png" />
+    <Content Include="Content\plugins\datatables\images\sort_asc.png" />
+    <Content Include="Content\plugins\datatables\images\sort_asc_disabled.png" />
+    <Content Include="Content\plugins\datatables\images\sort_both.png" />
+    <Content Include="Content\plugins\datatables\images\sort_desc.png" />
+    <Content Include="Content\plugins\datatables\images\sort_desc_disabled.png" />
+    <Content Include="Content\plugins\datatables\js\columnresize.js" />
+    <Content Include="Content\plugins\datatables\js\formattednums.js" />
+    <Content Include="Content\plugins\datatables\js\jquery.bootstrap.dataTables.js" />
+    <Content Include="Content\plugins\datatables\js\jquery.dataTables.js" />
+    <Content Include="Content\plugins\datatables\js\jquery.dataTables.min.js" />
+    <Content Include="Content\plugins\datatables\js\scroller.js" />
+    <Content Include="Content\plugins\datepicker\css\bootstrap-datepicker.css" />
+    <Content Include="Content\plugins\datepicker\css\bootstrap-datepicker.min.css" />
+    <Content Include="Content\plugins\datepicker\css\bootstrap-datepicker.standalone.css" />
+    <Content Include="Content\plugins\datepicker\css\bootstrap-datepicker.standalone.min.css" />
+    <Content Include="Content\plugins\datepicker\css\bootstrap-datepicker3.css" />
+    <Content Include="Content\plugins\datepicker\css\bootstrap-datepicker3.min.css" />
+    <Content Include="Content\plugins\datepicker\css\bootstrap-datepicker3.standalone.css" />
+    <Content Include="Content\plugins\datepicker\css\bootstrap-datepicker3.standalone.min.css" />
+    <Content Include="Content\plugins\datepicker\css\datepicker.css" />
+    <Content Include="Content\plugins\datepicker\js\bootstrap-datepicker.js" />
+    <Content Include="Content\plugins\datepicker\js\bootstrap-datepicker.min.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.bg.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.ca.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.cs.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.da.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.de.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.el.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.es.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.fi.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.fr.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.he.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.hr.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.id.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.is.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.it.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.ja.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.kr.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.lt.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.lv.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.ms.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.nb.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.nl.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.pl.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.pt-BR.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.pt.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.ro.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.rs-latin.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.rs.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.ru.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.sk.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.sl.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.sv.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.sw.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.th.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.tr.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.uk.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.zh-CN.js" />
+    <Content Include="Content\plugins\datepicker\locales\bootstrap-datepicker.zh-TW.js" />
+    <Content Include="Content\plugins\datetimepicker\css\bootstrap-datetimepicker-standalone.css" />
+    <Content Include="Content\plugins\datetimepicker\css\bootstrap-datetimepicker.css" />
+    <Content Include="Content\plugins\datetimepicker\css\bootstrap-datetimepicker.min.css" />
+    <Content Include="Content\plugins\datetimepicker\css\datetimepicker.css" />
+    <Content Include="Content\plugins\datetimepicker\js\bootstrap-datetimepicker.js" />
+    <Content Include="Content\plugins\datetimepicker\js\bootstrap-datetimepicker.min.js" />
+    <Content Include="Content\plugins\icheck\icheck.js" />
+    <Content Include="Content\plugins\icheck\icheck.min.js" />
+    <Content Include="Content\plugins\icheck\skins\all.css" />
+    <Content Include="Content\plugins\icheck\skins\flat\aero%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\flat\aero.css" />
+    <Content Include="Content\plugins\icheck\skins\flat\aero.png" />
+    <Content Include="Content\plugins\icheck\skins\flat\blue%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\flat\blue.css" />
+    <Content Include="Content\plugins\icheck\skins\flat\blue.png" />
+    <Content Include="Content\plugins\icheck\skins\flat\flat%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\flat\flat.css" />
+    <Content Include="Content\plugins\icheck\skins\flat\flat.png" />
+    <Content Include="Content\plugins\icheck\skins\flat\green%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\flat\green.css" />
+    <Content Include="Content\plugins\icheck\skins\flat\green.png" />
+    <Content Include="Content\plugins\icheck\skins\flat\grey%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\flat\grey.css" />
+    <Content Include="Content\plugins\icheck\skins\flat\grey.png" />
+    <Content Include="Content\plugins\icheck\skins\flat\orange%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\flat\orange.css" />
+    <Content Include="Content\plugins\icheck\skins\flat\orange.png" />
+    <Content Include="Content\plugins\icheck\skins\flat\pink%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\flat\pink.css" />
+    <Content Include="Content\plugins\icheck\skins\flat\pink.png" />
+    <Content Include="Content\plugins\icheck\skins\flat\purple%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\flat\purple.css" />
+    <Content Include="Content\plugins\icheck\skins\flat\purple.png" />
+    <Content Include="Content\plugins\icheck\skins\flat\red%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\flat\red.css" />
+    <Content Include="Content\plugins\icheck\skins\flat\red.png" />
+    <Content Include="Content\plugins\icheck\skins\flat\yellow%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\flat\yellow.css" />
+    <Content Include="Content\plugins\icheck\skins\flat\yellow.png" />
+    <Content Include="Content\plugins\icheck\skins\flat\_all.css" />
+    <Content Include="Content\plugins\icheck\skins\futurico\futurico%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\futurico\futurico.css" />
+    <Content Include="Content\plugins\icheck\skins\futurico\futurico.png" />
+    <Content Include="Content\plugins\icheck\skins\line\aero.css" />
+    <Content Include="Content\plugins\icheck\skins\line\blue.css" />
+    <Content Include="Content\plugins\icheck\skins\line\green.css" />
+    <Content Include="Content\plugins\icheck\skins\line\grey.css" />
+    <Content Include="Content\plugins\icheck\skins\line\line%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\line\line.css" />
+    <Content Include="Content\plugins\icheck\skins\line\line.png" />
+    <Content Include="Content\plugins\icheck\skins\line\orange.css" />
+    <Content Include="Content\plugins\icheck\skins\line\pink.css" />
+    <Content Include="Content\plugins\icheck\skins\line\purple.css" />
+    <Content Include="Content\plugins\icheck\skins\line\red.css" />
+    <Content Include="Content\plugins\icheck\skins\line\yellow.css" />
+    <Content Include="Content\plugins\icheck\skins\line\_all.css" />
+    <Content Include="Content\plugins\icheck\skins\minimal\aero%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\minimal\aero.css" />
+    <Content Include="Content\plugins\icheck\skins\minimal\aero.png" />
+    <Content Include="Content\plugins\icheck\skins\minimal\blue%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\minimal\blue.css" />
+    <Content Include="Content\plugins\icheck\skins\minimal\blue.png" />
+    <Content Include="Content\plugins\icheck\skins\minimal\green%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\minimal\green.css" />
+    <Content Include="Content\plugins\icheck\skins\minimal\green.png" />
+    <Content Include="Content\plugins\icheck\skins\minimal\grey%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\minimal\grey.css" />
+    <Content Include="Content\plugins\icheck\skins\minimal\grey.png" />
+    <Content Include="Content\plugins\icheck\skins\minimal\minimal%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\minimal\minimal.css" />
+    <Content Include="Content\plugins\icheck\skins\minimal\minimal.png" />
+    <Content Include="Content\plugins\icheck\skins\minimal\orange%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\minimal\orange.css" />
+    <Content Include="Content\plugins\icheck\skins\minimal\orange.png" />
+    <Content Include="Content\plugins\icheck\skins\minimal\pink%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\minimal\pink.css" />
+    <Content Include="Content\plugins\icheck\skins\minimal\pink.png" />
+    <Content Include="Content\plugins\icheck\skins\minimal\purple%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\minimal\purple.css" />
+    <Content Include="Content\plugins\icheck\skins\minimal\purple.png" />
+    <Content Include="Content\plugins\icheck\skins\minimal\red%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\minimal\red.css" />
+    <Content Include="Content\plugins\icheck\skins\minimal\red.png" />
+    <Content Include="Content\plugins\icheck\skins\minimal\yellow%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\minimal\yellow.css" />
+    <Content Include="Content\plugins\icheck\skins\minimal\yellow.png" />
+    <Content Include="Content\plugins\icheck\skins\minimal\_all.css" />
+    <Content Include="Content\plugins\icheck\skins\polaris\polaris%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\polaris\polaris.css" />
+    <Content Include="Content\plugins\icheck\skins\polaris\polaris.png" />
+    <Content Include="Content\plugins\icheck\skins\square\aero%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\square\aero.css" />
+    <Content Include="Content\plugins\icheck\skins\square\aero.png" />
+    <Content Include="Content\plugins\icheck\skins\square\blue%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\square\blue.css" />
+    <Content Include="Content\plugins\icheck\skins\square\blue.png" />
+    <Content Include="Content\plugins\icheck\skins\square\green%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\square\green.css" />
+    <Content Include="Content\plugins\icheck\skins\square\green.png" />
+    <Content Include="Content\plugins\icheck\skins\square\grey%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\square\grey.css" />
+    <Content Include="Content\plugins\icheck\skins\square\grey.png" />
+    <Content Include="Content\plugins\icheck\skins\square\orange%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\square\orange.css" />
+    <Content Include="Content\plugins\icheck\skins\square\orange.png" />
+    <Content Include="Content\plugins\icheck\skins\square\pink%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\square\pink.css" />
+    <Content Include="Content\plugins\icheck\skins\square\pink.png" />
+    <Content Include="Content\plugins\icheck\skins\square\purple%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\square\purple.css" />
+    <Content Include="Content\plugins\icheck\skins\square\purple.png" />
+    <Content Include="Content\plugins\icheck\skins\square\red%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\square\red.css" />
+    <Content Include="Content\plugins\icheck\skins\square\red.png" />
+    <Content Include="Content\plugins\icheck\skins\square\square%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\square\square.css" />
+    <Content Include="Content\plugins\icheck\skins\square\square.png" />
+    <Content Include="Content\plugins\icheck\skins\square\yellow%402x.png" />
+    <Content Include="Content\plugins\icheck\skins\square\yellow.css" />
+    <Content Include="Content\plugins\icheck\skins\square\yellow.png" />
+    <Content Include="Content\plugins\icheck\skins\square\_all.css" />
+    <Content Include="Content\plugins\inputmask\inputmask\inputmask.date.extensions.js" />
+    <Content Include="Content\plugins\inputmask\inputmask\inputmask.dependencyLib.jquery.js" />
+    <Content Include="Content\plugins\inputmask\inputmask\inputmask.extensions.js" />
+    <Content Include="Content\plugins\inputmask\inputmask\inputmask.js" />
+    <Content Include="Content\plugins\inputmask\inputmask\inputmask.numeric.extensions.js" />
+    <Content Include="Content\plugins\inputmask\inputmask\inputmask.phone.extensions.js" />
+    <Content Include="Content\plugins\inputmask\inputmask\inputmask.regex.extensions.js" />
+    <Content Include="Content\plugins\inputmask\inputmask\jquery.inputmask.js" />
+    <Content Include="Content\plugins\inputmask\jquery.inputmask.bundle.js" />
+    <Content Include="Content\plugins\inputmask\min\inputmask\inputmask.date.extensions.min.js" />
+    <Content Include="Content\plugins\inputmask\min\inputmask\inputmask.dependencyLib.jquery.min.js" />
+    <Content Include="Content\plugins\inputmask\min\inputmask\inputmask.extensions.min.js" />
+    <Content Include="Content\plugins\inputmask\min\inputmask\inputmask.min.js" />
+    <Content Include="Content\plugins\inputmask\min\inputmask\inputmask.numeric.extensions.min.js" />
+    <Content Include="Content\plugins\inputmask\min\inputmask\inputmask.phone.extensions.min.js" />
+    <Content Include="Content\plugins\inputmask\min\inputmask\inputmask.regex.extensions.min.js" />
+    <Content Include="Content\plugins\inputmask\min\inputmask\jquery.inputmask.min.js" />
+    <Content Include="Content\plugins\inputmask\min\jquery.inputmask.bundle.min.js" />
+    <Content Include="Content\plugins\jkey\jquery.jkey.js" />
+    <Content Include="Content\plugins\jkey\jquery.jkey.min.js" />
+    <Content Include="Content\plugins\keytable\jquery.dataTables.editable.js" />
+    <Content Include="Content\plugins\keytable\jquery.jeditable.js" />
+    <Content Include="Content\plugins\keytable\keytable.js" />
+    <Content Include="Content\plugins\moment\locale\ar-sa.js" />
+    <Content Include="Content\plugins\moment\locale\en-gb.js" />
+    <Content Include="Content\plugins\moment\moment-hijri.js" />
+    <Content Include="Content\plugins\moment\moment.js" />
+    <Content Include="Content\plugins\popup\images\ajax-loader.gif" />
+    <Content Include="Content\plugins\popup\images\icons-18-black.png" />
+    <Content Include="Content\plugins\popup\images\icons-18-white.png" />
+    <Content Include="Content\plugins\popup\images\icons-36-black.png" />
+    <Content Include="Content\plugins\popup\images\icons-36-white.png" />
+    <Content Include="Content\plugins\popup\popModal.css" />
+    <Content Include="Content\plugins\popup\popModal.js" />
+    <Content Include="Content\plugins\popup\popModal.min.css" />
+    <Content Include="Content\plugins\popup\popModal.min.js" />
+    <Content Include="Content\plugins\rtdatetime\rtdatetime.js" />
+    <Content Include="Content\plugins\select2\select2-bootstrap.css" />
+    <Content Include="Content\plugins\select2\select2-spinner.gif" />
+    <Content Include="Content\plugins\select2\select2.css" />
+    <Content Include="Content\plugins\select2\select2.js" />
+    <Content Include="Content\plugins\select2\select2.min.css" />
+    <Content Include="Content\plugins\select2\select2.min.js" />
+    <Content Include="Content\plugins\select2\select2.png" />
+    <Content Include="Content\plugins\select2\select2x2.png" />
+    <Content Include="Content\plugins\select2\underscore.js" />
+    <Content Include="Content\plugins\sweetalert\--sweet-alert.min.js" />
+    <Content Include="Content\plugins\sweetalert\sweet-alert.css" />
+    <Content Include="Content\plugins\sweetalert\sweet-alert.min.js" />
+    <Content Include="Content\plugins\toastr\content\toastr.css" />
+    <Content Include="Content\plugins\toastr\content\toastr.min.css" />
+    <Content Include="Content\plugins\toastr\scripts\--toastr.min.js" />
+    <Content Include="Content\plugins\toastr\scripts\-toastr.min.js" />
+    <Content Include="Content\plugins\toastr\scripts\toastr.min.js" />
+    <Content Include="Content\plugins\tooltip\jquery.powertip.min.css" />
+    <Content Include="Content\plugins\tooltip\jquery.powertip.min.js" />
+    <Content Include="Content\plugins\treeview\images\ajax-loader.gif" />
+    <Content Include="Content\plugins\treeview\images\file.gif" />
+    <Content Include="Content\plugins\treeview\images\folder-closed.gif" />
+    <Content Include="Content\plugins\treeview\images\folder.gif" />
+    <Content Include="Content\plugins\treeview\images\minus.gif" />
+    <Content Include="Content\plugins\treeview\images\plus.gif" />
+    <Content Include="Content\plugins\treeview\images\treeview-black-line.gif" />
+    <Content Include="Content\plugins\treeview\images\treeview-black.gif" />
+    <Content Include="Content\plugins\treeview\images\treeview-default-line.gif" />
+    <Content Include="Content\plugins\treeview\images\treeview-default.gif" />
+    <Content Include="Content\plugins\treeview\images\treeview-famfamfam-line.gif" />
+    <Content Include="Content\plugins\treeview\images\treeview-famfamfam.gif" />
+    <Content Include="Content\plugins\treeview\images\treeview-gray-line.gif" />
+    <Content Include="Content\plugins\treeview\images\treeview-gray.gif" />
+    <Content Include="Content\plugins\treeview\images\treeview-red-line.gif" />
+    <Content Include="Content\plugins\treeview\images\treeview-red.gif" />
+    <Content Include="Content\plugins\treeview\jquery.cookie.js" />
+    <Content Include="Content\plugins\treeview\jquery.min.js" />
+    <Content Include="Content\plugins\treeview\jquery.treeview.css" />
+    <Content Include="Content\plugins\treeview\jquery.treeview.js" />
+    <Content Include="Content\plugins\lodash\lodash.js" />
+    <Content Include="Content\plugins\webfont-medical-icons\wfmi-style.css" />
+    <Content Include="Content\select2-bootstrap.css" />
+    <Content Include="Content\styles\arcustomstyles.css" />
+    <Content Include="Content\styles\customererror.css" />
+    <Content Include="Content\styles\globalstyle.css" />
+    <Content Include="Content\styles\loading.css" />
+    <Content Include="Content\styles\login.css" />
+    <Content Include="Content\styles\mainstyles.css" />
+    <Content Include="Content\styles\menu.css" />
+    <Content Include="Content\styles\Site.css" />
+    <Content Include="Content\styles\report.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\minified\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.accordion.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.autocomplete.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.button.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.core.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.datepicker.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.dialog.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.progressbar.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.resizable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.selectable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\plugins\fonts\webfont-medical-icons.eot" />
+    <Content Include="Content\plugins\fonts\webfont-medical-icons.svg" />
+    <Content Include="Content\plugins\fonts\webfont-medical-icons.ttf" />
+    <Content Include="Content\plugins\fonts\webfont-medical-icons.woff" />
+    <Content Include="Content\plugins\toastr\content\toastr.less" />
+    <Content Include="Content\plugins\toastr\content\toastr.scss" />
+    <Content Include="Content\plugins\webfont-medical-icons\fonts\webfont-medical-icons.eot" />
+    <Content Include="Content\plugins\webfont-medical-icons\fonts\webfont-medical-icons.svg" />
+    <Content Include="Content\plugins\webfont-medical-icons\fonts\webfont-medical-icons.ttf" />
+    <Content Include="Content\plugins\webfont-medical-icons\fonts\webfont-medical-icons.woff" />
+    <Content Include="Content\plugins\bootstrap\css\bootstrap-theme.css.map" />
+    <Content Include="Content\plugins\bootstrap\css\bootstrap.css.map" />
+    <Content Include="Content\plugins\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\plugins\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\plugins\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\plugins\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\plugins\bootstrap\fonts\glyphicons-halflings-regular.woff2">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Sorting icons.psd" />
+    <Content Include="Images\back_disabled.png" />
+    <Content Include="Images\back_enabled.png" />
+    <Content Include="Images\back_enabled_hover.png" />
+    <Content Include="Images\bed.jpg" />
+    <Content Include="Images\bed1.jpg" />
+    <Content Include="Images\bed2.jpg" />
+    <Content Include="Images\bed3.jpg" />
+    <Content Include="Images\favicon.ico" />
+    <Content Include="Images\forward_disabled.png" />
+    <Content Include="Images\forward_enabled.png" />
+    <Content Include="Images\forward_enabled_hover.png" />
+    <Content Include="Images\noimg.jpg" />
+    <Content Include="Images\sgh-logo.png" />
+    <Content Include="Images\sort_asc.png" />
+    <Content Include="Images\sort_asc_disabled.png" />
+    <Content Include="Images\sort_both.png" />
+    <Content Include="Images\sort_desc.png" />
+    <Content Include="Images\sort_desc_disabled.png" />
+    <Content Include="Images\tri.png" />
+    <Content Include="ReportViewerWebForm.aspx" />
+    <Content Include="Scripts\ajaxWrapper.js" />
+    <Content Include="Scripts\bootstrap-datepicker.js" />
+    <Content Include="Scripts\bootstrap-datepicker.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\i18n\ar.js" />
+    <Content Include="Scripts\i18n\az.js" />
+    <Content Include="Scripts\i18n\bg.js" />
+    <Content Include="Scripts\i18n\ca.js" />
+    <Content Include="Scripts\i18n\cs.js" />
+    <Content Include="Scripts\i18n\da.js" />
+    <Content Include="Scripts\i18n\de.js" />
+    <Content Include="Scripts\i18n\en.js" />
+    <Content Include="Scripts\i18n\es.js" />
+    <Content Include="Scripts\i18n\et.js" />
+    <Content Include="Scripts\i18n\eu.js" />
+    <Content Include="Scripts\i18n\fa.js" />
+    <Content Include="Scripts\i18n\fi.js" />
+    <Content Include="Scripts\i18n\fr.js" />
+    <Content Include="Scripts\i18n\gl.js" />
+    <Content Include="Scripts\i18n\he.js" />
+    <Content Include="Scripts\i18n\hi.js" />
+    <Content Include="Scripts\i18n\hr.js" />
+    <Content Include="Scripts\i18n\hu.js" />
+    <Content Include="Scripts\i18n\id.js" />
+    <Content Include="Scripts\i18n\is.js" />
+    <Content Include="Scripts\i18n\it.js" />
+    <Content Include="Scripts\i18n\ja.js" />
+    <Content Include="Scripts\i18n\ko.js" />
+    <Content Include="Scripts\i18n\lt.js" />
+    <Content Include="Scripts\i18n\lv.js" />
+    <Content Include="Scripts\i18n\mk.js" />
+    <Content Include="Scripts\i18n\ms.js" />
+    <Content Include="Scripts\i18n\nb.js" />
+    <Content Include="Scripts\i18n\nl.js" />
+    <Content Include="Scripts\i18n\pl.js" />
+    <Content Include="Scripts\i18n\pt-BR.js" />
+    <Content Include="Scripts\i18n\pt.js" />
+    <Content Include="Scripts\i18n\ro.js" />
+    <Content Include="Scripts\i18n\ru.js" />
+    <Content Include="Scripts\i18n\sk.js" />
+    <Content Include="Scripts\i18n\sr-Cyrl.js" />
+    <Content Include="Scripts\i18n\sr.js" />
+    <Content Include="Scripts\i18n\sv.js" />
+    <Content Include="Scripts\i18n\th.js" />
+    <Content Include="Scripts\i18n\tr.js" />
+    <Content Include="Scripts\i18n\uk.js" />
+    <Content Include="Scripts\i18n\vi.js" />
+    <Content Include="Scripts\i18n\zh-CN.js" />
+    <Content Include="Scripts\i18n\zh-TW.js" />
+    <Content Include="Scripts\jqGlobal.js" />
+    <Content Include="Scripts\jqresize.js" />
+    <Content Include="Scripts\knockout-2.2.1.debug.js" />
+    <Content Include="Scripts\knockout-2.2.1.js" />
+    <Content Include="Scripts\knockout-bindinghandler.js" />
+    <Content Include="Scripts\knockout-select2.js" />
+    <Content Include="Scripts\knockout-select2.min.js" />
+    <Content Include="Scripts\knockout.validation.js" />
+    <Content Include="Scripts\knockout.validation1.0.2.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ar.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.az.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.bg.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.bs.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ca.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.cs.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.cy.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.da.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.de.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.el.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.en-AU.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.en-GB.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.eo.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.es.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.et.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.eu.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.fa.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.fi.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.fo.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.fr-CH.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.fr.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.gl.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.he.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.hr.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.hu.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.hy.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.id.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.is.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.it-CH.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.it.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ja.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ka.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.kh.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.kk.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ko.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.kr.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.lt.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.lv.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.me.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.mk.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.mn.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ms.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.nb.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.nl-BE.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.nl.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.no.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.pl.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.pt-BR.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.pt.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ro.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.rs-latin.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.rs.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ru.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sk.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sl.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sq.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sr-latin.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sr.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sv.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sw.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.th.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.tr.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.uk.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.vi.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.zh-CN.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.zh-TW.min.js" />
+    <Content Include="Scripts\ManagementReports\AllInPatientReports\AllInPatientReports.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\BillingEfficiencyReport.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\ARAMCOPatientList.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\ARPackageAndInvoices.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\ARCompanyAuditTrail.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\ARPackageDeal.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\ARPinTransactionSummary.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\ARPackageDealDaily.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\ARCompanyCharges.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\ARAverageClaim.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\ARPhysiotherapyBilling.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\ARIPServiceRequiredApproval.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\BillingReportDeptWise.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\ActiveServiceItems.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\CompanyTariffCodes.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\BillingByCategory.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\CancelledServices.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\DoctorRevenueOP.js" />
+    <Content Include="Scripts\ManagementReports\FinanceReports\CSTAndPharmacyCostPrice.js" />
+    <Content Include="Scripts\ManagementReports\FinanceReports\IPDischargesStatementPinWise.js" />
+    <Content Include="Scripts\ManagementReports\FinanceReports\IpRevenue.js" />
+    <Content Include="Scripts\ManagementReports\FinanceReports\PendingServices.js" />
+    <Content Include="Scripts\ManagementReports\PolyClinicReports\BookedAppointment.js" />
+    <Content Include="Scripts\MCRS\badria\createddailydoctorcommission.js" />
+    <Content Include="Scripts\MCRS\doctoranalysis\js_PatientMovementAnalysis.js" />
+    <Content Include="Scripts\ManagementReports\FinanceReports\RevenueAdjustments.js" />
+    <Content Include="Scripts\ManagementReports\InventoryReports\OperatorWise.js" />
+    <Content Include="Scripts\ManagementReports\MarketingReports\AramcoPatient.js" />
+    <Content Include="Scripts\ManagementReports\MarketingReports\NoofCashVisit.js" />
+    <Content Include="Scripts\ManagementReports\MarketingReports\OperatorWise.js" />
+    <Content Include="Scripts\ManagementReports\OperationTheatreReports\js_OperationCathLabIsDone.js" />
+    <Content Include="Scripts\ManagementReports\OperationTheatreReports\SurgeryRecordSummary.js" />
+    <Content Include="Scripts\ManagementReports\PatientStatisticReports\OPDCancellationByDoctor.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\OPBillPinWise.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\OPFrontlineBillingTracker.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\ServiceFrequency.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\InPatientIPCR.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\TotalCompanyPatientVisit.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\SummaryOfAccounts.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\ListOfCompanyWithTransactions.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\ListOfExpiredCompany.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\ucafBatchPrinting.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\statementSummaryByAllCategory.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\statementSummaryByCategory.js" />
+    <Content Include="Scripts\ManagementReports\ARReports\ucaf.js" />
+    <Content Include="Scripts\ManagementReports\FinanceReports\IPDischargesStatement.js" />
+    <Content Include="Scripts\ManagementReports\FinanceReports\OPRevenue.js" />
+    <Content Include="Scripts\ManagementReports\PolyClinicReports\CancelledPatientAppointments.js" />
+    <Content Include="Scripts\ManagementReports\PolyClinicReports\OPItembillCount.js" />
+    <Content Include="Scripts\ManagementReports\PolyClinicReports\SummaryPatientReservation.js" />
+    <Content Include="Scripts\ManagementReports\PolyClinicReports\SummaryOfCancelledAppointments.js" />
+    <Content Include="Scripts\ManagementReports\PolyClinicReports\OPProcedureStatistics.js" />
+    <Content Include="Scripts\ManagementReports\PolyClinicReports\OPPatientCount.js" />
+    <Content Include="Scripts\MCRS\arabicpatientname\js_arabicpatientname.js" />
+    <Content Include="Scripts\MCRS\arbilldeletion\js_arbilldeletion.js" />
+    <Content Include="Scripts\MCRS\arcompanypinwiseinvoice\js_arcompanypinwiseinvoice.js" />
+    <Content Include="Scripts\MCRS\arreports\js_actadjreports.js" />
+    <Content Include="Scripts\MCRS\billingofficercompanymapping\js_billingofficercompanymapping.js" />
+    <Content Include="Scripts\MCRS\coveringletter\js_coveringlettergeneration.js" />
+    <Content Include="Scripts\MCRS\coveringletter\js_coveringletterprinting.js" />
+    <Content Include="Scripts\MCRS\expiredpolicies\js_expiredpolicies.js" />
+    <Content Include="Scripts\MCRS\generalinvoiceprinting\js_generalinvoiceprinting.js" />
+    <Content Include="Scripts\MCRS\global\ajaxwrapper.js" />
+    <Content Include="Scripts\MCRS\global\changestation.js" />
+    <Content Include="Scripts\MCRS\global\commonfunctions.js" />
+    <Content Include="Scripts\MCRS\global\dialogwrapper.js" />
+    <Content Include="Scripts\MCRS\global\commonwrapper.js" />
+    <Content Include="Scripts\MCRS\arcombinedstatement\js_arcompanycombinedstatement.js" />
+    <Content Include="Scripts\MCRS\global\globalhandler.js" />
+    <Content Include="Scripts\MCRS\infectioncontrol\jqGlobal.js" />
+    <Content Include="Scripts\MCRS\infectioncontrol\jqReport.js" />
+    <Content Include="Scripts\MCRS\infectioncontrol\mohhbvreport.js" />
+    <Content Include="Scripts\MCRS\ipbillcorrection\js_ipbillcorrection.js" />
+    <Content Include="Scripts\MCRS\opbillcorrection\js_opbillcorrection.js" />
+    <Content Include="Scripts\MCRS\opdtransactioncharges\js_opdtransactioncharges.js" />
+    <Content Include="Scripts\MCRS\opinvoiceubf\js_opinvoiceubf.js" />
+    <Content Include="Scripts\MCRS\opinvoiceubf\js_opinvoiceubf_summary.js" />
+    <Content Include="Scripts\MCRS\optariff\js_optariff.js" />
+    <Content Include="Scripts\MCRS\otherreports\js_generalexpenses.js" />
+    <Content Include="Scripts\MCRS\patientcharityletterreport\js_patientcharityletterreport.js" />
+    <Content Include="Scripts\MCRS\patientstatistics\jqConsultationBetween1to5.js" />
+    <Content Include="Scripts\MCRS\patientstatistics\jqDeficiencyFiles.js" />
+    <Content Include="Scripts\MCRS\patientstatistics\jqDeficiencyFilesPINWise.js" />
+    <Content Include="Scripts\MCRS\patientstatistics\jqICUAdmissionwithDiagnosis.js" />
+    <Content Include="Scripts\MCRS\patientstatistics\jqOPCancellation.js" />
+    <Content Include="Scripts\MCRS\patientstatistics\jqPatientListbyAgeRange.js" />
+    <Content Include="Scripts\MCRS\patientstatistics\jqPatientRegistrationByCity.js" />
+    <Content Include="Scripts\MCRS\patientstatistics\jqPatientStatisticNationality.js" />
+    <Content Include="Scripts\MCRS\patientstatistics\jqReport.js" />
+    <Content Include="Scripts\MCRS\patientstatistics\jqGlobal.js" />
+    <Content Include="Scripts\MCRS\patientstatistics\js_dashboardmonitoring.js" />
+    <Content Include="Scripts\MCRS\pingrosscreated\js_pingrosscreated.js" />
+    <Content Include="Scripts\MCRS\polyclinic\jqGlobal.js" />
+    <Content Include="Scripts\MCRS\polyclinic\jqOPDPatientCount.js" />
+    <Content Include="Scripts\MCRS\polyclinic\jqPINRegistrationDateRange.js" />
+    <Content Include="Scripts\MCRS\polyclinic\jqReport.js" />
+    <Content Include="Scripts\MCRS\polyclinic\jqSummaryPatientReservation.js" />
+    <Content Include="Scripts\MCRS\qpsreports\js_avglengthstaycritical.js" />
+    <Content Include="Scripts\MCRS\qpsreports\js_bedoccupancy.js" />
+    <Content Include="Scripts\MCRS\qpsreports\js_medicaltower.js" />
+    <Content Include="Scripts\MCRS\qpsreports\js_patientDiagnosis.js" />
+    <Content Include="Scripts\MCRS\radiologyreports\xrayreferral.js" />
+    <Content Include="Scripts\MCRS\reasonforcancellation\js_reasonforcancellation.js" />
+    <Content Include="Scripts\jqSecurity.js" />
+    <Content Include="Areas\ManagementReports\Reports\CombinedStatement\CombinedStatement.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\CombinedStatement\CombinedStatementv2.rdl" />
+    <Content Include="Areas\ManagementReports\Views\ArabicPatientName\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\OPTariff\Index.cshtml" />
+    <Content Include="Content\plugins\datatables\images\Sorting icons.psd" />
+    <Content Include="Areas\ManagementReports\Reports\OPTariff\OPTariffReport.rdl" />
+    <Content Include="Areas\ManagementReports\Views\ExpiredPolicies\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\ExpiredPolicies\ExpiredPolicies.rdl" />
+    <Content Include="Areas\ManagementReports\Views\PINGrossCreated\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\PINGrossCreated\PINGrossCreated.rdl" />
+    <Content Include="Areas\ManagementReports\Views\OPDTransactionCharges\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\PatientCharityLetterReport\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\PatientCharityLetterReport\PatientCharityLetterReport.rdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Areas\ManagementReports\Views\ARCoveringLetterGeneration\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\AXAUBFBillingReport\Index.cshtml" />
+    <Content Include="Content\plugins\datepicker\css\bootstrap-datepicker.css.map" />
+    <Content Include="Content\plugins\datepicker\css\bootstrap-datepicker.min.css.map" />
+    <Content Include="Content\plugins\datepicker\css\bootstrap-datepicker.standalone.css.map" />
+    <Content Include="Content\plugins\datepicker\css\bootstrap-datepicker.standalone.min.css.map" />
+    <Content Include="Content\plugins\datepicker\css\bootstrap-datepicker3.css.map" />
+    <Content Include="Content\plugins\datepicker\css\bootstrap-datepicker3.min.css.map" />
+    <Content Include="Content\plugins\datepicker\css\bootstrap-datepicker3.standalone.css.map" />
+    <Content Include="Content\plugins\datepicker\css\bootstrap-datepicker3.standalone.min.css.map" />
+    <Content Include="Areas\ManagementReports\Reports\OPDTransactionCharges\OPDTransactionCharges.rdl" />
+    <Content Include="Areas\ManagementReports\Views\ARCompanyPINWiseInvoice\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\OPBillCorrection\OPBillCorrectionPrintOut.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OPCompanyInvoiceGeneration\OPInvoiceAfterGeneration.rdl">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Areas\ManagementReports\Reports\OPCompanyInvoiceGeneration\OPInvoiceBeforeGeneration.rdl" />
+    <Content Include="Areas\ManagementReports\Views\BillingOfficeCompanyMapping\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\OPInvoiceUBF\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\OPInvoiceUBF\OPInvoiceAfterGeneration_UBF.rdl" />
+    <Content Include="Areas\ManagementReports\Views\CoveringLetterGeneration\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\CoveringLetter\CoveringLetter.rdl" />
+    <Content Include="Areas\ManagementReports\Views\CoveringLetterPrinting\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ReasonForCancellation\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARBillDeletion\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\OPInvoiceUBF\OPInvoiceAfterGeneration_UBF_Summary.rdl" />
+    <Content Include="Areas\ManagementReports\Views\OPInvoiceUBFSummary\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\IPBillCorrection\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\GeneralInvoicePrinting\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\GeneralInvoice\IPInvoiceMainNPD.rdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Areas\ManagementReports\Reports\GeneralInvoice\IPInvoiceMainPD.rdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Areas\ManagementReports\Reports\GeneralInvoice\IPInvoiceBreakUpNPD.rdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Areas\ManagementReports\Views\PatientStatistics\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\DashboardMonitoring\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ActAdjReports\Index.cshtml" />
+    <None Include="Areas\ManagementReports\Reports\ActAdjReports\ActualandAdjustedBills.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PatientStatistics\IPVisitCensus.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PatientStatistics\OPVisitCensus.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PatientStatistics\PatientAdmitted10Days.rdl" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\ARReports\Copy %282%29 of Report_UCAF.rdlc" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\Latest Report_UCAF.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\ARReports\Copy of Report_UCAF.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\ARReports\Report_StatementSummarybyCategory.rdlc" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\Report_StatementSummarybyCompany.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\ARReports\Report_StatementSummarybyCompanyCategory.rdlc" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\Report_StatementSummaryAllCategory.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\ARReports\Report_UCAF1.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\ARReports\Report_UCAF_backup.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\ARReports\Report_UCAF_orig.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\ARReports\StatementSummary_MEDNET.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\ARReports\StatementSummary_NCCI.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\DoctorAnalysis\OPProcedureStatistics_LineGraph.rdl.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\FinanceReports\Report_AllCancelledOPRevenue.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\FinanceReports\Report_AllNotCancelledOPRevenue.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\FinanceReports\Report_AllOPRevenue.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\FinanceReports\Report_IPDischargesStatement_CashBill.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\FinanceReports\Report_IPDischargesStatement_ChargeBill.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\FinanceReports\Report_OPRevenue.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\FinanceReports\Report_OPRevenueCharge_CancelledAndNotCancelled.rdlc" />
+    <Content Include="Areas\ManagementReports\Reports\DoctorAnalysis\DoctorClinicalAnalysis.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\DoctorAnalysis\DoctorLeaveHistory.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\DoctorAnalysis\DoctorSchedAnalysis.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\DoctorAnalysis\OPProcedureStatistics_LineGraph.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\DoctorAnalysis\PatientMovementAnalysis.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\DoctorAnalysis\PcAdminLeaveHistory.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\AuditReports\AuditReports_GetRevenueDoctor.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\AuditReports\AuditReports_IPOPXray.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\AuditReports\getOPCancelledBillByDept.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\AuditReports\getDischargeInfo.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\AuditReports\getSublist.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\FinanceReport_DeptIssuance.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\FinanceReport_IpOpReceipts.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\FinanceReport_MealSummary.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\FinanceReport_PayrollSummary.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\GeneralExpenseReport.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\Report_IPDischargesStatement_CashBill - Copy.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FamilyMedicineReports\Familymed_GetPending.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FamilyMedicineReports\Familymed_GetALL.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FamilyMedicineReports\Familymed_GetByDepartment.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\FinanceReport_IpRefundable.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\Report_ARAdjustmentDetails.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\FinanceReport_OPDCash.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\FinanceReport_OPDCashIsGroup.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\FinanceReport_BillingEfficiencyReport.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\Report_AR_PD_NPD.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\FinanceReport_AR_PD_NPD%28Summary%29.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\FinanceReport_AR_PD_NPDSummaryCategory.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\ArReports_BillingWise.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\ArReports_ExpiringAccount.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\ArReports_PinWiseOPBill.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\ArReports_ReferralPatients.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\ActiveServiceItems.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\Report_UCAF2.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\Report_UCAF_table.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\ServicesRequiredApproval%28IP%29.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\StatementSummary_MEDNET.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\StatementSummary_MEDNET_Green.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\Badria\Bardia-DoctorRevenue - Copy.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\Badria\Bardia-DoctorRevenue.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\Report_DoctorRevenueOP.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\Report_UCAF_jfj.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\FinanceReport_WarehousetoStore.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\AR_REPORTS_IpBillARFinalize.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\Report_DCAF.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\StatementSummary_GroupBySubCategory.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\StatementSummary_GroupBySubCategorywithVAT.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\StatementSummary_NCCI.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\StatementSummary_VAT_GroupbySummary.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\Report_UCAF_jfj - Copy.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\Report_UCAF_jfj-latest.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\ARReport_ClinicalVisitLog.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\ARReport_getInvoicePrinting.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\ARReport_getmonthlycreditincome.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\Report_AllOPRevenue.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\FinanceReports_NetRevenue_No_Group.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\FinanceReports_NetRevenue.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\FinanceReports_EOD_DailyDoctorsTarget.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\FinanceReport_ZeroRatedSales_AllPharmacy.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\FinanceReports_EOD_DailyRevenueDetail.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\FinanceReports_PDNPDReportAfterCL.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\FinanceReport_OP_ADVPayment_TRX.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\FinanceReport_IPDischargeStatement.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\FinanceReport_IPDischargeStatementCharge.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\FinanceReport_IPDischargesStatement.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\FinanceReport_SalesToSaudiCitizen_NoPharmacy.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\Report_AllCancelledOPRevenue.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\Report_AllOPRevenue.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\FinanceReports_Monthly-CIP-Revenue.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\Report_DCAF_v2.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\AuditReports\AuditReport_ArOpBillMonthWise.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\AuditReports\AuditReport_CompanyProfLogs.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\AuditReports\AuditReport_getSummaryBillPercentage.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\AuditReports\AuditReport_OPBilledReport.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\AuditReports\Report_IPCharged.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\Corporate\corporate_yearly_IPOP.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\Report_AllNotCancelledOPRevenue.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\Report_AllOPRevenue-April202018.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\Report_AllOPRevenue -old.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\Report_AllOPRevenue.rdlc_nov-7-2016" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\Report_AllOPRevenue_BEVERLY.rdl" />
+    <None Include="Areas\ManagementReports\Reports\FinanceReports\Report_IPDischargesStatement_CashBill.rdl" />
+    <None Include="Areas\ManagementReports\Reports\FinanceReports\Report_IPDischargesStatement_ChargeBill.rdl" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\FinanceReports\Report_OPRevenue_Company.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\FinanceReports\Report_OPRevenueCancelled.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\FinanceReports\Report_OPRevenueCancelled_Company.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\FinanceReports\Report_OPRevenue_CancelledAndNotCancelled.rdlc" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\Report_UCAF.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\PolyClinic\CancelledPatientReservationSummaryByDoctor.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\PolyClinic\CancelledPatientReservationSummaryByDepartment.rdlc" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\CompanyByValidityDate.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\ARReports\ListOfCompanyWithTransactions.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\ARReports\BillingEfficiency.rdlc" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\ARCompanyPatientVisit.rdlc" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\ARAMCOPatientList.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\ARReports\PackageDealAndNon-PackageDealInvoices%28categorysummary%29.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\ARReports\PackageDealAndNon-PackageDealInvoices%28summary%29.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\ARReports\PackageDealAndNon-PackageDealInvoices.rdlc" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\ARCompanyAuditTrail.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\ARReports\ARPackageByDepartment.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\ARReports\ARPackageByDoctor.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\ARReports\AROPTransactionDetails.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\ARReports\ARPDDayCases.rdlc" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\ARServiceCharges.rdlc" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\CompanyAverageClaim.rdlc" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\PhysiotherapyBilling.rdlc" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\ServicesRequiredApproval%28IP%29.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\ARReports\ActiveServiceItems.rdlc" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\NonPackageIPCR.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\PackageIPCR.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\CompanyTariffCodes.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\SummarizedBillingReportByCategory.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\ActiveServiceFrequency.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\OPFrontlineTracker.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\ARReports\CancelledServices.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OperationTheatre\RptSurgeryRecordSummary.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PatientStatistics\OPDCancellation.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PatientStatistics\OPDCancellationGroupByDoctor.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\Report_IPRevenueCharge.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\Report_IPRevenueCash.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\Report_RevenueAdjustments.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\MarketingReports\AramcoPatientByAge.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\MarketingReports\CashPatientVisit.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\InventoryReports\Report_IROperatorWise.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\InventoryReports\Report_IROperatorWiseBreakUp.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\Mcrs_AllPatientByDischargeDateReports\Report_McrsAllPatientByDischargeDate.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OperationTheatre\OTReportListofORDone.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OperationTheatre\OTReportListofORDoneFromOracle.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OperationTheatre\RptCathLabIsDone.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OperationTheatre\RptOperationIsDone.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OtherReports\GeneralExpenseReport.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OtherReports\OtherReports_ExtractIPRTProcedure.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OtherReports\OtherReports_GetIpChargesSR.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OtherReports\OtherReports_GetReceptionistCancellation.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OtherReports\OtherReports_GetXrayIPOPCharges.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OtherReports\OtherReport_GetCleanBedRelease.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OtherReports\OtherReports_GetIPRevokeDischarges.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OtherReports\OtherReports_GetIPPackages.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OtherReports\OtherReports_GetCancellationMonth.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OtherReports\OtherReports_CurrentlyAdmittedCashPatients.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OtherReports\getEodStatSummary.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OtherReports\getEodStatSummaryByPatient.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OtherReports\getDailyCancellationReport.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OtherReports\getDailyCancellationReport_Summary.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OtherReports\OtherReports_OPCancelledBills.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OtherReports\OtherReports_CashPdDailyIncome.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OtherReports\OtherReports_amcDailyCollectionReport.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\SummaryReportAdvance.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\HumanResourcesReports\HRD_GetEvaluationMonitor.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\HumanResourcesReports\HRD_GetEvaluationMonitorIndividual.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\HumanResourcesReports\HRD_GetStaffContractDetails.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\HelpDeskReports\HelpDeskMissingDutyRosterReport.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OperationTheatre\RptSurgeryRecordSummary_final.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OperationTheatre\RptSurgeryRecordSummaryWithQty.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\OtherReports\OtherReports_ramadanIncome.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PatientStatistics\ListOfORDone.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\NewFormatHeader-2018.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\rptCLDetails2.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\FinanceReports\rptCLvsRevenue2.rdl" />
+    <None Include="Areas\ManagementReports\Reports\PatientStatistics\PatientAdmitted10DaysCharge.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PatientStatistics\PatientAdmitted10DaysDoctor.rdl" />
+    <Content Include="Areas\ManagementReports\Views\IPAdmissionCensus\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\OPVisitCensus\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\CurrentlyAdmittedPatientWithCharge\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\DailyPatientVisitStatistics\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\PatientStatistics\PatientVisitStatistics.rdl" />
+    <Content Include="Areas\ManagementReports\Views\PatientStatisticByNationality\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\PatientStatistics\PatientNationalityStatistics.rdl" />
+    <Content Include="Areas\ManagementReports\Views\PatientConsultationBetween1to5pm\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\PatientStatistics\ConsultationBetween1to5.rdl" />
+    <Content Include="Areas\ManagementReports\Views\PatientListByAgeRange\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\PatientStatistics\PatientbyAge.rdl" />
+    <Content Include="Areas\ManagementReports\Views\DepartmentWiseAdmissionIndexing\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\PatientStatistics\MRDIndexing.rdl" />
+    <Content Include="Areas\ManagementReports\Views\CurrentlyAdmittedPatientList\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\PatientStatistics\CurrentlyAdmittedList.rdl" />
+    <Content Include="Areas\ManagementReports\Views\OPCancellation\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\PatientStatistics\OPPHA_CancelledReceipt.rdl" />
+    <Content Include="Areas\ManagementReports\Views\ERConsultationStatisticCount\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\DeficiencyFiles\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\PatientStatistics\Deficiency.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PatientStatistics\DeficiencyDepartment.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PatientStatistics\DeficiencyDepartmentPercent.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PatientStatistics\DeficiencyDepartmentPercentMonthly.rdl" />
+    <Content Include="Areas\ManagementReports\Views\DeficiencyFilesPINWise\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\PatientStatistics\DeficiencyPINWise.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PatientStatistics\DeficiencyPINWiseComparison.rdl" />
+    <Content Include="Areas\ManagementReports\Views\PatientRegistrationByCity\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\PatientStatistics\PatientRegistrationByCity.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PatientStatistics\PatientRegistrationByCitySummary.rdl" />
+    <Content Include="Areas\ManagementReports\Views\ICUAdmissionWithDiagnosis\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\PatientStatistics\ICUAdmissionWithDiagnosis.rdl" />
+    <Content Include="Areas\ManagementReports\Views\ORReport\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\PatientStatistics\ORReport.rdl" />
+    <Content Include="Areas\ManagementReports\Views\PolyClinic\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\PINRegistrationbyDateRange\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\PolyClinic\PINRegisteredDateRange.rdl" />
+    <Content Include="Areas\ManagementReports\Views\ReceptionistTransactionSummary\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\PolyClinic\ReceptionistTransactionSummary.rdl" />
+    <Content Include="Areas\ManagementReports\Views\OPDPatientCount\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\PolyClinic\OpdPatientCount.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PolyClinic\OpdRevisitPatientCount.rdl" />
+    <Content Include="Areas\ManagementReports\Views\PatientRevisits\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\PolyClinic\PatientRevisits.rdl" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\PolyClinic\CancelledPatientReservationSummary.rdlc" />
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\PolyClinic\CancelledPatientAppointmentList.rdlc" />
+    <Content Include="Areas\ManagementReports\Reports\PolyClinic\OPItemBillCount.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PersonnelReports\PersonnelReports_GetIqamaExpiry.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PersonnelReports\PersonnelReports_GetSaudiStaffforSixMonths.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PersonnelReports\PersonnelReports_PRLicenseMOH.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PersonnelReports\PersonnelReports_ProfessionalLicense_SaudiCouncil.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PersonnelReports\PR_EmployeeByCat.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PersonnelReports\PR_EmployeeByCatALL.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PersonnelReports\PR_EmployeeByCatALL_NoSalary.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PersonnelReports\PR_EmployeeByCat_NoSalary.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PersonnelReports\getEmployeePassportDetail.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PersonnelReports\PersonnelReport_ProfessionalLicenseALLByCat.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PersonnelReports\PersonnelReport_ProfessionalLicenseALLByDept.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PersonnelReports\PersonnelReport_EmpDepInformationSheet.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PersonnelReports\PersonnelReports_GetFamilyDependentSheet.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PersonnelReports\PR_GetDependentSummaryList.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PersonnelReports\Report_UCAF.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PolyClinic\BookedAppointmentByDepartment.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PolyClinic\BookedAppointmentByDepartmentNoPercentageWithIPOP.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PolyClinic\BookedAppointmentByDoctor.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PolyClinic\BookedAppointmentByDoctorwithPercentage.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PolyClinic\BookvsWalkin.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\PolyClinic\CancelledPatientAppointmentList.rdl" />
+    <None Include="Areas\ManagementReports\Reports\PolyClinic\SummaryPatientReservation.rdl" />
+    <Content Include="Areas\ManagementReports\Views\DoctorAnalysis\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\PatientMovementAnalysis\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\UCAF.cshtml" />
+    <Content Include="Content\select2-bootstrap-build.scss" />
+    <Content Include="Content\select2-bootstrap-build.less" />
+    <Content Include="Content\select2-bootstrap.scss" />
+    <Content Include="Content\select2-bootstrap.less" />
+    <Content Include="Scripts\MCRS\salespromotion\js_censusgraphs.js" />
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Shared\_reportViewer.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\Shared\_updateARClinicalVisitDetails.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\StatementSummaryByCategory.cshtml" />
+    <Content Include="Content\bootstrap-datepicker3.standalone.min.css.map" />
+    <Content Include="Content\bootstrap-datepicker3.standalone.css.map" />
+    <Content Include="Content\bootstrap-datepicker3.min.css.map" />
+    <Content Include="Content\bootstrap-datepicker3.css.map" />
+    <Content Include="Content\bootstrap-datepicker.standalone.min.css.map" />
+    <Content Include="Content\bootstrap-datepicker.standalone.css.map" />
+    <Content Include="Content\bootstrap-datepicker.min.css.map" />
+    <Content Include="Content\bootstrap-datepicker.css.map" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\StatementSummaryForAllCategory.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\UCAFBatchPrinting.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\Shared\_ucafBatchPrintRecord.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\OPRevenue.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\IPRevenue.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\IPDischargesStatement.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\PolyClinic\OPPatientCount.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\PolyClinic\OpPatientVisitCount.rdl" />
+    <Content Include="Areas\ManagementReports\Views\PolyClinic\OPProcedureStatistics.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\PolyClinic\OPProcedureStatistics_Table.rdlc" />
+    <Content Include="Areas\ManagementReports\Reports\PolyClinic\OPProcedureStatistics_LineGraph.rdlc" />
+    <Content Include="Areas\ManagementReports\Reports\PolyClinic\OPProcedureStatistics_BarGraph.rdlc" />
+    <Content Include="Areas\ManagementReports\Views\PolyClinic\SummaryOfCancelledAppointments.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\PolyClinic\PatientReservationSummary.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\PolyClinic\CancelledPatientAppointment.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\PolyClinic\OPItemBillCount.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\ListOfExpiredCompany.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\ListOfCompanyWithTransactions.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\BillingEfficiencyReport.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\SummaryOfAccounts.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\CompanyTotalPatientVisit.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\ARAMCOPatientList.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\ARPackageAndInvoices.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\ARCompanyAuditTrail.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\ARPackageDeal.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\PINTransactionSummary.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\ARPackageDealDaily.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\CompanyCharges.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\Shared\_dataTableView.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\ARAverageClaim.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\PhysiotherapyBilling.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\IPServiceRequiredApproval.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\BillingReportDeptWise.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\ActiveServiceItem.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\InPatientIPCR.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\CompanyTariffCodes.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\BillingByCategory.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\ServiceFrequency.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\OPFrontLineBillingTracker.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\CancelledServices.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\OPBillPinWise.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\PatientStatistics\OPDCancellationByDoctor.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\OperationTheatre\SurgeryRecordSummary.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\OperationTheatre\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\MarketingReports\AramcoPatient.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\MarketingReports\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\MarketingReports\NoOfCashVisit.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\InventoryReports\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\InventoryReports\OperatorWiseReport.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\RevenueAdjustments.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\MaintenanceReports\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\MaintenanceReports\EquipmentBreakdownReport.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\MmsReport\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\QpsReports\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\QpsReports\PatientOrDone.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\QpsReports\Report_QpsPatientOrDone.rdl" />
+    <Content Include="Areas\ManagementReports\Views\QpsReports\PatientAdmittedICU.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\QpsReports\Report_QpsPatientAdmittedinICU.rdl" />
+    <Content Include="Areas\ManagementReports\Views\QpsReports\PatientAdmittedErOr.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\QpsReports\Report_QpsPatientAdmittedinErOR.rdl" />
+    <Content Include="Areas\ManagementReports\Views\QpsReports\PatientVisitedInER.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\QpsReports\Report_QpsPatientVisitER.rdl" />
+    <Content Include="Areas\ManagementReports\Views\QpsReports\PatientListByAge.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\QpsReports\Report_QpsPatientListByAge.rdl" />
+    <Content Include="Areas\ManagementReports\Views\QpsReports\ErConsultationStats.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\QpsReports\Report_QpsErConsultationStats.rdl" />
+    <Content Include="Areas\ManagementReports\Views\QpsReports\MrdAdmissionDischargeStats.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\CashInPatientDischargeReport\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\QpsReports\AvgLengthStayCriticalAreas.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\CashInPatientDischargeReport.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\QpsReports\Report_QpsAvgLengthCriticalArea.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\QpsReports\Report_QpsMrdAdmissionDischargeStats.rdl" />
+    <Content Include="Areas\ManagementReports\Views\QpsReports\XrayReferral.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\QpsReports\BedOccupancy.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\QpsReports\PatientCriticalDiagnosis.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\QpsReports\BedOccupancyFloorWise.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\QpsReports\MedicalTowerCases.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\QpsReports\Report_QpsBedOccupancyFloorWise.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\QpsReports\Report_QpsMedicalTowerCases.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\QpsReports\Report_QpsPatientCriticalDiagnosis.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\QpsReports\Report_QpsXrayFromEr.rdl" />
+    <Content Include="Areas\ManagementReports\Views\OperationTheatre\OTOrCathLabOperation.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\QpsReports\DiagnosisReportICD.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\QpsReports\Report_QpsPatientDiagnosisICD_In.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\QpsReports\Report_QpsPatientDiagnosisICD_Out.rdl" />
+    <Content Include="Areas\ManagementReports\Views\DoctorAnalysis\PatientMovementAnalysis.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\DoctorAnalysis\AppointmentSchedAnalysis.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\DoctorAnalysis\ClinicalTimeAnalysis.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\DoctorAnalysis\DoctorLeaveHistory.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\OperationTheatre\ListOrDone.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ORReport\ListOrDone.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\DoctorAnalysis\PcAdminLeaveHistory.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\SalesPromotionReports\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\SalesPromotionReports\CensusAndGraphs.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\SalesPromotionReports\DailyIncomeDetails.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\SalesPromotionReports\DailyCensus.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\SalesPromotionReports\IncomeYearlySummary.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\RadiologyReports\anesthesiaschedule.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\RadiologyReports\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\RadiologyReports\proceduredonepatient.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\RadiologyReports\xrayprocedure.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\RadiologyReports\xrayreferral.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\RadiologyReports\XrayProcedure.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\RadiologyReports\XrayReferral.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\SalesPromotion\SPCensusGraphs_BarGraph.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\SalesPromotion\SPCensusGraphs_LineGraph.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\SalesPromotion\SPCensusGraphs_Table.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\SalesPromotion\SPDailyCensus.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\SalesPromotion\SPDailyIncome.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\SalesPromotion\SPDailyIncome_Dept.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\SalesPromotion\SPDailyIncome_Gov.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\SalesPromotion\SPIncomeHostorical.rdl" />
+    <Content Include="Areas\ManagementReports\Views\OtherReports\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\OtherReports\GeneralExpenseSummary.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\RadiologyReports\AnesthesiaScheduleReport.rdl" />
+    <Content Include="Areas\ManagementReports\Views\OtherReports\RespiratoryProcedureCharges.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\OtherReports\IPChargesMoreThanTenK.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\OtherReports\OpdReceptionCancelled.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\OtherReports\XrayIpOpCharges.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\OtherReports\BedClearance.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\OtherReports\IpRevokeDischarge.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\OtherReports\IpPackageDealDischarges.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\OtherReports\CancellationReportMonth.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\AuditReports\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\AuditReports\IPRevenue.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\PersonnelReports\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\PersonnelReports\ExpireIqama.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\PersonnelReports\SaudiSixMonth.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\SalesPromotionReports\DailyPerformanceActualVsBudget.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\AuditReports\IPOPCharge.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\AuditReports\OPCancelledBillByDept.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\AuditReports\ListSubAccount.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\AuditReports\DischargeInfo.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\AuditReports\IPChargeBilledReport.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\OtherReports\CurrentlyAdmittedCashPatients.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\OtherReports\EodStatSummary.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\OtherReports\CancelledBillsReport.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\OtherReports\DailyCancellationReport.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\OtherReports\CashPDDailyIncome.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\OtherReports\RamadanIncome.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\OtherReports\AmcDetailedDailyCollection.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\OtherReports\PharmacyOpCancelledBillsApprover.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\SummaryReportAdvance.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\ListAdvancePayment.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\DepartmentIssuanceReport.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\MealSummary.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\PayrollSummaryDept.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\DeptWiseLossDiscount.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\StaffBonus.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\IPOPReceipts.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\PersonnelReports\ListEmployeeByCategory.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\PersonnelReports\PassportDetailsReport.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\PersonnelReports\ProfLicenseReport.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\PersonnelReports\DependentSummaryList.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\HumanResources\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\HumanResources\StaffContractDetailsReport.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\HumanResources\EvaluationMonitor.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FamilyMedicineReport\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FamilyMedicineReport\VaccinationEntryForm.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\IPRefundableReport.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\ARAdjustmentDetailsOp.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\OPDCashCollection.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\BillingEffReport.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\ArPackageNPInvoice.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\WarehousetoStoreSummary.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\HelpDeskReports\MagcardEmployee.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\HelpDeskReports\HRPayrollEmployee.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\HelpDeskReports\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\SummaryAccounts.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\NewOpAdvancePayment.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\PinWiseOPBilling.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\PatientUnderReferral.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\ExpiringPolicies.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\PinWiseOPInvoicePrinting.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\HumanResources\EmployeeWise.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\HumanResources\ListEmployeeByCategory.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\PersonnelReports\EmployeeExclusionMaster.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\PersonnelReports\EmployeeDependentInfoSheet.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\AuditReports\CompanyProfLogs.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\AuditReports\OPBilledReport.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\AuditReports\ArOpBillMonthWise.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\AuditReports\SummaryBillPercentage.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\HumanResources\VaccinationMaster.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\HumanResources\PerformanceEvaluationMapping.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\PersonnelReports\StaffDocMonitoring.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\AramcoScreeningReports\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\AramcoScreeningReports\AramcoScreeningTest.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\YearlySummaryOfAccounts.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\MonthlyCreditSubCatWise.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\PolyClinic\BookedAppointment.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ToolsMenu\ActualPunchInPunchOut.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\IPDischargesStatementPinWise.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\InfectionControlReport\MOHHBVReport.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\BadriaReports\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\BadriaReports\Beverly_CreatedDailyReport.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\ToolsReport\Report_ActualPunchInPunchOut.rdl" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\DoctorRevenueOP.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\BadriaReports\Beverly_CreatedDailyReportDetails.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\PendingServices.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\SummaryOfAccountswithVAT.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\SummaryOfAccountswithVAT.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\OPRevenuewithVAT.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\VATDetails.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\FinanceReport_SalesToSaudiCitizen_NoPharmacy.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\FinanceReport_ZeroRatedSales_AllPharmacy.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\Corporate\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\Corporate\LoadTable.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\Corporate\d_medde2.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\OPRevenue2018.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\IpBillARFinalize.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\PDNPDReportAfterCL.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\ReportDoctorListPatientRecord.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\ReportIPUninvoice.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\NetRevenue.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\Eod_DailyDoctorsTarget.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\Eod_DailyRevenueDetail.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\Monthly_CIP_REVENUE.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\PolyClinic\BookvsWalkin.cshtml" />
+    <Content Include="Areas\ManagementReports\Reports\SalesPromotion\Report_SalesPromotionIncome_Historical.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\SalesPromotion\SPIncomeHostorical_Dept.rdl" />
+    <Content Include="Areas\ManagementReports\Reports\SalesPromotion\SPIncomeHostorical_Doc.rdl" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\CSTAndPharmacyCostPrice.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\CLDetailedReport.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\FinanceReports\CLRevenueRecon.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARReports\UCAFv2.cshtml" />
+    <None Include="Properties\PublishProfiles\MCRS.pubxml" />
+    <None Include="Properties\PublishProfiles\MCRS2.pubxml" />
+    <Content Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </Content>
+    <None Include="Scripts\jquery-1.11.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.11.2.js" />
+    <Content Include="Scripts\jquery-1.11.2.min.js" />
+    <Content Include="Areas\ManagementReports\Views\Web.config" />
+    <Content Include="Areas\ManagementReports\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\Main\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\OPBillCorrection\Index.cshtml" />
+    <Content Include="Areas\ManagementReports\Views\ARCompanyCombinedStatement\Index.cshtml" />
+    <Content Include="Scripts\jquery-1.11.2.min.map" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui-1.11.3.js" />
+    <Content Include="Scripts\jquery-ui-1.11.3.min.js" />
+    <Content Include="Scripts\jquery-ui-1.8.20.js" />
+    <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
+    <Content Include="Scripts\jquery.timer.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\knockout-3.3.0.debug.js" />
+    <Content Include="Scripts\knockout-3.3.0.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\npm.js" />
+    <Content Include="Scripts\select2.js" />
+    <Content Include="Scripts\select2.min.js" />
+    <Content Include="sghfav.ico" />
+    <Content Include="Styles\select2-spinner.gif" />
+    <Content Include="Styles\select2.png" />
+    <Content Include="Styles\select2x2.png" />
+    <Content Include="Temp\DoNotRemove.txt" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Images\accent.png" />
+    <Content Include="Images\bullet.png" />
+    <Content Include="Images\heroAccent.png" />
+    <Content Include="Images\orderedList0.png" />
+    <Content Include="Images\orderedList1.png" />
+    <Content Include="Images\orderedList2.png" />
+    <Content Include="Images\orderedList3.png" />
+    <Content Include="Images\orderedList4.png" />
+    <Content Include="Images\orderedList5.png" />
+    <Content Include="Images\orderedList6.png" />
+    <Content Include="Images\orderedList7.png" />
+    <Content Include="Images\orderedList8.png" />
+    <Content Include="Images\orderedList9.png" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Styles\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Styles\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Styles\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Styles\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Styles\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Views\Shared\_Footer.cshtml" />
+    <Content Include="Views\Shared\_Menu.cshtml" />
+    <Content Include="Views\Shared\_ChangeStationPartial.cshtml" />
+    <Content Include="Temp\PDFBatchRemover.bat" />
+    <Content Include="Temp\DeletePDF.bat" />
+    <Content Include="Views\Print\Index.cshtml" />
+    <Content Include="Views\Shared\_KnockoutDialogTemplate.cshtml" />
+    <Content Include="Views\Shared\_Layout_OLD2018.cshtml" />
+    <Content Include="Views\Shared\NotAuthorized.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Areas\ManagementReports\Reports\InfectionControl\" />
+    <Folder Include="Areas\ManagementReports\Reports\TempReport\" />
+    <Folder Include="Filters\" />
+    <Folder Include="Scripts\ManagementReports\App_LocalResources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataLayer\DataLayer.csproj">
+      <Project>{efd02c6c-ae1f-4f0d-b33c-5a3f25c87a6d}</Project>
+      <Name>DataLayer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Areas\ManagementReports\Reports\ARReports\Report_DCAF.rdlc" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>39801</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:8000/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

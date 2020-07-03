@@ -1,0 +1,246 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.MaintenanceReportsEquipmentBreakdown
+
+@using HIS_MCRS.Common
+
+@{
+    ViewBag.Title = "Maintenance Reports";
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Equipment Breakdown Report</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body" style="height: auto;">
+        @using (Ajax.BeginForm(options))
+        {
+            <div class="form-group">
+               
+
+                <div class="col-xs-3    border10 top10">
+                    <p><strong>Report Date Range</strong></p>
+                    <div class="row">
+                        <div class="col-xs-1">
+                            <input class="comp" data-mini="true" id="checkbox" name="checkbox" type="checkbox" value="9" onclick="return calc()" />
+                        </div>
+                        @Html.LabelFor(m => m.StartDate, new { @class="col-xs-4 top5"})
+                        <div class="col-xs-6 input-group">
+                            @Html.TextBoxFor(m => m.StartDate, Model.StartDate.ToString("dd-MMM-yyyy"), new 
+                                {
+                                    @class = "datepicker form-control",
+                                    style = "",
+                                    data_bind = "datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                                    
+                                })
+                            <span class="input-group-btn ">
+                                <button data-bind="glyphfor:'@Html.IdFor(m=>m.StartDate)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                            </span>
+                        </div>
+                       @Html.HiddenFor(m=>m.checkboxInDate,Model.checkboxInDate)
+                    </div> @*row*@
+
+
+
+                    <div class="row">
+                        <div class="col-xs-1 "></div>
+                          
+                        @Html.LabelFor(m=>m.EndDate, new { @class = "col-xs-3 top10",style="" })
+
+                                <div class="col-xs-7 input-group top5">
+                                    @Html.TextBoxFor(m => m.EndDate,Model.EndDate.ToString("dd-MMM-yyyy"),new
+                               {
+                                   @class = "datepicker form-control",
+                                   style = "",
+                                   data_bind = "datepicker:$root.EndDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                               })
+                                    <span class="input-group-btn ">
+                                        <button data-bind="glyphfor:'@Html.IdFor(m=>m.EndDate)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                                    </span>
+                                </div>
+                        
+                    </div>@*row*@
+                </div>
+
+                @*status*@
+                <div class="col-xs-2 top10" style="margin-left: 10px;">
+                    <div class="form-group">
+                        @Html.LabelFor(m=>m.Status, new { @class = "col-xs-3 top10",style="" })  
+                       
+                           
+                            <select class="form-control" id="Status" name="Status">
+                                <option value="100">ALL</option>
+                                <option value="0">Pending/On-Going</option>
+                                <option value="1">Completed</option>
+                                <option value="2">Closed</option>
+                                <option value="3">Cancelled</option>
+                            </select>
+                        </div>  
+                </div>
+                @*status*@
+
+
+                @*TYPEequiment*@
+                <div class="col-xs-2  top10" style="margin-left: 10px;">
+                    <div class="form-group">
+                        @Html.LabelFor(m=>m.TypeofEquipment, new { @class = " top10",style="" })
+                        <select class="form-control" id="TypeofEquipment" name="TypeofEquipment">
+                            <option value="100">ALL</option>
+                            <option value="1">Critical</option>
+                            <option value="0">Non-Critical</option>
+                        </select>
+                    </div>
+                </div>
+                @*TYPEequiment*@
+
+                @*department*@
+                <div class="col-xs-2  top10" style="margin-left: 10px;">
+                    <div class="form-group">
+                        @Html.LabelFor(m=>m.DepartmentId, new { @class = " top10",style="" })
+                        <select id="@Html.IdFor(m=>m.DepartmentId)" name="@Html.NameFor(m=>m.DepartmentId)"
+                         class="select2 form-control" style="font-size:12px;"
+                          data-bind="options:$root.Departments,
+                              value: $root.SelectedDepartment,
+                              optionsText:'Name' ,
+                              optionsValue:'Id',
+                              select2: {allowClear: true,placeholder:'Select Department'}">
+                        </select>
+                    </div>
+                </div>
+                @*department*@
+
+
+
+
+
+
+
+
+
+
+
+
+                <div class="col-xs-2 top10 " style="margin-left: 700px; margin-top: -50px;">
+                    <button id="RunReport" type="submit" class="btn btn-success col-xs-12" value="RunReport">
+                        <span class="glyphicon glyphicon-tasks"></span>Run Report
+                    </button>
+                    <a id="Close"  href="@Url.Action("Index", "MaintenanceReports")" class="top5 btn btn-danger col-xs-12">
+                        <span class="glyphicon glyphicon-off"></span>Close
+                    </a>
+                </div>
+
+                <div id="reportWrapper" class="col-xs-12 container-fluid" style="min-height: 300px;"></div>
+            </div> 
+        }
+
+
+    </div>@* panel-body div*@
+
+    <footer class="container-fluid text-center well small ">
+        <div class="row">
+            <div class="col-xs-3 small">
+              <div class="row "> 
+             <div class="img-thumbnail" style="width: 30px; height: 15px;border-color:pink;background-color:lightpink"></div>
+                    Pending / On-going
+              </div>
+                <div class="row">
+                    <div class="img-thumbnail" style="width: 30px; height: 15px; border-color: lightgreen; background-color: lightgreen; margin-left: -40px"></div>
+                    Completed</div>
+                <div class="row">
+                    <div class="img-thumbnail" style="width: 30px; height: 15px; border-color: brown; background-color: saddlebrown; margin-left: -60px"></div>
+                    Closed</div>
+
+            </div>
+            <div class="border10 col-xs-5">
+            <div class="col-xs-6  small">
+                <div class="row top10">Total Raised:<input type="text" class="" placeholder=" " id="total_raised" name="total_raised"></div>
+                <div class="row small top10">Total Pending/On-Going:<input type="text" class="" placeholder=" " id="total_pending" name="total_pending"></div>
+                <div class="row top10">Total Completed:<input type="text" class="" placeholder=" " id="total_completed" name="total_completed"></div>
+                <div class="row top10">Total Closed:<input type="text" class="" placeholder=" " id="total_closed" name="total_closed"></div>
+            </div>
+          
+                <div class="col-xs-6  small">
+                   Less than 7 Days Pending<input type="text" class="" placeholder=" " id="less_seven" name="less_seven">
+                    <br />
+                    7 Days to 14 Days Pending<input type="text" class="" placeholder=" " id="seventofourteen" name="seventofourteen">
+                    <br />
+                    14 Days to 30 Days Pending<input type="text" class="" placeholder=" " id="fourteentothirty" name="fourteentothirty">
+                    <br />
+                    More than 30 Days Pending<input type="text" class="" placeholder=" " id="morethanthirty" name="morethanthirty">
+                </div>
+            </div>
+         
+            <div class="col-xs-3">
+
+                <p></p>
+            </div>
+        </div>
+        
+    </footer>
+
+
+</div>@* panel div*@
+
+
+
+
+
+
+<input id="urlActions" class="hidden"
+    data-searchcompanies="@Url.Action("SearchCompanies")"
+    data-searchdoctors="@Url.Action("SearchDoctors")" />
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    <script type="text/javascript" src="~/Scripts/ManagementReports/FinanceReports/OPRevenue.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            var viewModel = new ViewModel(JSON.parse(data));
+            viewModel.inputUrlActions = $("#urlActions");
+            ko.applyBindings(viewModel);
+            console.log('ready');
+
+
+
+          
+        });
+
+        function calc() {
+            if ($("#checkbox").is(':checked')) {
+                console.log('check1');
+                $('.datepicker,.glyphicon-calendar,.glyphicon').prop("disabled", true);
+                $('checkboxInDate').val('1');
+                console.log('test'+ $('checkboxInDate').val());
+                //$('#StartDate').val('');
+                //$('#EndDate').val('');
+                //document.getElementById("StartDate").disabled = true;
+            } else {
+                $('.datepicker,.glyphicon-calendar,.glyphicon').prop("disabled", false);
+                $('checkboxInDate').val('1');
+                }
+
+           
+        }
+    </script>
+}
+

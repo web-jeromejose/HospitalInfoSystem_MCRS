@@ -1,0 +1,388 @@
+﻿@model  HIS_MCRS.Areas.ManagementReports.Models.NetRevenueVM
+
+@{
+    ViewBag.Title = "AR Reports ";
+
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+
+@using (Ajax.BeginForm(options))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-xs-5">
+                    <h4><span class="navbar-header">NET REVENUE   <small> Report</small></span></h4>
+                </div>
+                <div class="col-xs-offset-3 col-xs-4">
+                    <div class="navbar-collapse navbar-right" style="width: auto;margin-left:10px;">
+                        <button id="RunReport" data-bind="click:$root.submit" type="submit" class="btn btn-success" value="RunReport">
+                            <span class="glyphicon glyphicon-tasks"></span>Run Report
+                        </button>
+                        <a id="Close" href="@Url.Action("Index", "FinanceReports")" class="btn btn-danger ">
+                            <span class="glyphicon glyphicon-off"></span>Close
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body" style="height: auto;">
+
+
+
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="box box-solid">
+                        @*<div class="box-header with-border">
+                                <i class="fa fa-text-width"></i>
+
+                                <h3 class="box-title">Unordered List</h3>
+                            </div>*@
+                        <!-- /.box-header -->
+                        <div class="box-body">
+
+                            <!-- Date -->
+                            <div class="form-group-sm">
+                                <label>Start Date:</label>
+
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i data-bind="glyphfor:'@Html.IdFor(m=>m.StartDate)'" class="fa fa-calendar"></i>
+                                    </div>
+                                    @*<input type="text" class="form-control pull-right" id="datepicker">*@
+                                    @Html.TextBoxFor(m => m.StartDate,Model.StartDate.ToString("dd-MMM-yyyy"),new
+                                      {
+                                          @readOnly="true",
+                                          @class = "datepicker form-control pull-right",
+                                          style = " ",
+                                          data_bind = "datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                                      })
+
+                                </div>
+                                <!-- /.input group -->
+                            </div>
+                            <!-- /.form group -->
+                            <!-- Date range -->
+
+                            <div class="form-group-sm">
+                                <label>End Date:</label>
+
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i data-bind="glyphfor:'@Html.IdFor(m=>m.EndDate)'" class="fa fa-calendar"></i>
+                                    </div>
+                                    @*<input type="text" class="form-control pull-right" id="datepicker">*@
+                                    @Html.TextBoxFor(m => m.EndDate, Model.EndDate.ToString("dd-MMM-yyyy"),new
+                               {
+                                   @readOnly="true",
+                                   @class = "datepicker form-control pull-right",
+                                   style = " ",
+                                   data_bind = "datepicker:$root.EndDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                               })
+
+                                </div>
+                                <!-- /.input group -->
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <div class="col-lg-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <input id="@Html.IdFor(m=>m.BillFinalize)" name="@Html.NameFor(m=>m.BillFinalize)"
+                                                   type="checkbox" class=" "
+                                                   data-bind=" checked: $root.SelectedBillFinalize" value="YES" checked />
+                                        </span>
+                                        <input type="text" class="form-control" value="BILL FINALIZE" disabled>
+                                    </div>
+                                    <!-- /input-group -->
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <div class="col-lg-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <input id="@Html.IdFor(m=>m.CancelledOnly)" name="@Html.NameFor(m=>m.CancelledOnly)"
+                                                   type="checkbox" class=" "
+                                                   data-bind=" checked: $root.SelectedCancelledOnly" value="1" />
+                                        </span>
+                                        <input type="text" class="form-control" value="SHOW CANCELLED ONLY" disabled>
+                                    </div>
+                                    <!-- /input-group -->
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+                <!-- ./col -->
+                <div class="col-md-4">
+                    <div class="box box-solid">
+                        @*<div class="box-header with-border">
+                                <i class="fa fa-text-width"></i>
+
+                                <h3 class="box-title">Ordered Lists</h3>
+                            </div>*@
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            @*<div class="form-group-sm">
+            <label>Date range:</label>
+
+            <div class="input-group">
+                <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                </div>
+                <input type="text" class="form-control pull-right" id="reservation">
+            </div>
+
+        </div>*@
+
+                            <div class="form-group-sm">
+                                <label>Patient Type</label>
+
+                                <select id="@Html.IdFor(m=>m.PatientType)" name="@Html.NameFor(m=>m.PatientType)" class="form-control"
+                                        data-bind="options:$root.PatientTypeList ,optionsValue:'Key',optionsText:'Value' ,
+                                        value: $root.SelectedPatientType, select2:{}"></select>
+                                @Html.HiddenFor(model => model.PatientTypeText, new { data_bind = "value:$root.SelectedPatientTypeText" })
+                            </div>
+                            <br />
+                            <div class="form-group-sm">
+                                <label>Category</label>
+
+                                <select id="@Html.IdFor(m=>m.Category)" name="@Html.NameFor(m=>m.Category)" class="form-control"
+                                        data-bind="options:$root.Categories ,optionsValue:'Id',optionsText:'Name' ,
+                                        value: $root.SelectedCategory, select2:{}"></select>
+                                @Html.HiddenFor(model => model.CategoryText, new { data_bind = "value:$root.SelectedCategoryText" })
+                            </div>
+
+                            <br />
+                            <div class="form-group-sm">
+                                <label>Bill Type</label>
+                                <select id="@Html.IdFor(m=>m.BillType)" name="@Html.NameFor(m=>m.BillType)" class="form-control"
+                                        data-bind="options:$root.BillTypeList ,optionsValue:'Key',optionsText:'Value' ,
+                                            value: $root.SelectedBillType, select2:{}"></select>
+                                @Html.HiddenFor(model => model.BillTypeText, new { data_bind = "value:$root.SelectedBillTypeText" })
+
+                            </div>
+
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+                <!-- ./col -->
+                <div class="col-md-4">
+                    <div class="box box-solid">
+                        @*<div class="box-header with-border">
+                                <i class="fa fa-text-width"></i>
+
+                                <h3 class="box-title">Unstyled List</h3>
+                            </div>*@
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="form-group-sm">
+                                <label>PIN</label>
+                                <input type="text" class="form-control " id="@Html.IdFor(m=>m.RegistrationNo)" name="@Html.NameFor(m=>m.RegistrationNo)" data_bind="value:$root.SelectedRegistrationNo" placeholder="SA01.123XXXXX" />
+                            </div>
+                            <div class="form-group-sm">
+                                <label>IPID</label>
+                                <input type="text" class="form-control " id="@Html.IdFor(m=>m.IPID)" name="@Html.NameFor(m=>m.IPID)" data_bind="value:$root.SelectedIpid " placeholder="014XX" />                              
+                            </div>
+
+                            <br />
+                            <div class="form-group">
+                                <div class="col-lg-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <input id="@Html.IdFor(m=>m.GroupByCategory)" name="@Html.NameFor(m=>m.GroupByCategory)"
+                                                   type="checkbox" class=" "
+                                                   data-bind=" checked: $root.SelectedGroupByCategory" value="YES" checked />
+                                        </span>
+                                        <input type="text" class="form-control" value="Filter by GROUP Category" disabled>
+                                    </div>
+                                    <!-- /input-group -->
+                                </div>
+                            </div>
+                            <br />
+                           
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+                <!-- ./col -->
+            </div>
+
+
+
+
+        </div>@*panel-body*@
+    </div>
+}
+<div id="reportWrapper" class="col-xs-12 top10 container-fluid" style="min-height: 390px; background-color: #6C7A89;"></div>
+
+
+<input id="urlActions" class="hidden"
+       data-searchcompanies="@Url.Action("SearchCompanies")"
+       data-searchdoctors="@Url.Action("SearchDoctors")" />
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+           
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            
+            console.log(data.Categories);
+            data = data.replace(/ "/g, "");
+           // console.log(data);
+            var viewModel = new ViewModel(JSON.parse(data));
+            viewModel.inputUrlActions = $("#urlActions");
+            ko.applyBindings(viewModel);
+
+        });
+
+       
+
+        function ViewModel(OpRevenue) {
+            self = this;
+            self.inputUrlActions = null;
+            self.StartDate = ko.observable(new Date(moment(OpRevenue.StartDate)));
+            self.EndDate = ko.observable(new Date(moment(OpRevenue.EndDate)));
+           
+            self.PatientTypeList = ko.observableArray(OpRevenue.PatientTypeList);
+            self.SelectedPatientType = ko.observable(0);
+            self.SelectedPatientTypeText = ko.observable();
+            self.SelectedRegistrationNo = ko.observable();
+            self.SelectedCancelledOnly = ko.observable(0);
+
+            self.SelectedPatientType.subscribe(function (newValue) {
+                if (newValue) {
+                    $.each(self.PatientTypeList(), function (i, item) {
+                        if (item.Key == newValue) {
+                            self.SelectedPatientTypeText(item.Value);
+                        }
+                    });
+                }
+            });
+
+            self.BillTypeList = ko.observableArray(OpRevenue.BillTypeList);
+            self.SelectedBillType = ko.observable(0);            
+            self.SelectedBillTypeText = ko.observable();
+
+            self.SelectedBillType.subscribe(function (newValue) {
+                if (newValue) {
+                    $.each(self.BillTypeList(), function (i, item) {
+                        if (item.Key == newValue) {
+                            self.SelectedBillTypeText(item.Value);
+                        }
+                    });
+                }
+            });
+
+            self.BillFinalizeList = ko.observableArray(OpRevenue.BillFinalizeList);
+            self.SelectedBillFinalize = ko.observable(true);
+
+            self.GroupByCategoryList = ko.observableArray(OpRevenue.GroupByCategoryList);
+            self.SelectedGroupByCategory = ko.observable(true);
+
+            
+            
+            self.Categories = ko.observableArray(OpRevenue.Categories);
+            self.SelectedCategory = ko.observable(0);
+            self.SelectedCategoryText = ko.observable();
+            self.SelectedIpid = ko.observable(OpRevenue.Ipid);
+
+            self.SelectedCategory.subscribe(function (newValue) {
+                if (newValue) {
+                    $.each(self.Categories(), function (i, item) {
+                        if (item.Id == newValue) {
+                            self.SelectedCategoryText(item.Name);
+                        }
+                    });
+                }
+            });
+            
+           
+         
+
+            //self.PatientBillTypes = ko.observableArray(OpRevenue.PatientBillTypes);
+            //self.BillTypes = ko.observableArray(OpRevenue.BillTypes);
+
+            //self.SortByCancellationDate = ko.observable(OpRevenue.SortByCancellationDate);
+            //self.Departments = ko.observableArray(OpRevenue.DepartmentList);
+
+
+            //self.SelectedCompany = ko.observable();
+            //self.SelectedDepartment = ko.observable(self.Departments()[0]);
+            //self.SelectedPatienBillType = ko.observable(self.PatientBillTypes()[0]);
+            //self.SelectedBillType = ko.observable(self.BillTypes()[0]);
+            //self.BillTypeText = ko.observable(self.BillTypes()[0].Value);
+            //self.PatientTypeText = ko.observable(self.PatientBillTypes()[0].Value);
+            //self.BillFinalize_List =  ko.observableArray([
+            //    new Select_BillFinalized("Yes",1),
+            //    new Select_BillFinalized("No",0)
+            //]);
+          //  self.selectedBillFinalized = ko.observable(OpRevenue.BillFinalize); // Nothing selected by default
+            //self.SearchCompanies = function (query) {
+            //    param = { searchString: query.term };
+            //    url = self.inputUrlActions.data('searchcompanies');
+            //    ajaxWrapper.Get(url, param, function (data, e) {
+            //        var filteredData = [];
+            //        ko.utils.arrayForEach(data, function (company) {
+            //            filteredData.push({ id: company.Id, text: company.Code + " - " + company.Name });
+
+            //        });
+            //        query.callback({
+            //            results: filteredData
+            //        });
+            //    });
+            //};
+
+            //self.SearchDoctors = function (query) {
+            //    param = { searchString: query.term };
+            //    url = self.inputUrlActions.data('searchdoctors');
+            //    ajaxWrapper.Get(url, param, function (data, e) {
+            //        var filteredData = [];
+            //        ko.utils.arrayForEach(data, function (doctor) {
+            //            filteredData.push({ id: doctor.OperatorId, text: doctor.EmpCode + " - " + doctor.FullName });
+
+            //        });
+            //        query.callback({
+            //            results: filteredData
+            //        });
+            //    });
+            //};
+
+            self.init = function () {
+
+
+            }
+
+            self.init();
+
+
+        }
+    </script>
+}

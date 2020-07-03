@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Arabic Patient Name";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Arabic Patient Name</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+                <button type="button" class="btn btn-sm btn-default">
+                    <span class="glyphicon glyphicon-erase"></span> Clear
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+     
+    </div>
+</div>
+
+
+<input type="hidden" id="url"
+       data-arcommon="@Url.Content("~/Common")"
+/>
+@Scripts.Render("~/Scripts/commonwrapper")
+@Scripts.Render("~/Scripts/jsArabicPatientName")

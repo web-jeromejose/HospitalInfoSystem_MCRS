@@ -1,0 +1,324 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.AuditReportIPChargeBilledReport
+
+@using HIS_MCRS.Enumerations;
+
+@{
+    ViewBag.Title = "Audit Reports";
+
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">AR OP Bill Report Month Wise</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+
+    @using (Ajax.BeginForm(options))
+    {
+        <div class="panel-body" style="height: auto; font-size: 10px;">
+            <div class="col-xs-12">
+                <div class="col-xs-3 ">
+                    <fieldset>
+                        <legend style="font-size: 13px;"><strong>Date</strong></legend>
+                        <div class="col-xs-12">
+                            @Html.LabelFor(m => m.StartDate, new { @class = "col-xs-3 top5" })
+                            <div class="col-xs-8 input-group">
+                                @* @Html.TextBoxFor(m => m.StartDate, new { @class = "datepicker form-control",disabled="disabled", style = "z-index:0 !important;", 
+                                                                    data_bind="datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy', autoclose: true}" })
+                                *@
+                                @*@Html.TextBoxFor(m => m.StartDate, "{0:d-MMM-yyyy}", new { @class = "form-control" })*@
+                                @Html.TextBoxFor(m => m.StartDate, new
+                                {
+                                    @class = "datepicker form-control",
+                                    style = "z-index:0 !important;",
+                                    data_bind = "datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy', autoclose: true}"
+                                })
+
+                                <span class="input-group-btn ">
+                                    <button data-bind="glyphfor:'StartDate'" class=" btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                                </span>
+
+                            </div>
+                        </div>
+                        <div class="col-xs-12 top5 ">
+                            @Html.LabelFor(m => m.EndDate, new { @class = "col-xs-3 top5" })
+                            <div class="col-xs-8 input-group">
+                                @Html.TextBoxFor(m => m.EndDate, new
+                           {
+                               @class = "datepicker form-control",
+                               style = "z-index:0 !important;",
+                               data_bind = "datepicker:$root.EndDate, datepickerOptions:{format: 'dd-M-yyyy', autoclose: true}"
+                           })
+                                <span class="input-group-btn">
+                                    <button data-bind="glyphfor:'EndDate'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                                </span>
+                            </div>
+                        </div>
+
+
+                    </fieldset>
+                </div>
+                @*  <div class="col-xs-3 border10">
+                    <fieldset>
+                       
+                    </fieldset>
+                </div>*@
+                <div class="col-xs-3 ">
+                    <fieldset>
+                        @*<legend style="font-size: 13px; margin-bottom: 3px;"><strong></strong></legend>*@
+                        <div class="col-xs-12">
+                            <div class="col-xs-12">
+                                @*<label class="row top5" style="font-size: 12px;">Doctor</label>
+                                <select id="@Html.IdFor(m => m.DoctorId)" name="@Html.NameFor(m => m.DoctorId)" class="form-control select2"
+                              data-bind="options: $root.DoctorList,
+                                         value: $root.SelectedDoctor, 
+                                         optionsText: 'FullName', optionsValue: 'OperatorId',
+                                         select2:{allowClear: true}">
+                                </select>*@
+
+                                @*@Html.CheckBoxFor(m => m.DocOrNone, new { @onclick="return calc()"  })*@
+ 
+
+
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="col-xs-3 ">
+                    <fieldset>
+                        @*<legend style="font-size: 13px; margin-bottom: 3px;"><strong></strong></legend>*@
+                        <div class="col-xs-12">
+                            <div class="col-xs-12">
+                                <label class="row top5" style="font-size: 12px;">Category</label>
+                                @*    <select id="@Html.IdFor(m => m.CategoryId)" name="@Html.NameFor(m => m.CategoryId)" class="form-control select2"
+                              data-bind="options: $root.CategoryList,
+                                         value: $root.SelectedCategory, 
+                                         optionsText: 'Name', optionsValue: 'Id',
+                                         select2:{allowClear: true}">
+                                </select>*@
+
+                                <select class="form-control select2"id="@Html.IdFor(model=>model.CategoryId)" name="@Html.NameFor(model=>model.CategoryId)"
+                        data-bind="options: $root.CategoryList, optionsValue:'Id', optionsText:'Name', value: $root.SelectedCategory, select2:{}">
+                                </select>
+
+
+                                @*@Html.CheckBoxFor(m => m.DocOrNone, new { @onclick="return calc()"  })*@
+
+                                <label class="row top5" style="font-size: 12px;">Company</label>
+                                @* <select id="@Html.IdFor(m => m.CompanyId)" name="@Html.NameFor(m => m.CompanyId)" class="form-control select2"
+                              data-bind="options: $root.CompanyList,
+                                         value: $root.SelectedCompany, 
+                                         optionsText: 'Name', optionsValue: 'Id',
+                                         select2:{allowClear: true}">
+                                </select>*@
+
+                                <select class="form-control select2"id="@Html.IdFor(model=>model.CompanyId)" name="@Html.NameFor(model=>model.CompanyId)"
+                        data-bind="options: $root.CompanyList, 
+                                   optionsAfterRender: function(option, item){option.value = item.Id,
+                                   option.text = item.Code + '  ' + item.Name} , 
+                                   value: $root.SelectedCompany,
+                                   select2:{}
+                                   ">
+                                </select>
+
+                              
+
+
+
+
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="col-xs-2">
+                    <div class="pull-right col-xs-10">
+                        <button id="RunReport" type="submit" class="btn btn-success col-xs-12" value="RunReport">
+                            <span class="glyphicon glyphicon-tasks"></span>Run Report
+                        </button>
+                        <a id="Close"  href="@Url.Action("Index", "AuditReports")" class="top5 btn btn-danger col-xs-12">
+                            <span class="glyphicon glyphicon-off"></span>Close
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="height: auto;"></div>
+            <div id="reportWrapper" class="container-fluid">
+            </div>
+
+        </div>
+    }
+</div>
+
+<input id="urlActions" class="hidden"
+    data-getcompanybycategory="getCompanyByCategory"
+    data-getcashcategory="getCashCategory" />
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/ManagementReports/ARReports/StatementSummaryByCategory.js"></script>*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            var viewModel = new ViewModel(JSON.parse(data), $("#urlActions"));
+            ko.applyBindings(viewModel);
+
+            $('#CompanyId').prop("disabled", true);
+       
+
+        });
+
+        function ViewModel(model, elem) {
+            self = this;
+            console.log(model.StartDate);
+            self.StartDate = ko.observable(model.StartDate);
+            self.EndDate = ko.observable(model.EndDate);
+            self.inputUrlActions = elem;
+            self.SelectedDoctor = ko.observable(0);
+            self.DoctorList = ko.observableArray(model.DoctorList);
+
+            self.ChargetypeList = ko.observableArray(model.ChargeTypeList);
+            self.SelectedChargedType = ko.observable(self.ChargetypeList()[0]);
+
+            self.SelectedService = ko.observable(0);
+            self.ServiceList = ko.observableArray(model.ServiceList);
+
+
+            self.AccountTypeList = ko.observableArray(model.AccountTypeList);
+            self.SelectedAccountType = ko.observable(self.AccountTypeList()[0]);
+
+            self.SelectedCategory = ko.observable(0);
+            self.CategoryList = ko.observableArray(model.CategoryList);
+
+            self.CompanyList = ko.observableArray([]);
+            self.SelectedCompany = ko.observable();
+
+            self.Init = function () {
+            self.DoctorList.unshift({ OperatorId: '0', FullName: 'ALL' });
+            self.ServiceList.unshift({ Id: '0', Name: 'ALL' });
+            self.CategoryList.unshift({ Id: '0', Name: 'ALL' });
+            //self.CompanyList.unshift({ Id: '0', Name: 'ALL' });
+            //self.getCompanyByCategory();
+            };
+
+            self.getCompanyByCategory = function () {
+            self.CompanyList([]);
+             url = self.inputUrlActions.data("getcompanybycategory");
+               param = { categoryId: self.SelectedCategory() };
+                ajaxWrapper.GetWithLoading(url, param, $("#s2id_CompanyId"), function (data, e) {
+                   var defaultValue = { Id: 0, Code: "", Name: "ALL" };
+                   self.CompanyList.push(defaultValue);
+                   for (i = 0; i < data.length; i++) {
+                        self.CompanyList.push({ Id: data[i].Id, Code: data[i].Code, Name: data[i].Name });
+                    };
+                });
+            }
+
+          
+            self.Init();
+
+            self.getCash = function () {
+                self.CategoryList([]);
+                url = self.inputUrlActions.data("getcashcategory");
+
+                param = { checker: 1 };
+
+                ajaxWrapper.GetWithLoading(url, param, $("#s2id_CategoryId"), function (data, e) {
+                    var defaultValue = { Id: 0, Code: "", Name: "ALL" };
+                    self.CategoryList.push(defaultValue);
+                    for (i = 0; i < data.length; i++) {
+                        self.CategoryList.push({ Id: data[i].Id, Name: data[i].Name });
+
+                    };
+                    self.CompanyList([]);
+                    self.CompanyList.push({ Id: 0, Code: "", Name: "ALL" });
+                });
+            }
+
+
+            self.SelectedCategory.subscribe(function (newValue) {
+           
+                if (newValue) {
+                    self.getCompanyByCategory();
+                    console.log('newval--'+newValue);
+                    $.each(self.CategoryList(), function (i, item) {
+                        if (item.Id == newValue) {
+                            $('#CompanyId').prop("disabled", false);
+                         //   self.SelectedCategoryText(item.Name);
+                        }
+                  });
+                }
+            });
+
+            self.SelectedAccountType.subscribe(function (newValue) {
+
+                url = self.inputUrlActions.data("getcompanybycategory");
+                if (newValue == 1) {
+                    self.getCash();
+                    $('#CompanyId').prop("disabled", true);
+                } else {
+
+                    if (newValue == 0) {
+                        console.log('newValueurl-->' + newValue);
+                        self.CategoryList([]);
+                        self.CompanyList([]);
+                        //balik sa default category
+                        url = self.inputUrlActions.data("getcashcategory");
+
+                        param = { checker: 0 };
+
+                        console.log('param22-->' + param);
+                        ajaxWrapper.GetWithLoading(url, param, $("#s2id_CategoryId"), function (data, e) {
+                            var defaultValue = { Id: 0, Name: "ALL" };
+                            self.CategoryList.push(defaultValue);
+                            console.log('leegh->' + data.length);
+                            for (i = 0; i < data.length; i++) {
+                                self.CategoryList.push({ Id: data[i].Id, Name: data[i].Name });
+                            };
+                            self.CompanyList.push({ Id: 0, Code: "", Name: "ALL" });
+                            
+                        });
+
+                    }
+                   
+
+
+
+                }
+
+            });
+
+        }
+
+
+        function calc() {
+         
+            if ($('#AccountType').val() == 1) {
+              
+
+            } else {
+              
+            }
+        }
+
+    </script>
+}
+

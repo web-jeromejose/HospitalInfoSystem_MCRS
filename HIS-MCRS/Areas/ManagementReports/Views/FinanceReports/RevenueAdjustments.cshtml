@@ -1,0 +1,145 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.FinanceRevenueAdjustments
+
+@using HIS_MCRS.Common
+
+@{
+    ViewBag.Title = "Finance Reports";
+
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+
+<div class="panel panel-default">
+    <div class="panel-heading" style="padding-top:0px;">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Revenue Adjustments Report</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+    <div class="panel-body" style="height: auto;">
+        @using(Ajax.BeginForm(options)){
+        <div class="form-group">
+            <div class="row">
+            <p class="col-xs-12"><strong>Report Date Range</strong></p>
+            <div class="col-xs-3">
+                @Html.LabelFor(m => m.StartDate, new { @class = "col-xs-4 top10" })
+ 
+                   <div class="col-xs-7 input-group top5">
+                      @Html.TextBoxFor(m => m.StartDate,Model.StartDate.ToString("dd-MMM-yyyy"),new
+                       {
+                           @class = "datepicker form-control",
+                           style = "z-index:0 !important;",
+                           data_bind = "datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                       })
+                         <span class="input-group-btn ">
+                            <button data-bind="glyphfor:'@Html.IdFor(m=>m.StartDate)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                     </span>
+                   </div>
+                    
+      
+                @Html.LabelFor(m=>m.EndDate, new { @class = "col-xs-4 top10" })
+              
+                <div class="col-xs-7 input-group top5">
+                      @Html.TextBoxFor(m => m.EndDate,Model.EndDate.ToString("dd-MMM-yyyy"),new
+                       {
+                           @class = "datepicker form-control",
+                           style = "z-index:0 !important;",
+                           data_bind = "datepicker:$root.EndDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                       })
+                         <span class="input-group-btn ">
+                            <button data-bind="glyphfor:'@Html.IdFor(m=>m.EndDate)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                     </span>
+                   </div>
+               
+            </div>
+            <div class="col-xs-5">
+                 @Html.LabelFor(m => m.CategoryId, new { @class = "col-xs-3 top5" })
+                <div class="col-xs-9">
+                  <select id="@Html.IdFor(m=>m.CategoryId)" name="@Html.NameFor(m=>m.CategoryId)"
+                         class="select2 form-control"
+                          data-bind="options:$root.Categories,
+                              value: $root.SelectedCategoryId,
+                              optionsText:'Name' ,
+                              optionsValue:'Id',
+                              select2: {allowClear: true, placeholder:'Select Category'}">
+               </select>
+                 
+               </div>
+                @Html.LabelFor(m=>m.CompanyId,new{@class="col-xs-3 top10"})
+                  <div class="col-xs-9 top5" id="companyContainer">
+                      <select id="@Html.IdFor(m=>m.CompanyId)" name="@Html.NameFor(m=>m.CompanyId)"
+                             class="select2 form-control"
+                              data-bind="options:$root.Companies,
+                                  value: $root.SelectedCompanyId,
+                                  optionsText:'Name' ,
+                                  optionsValue:'Id',
+                                  select2: {allowClear: true, placeholder:'Select Company'}">
+                   </select>
+
+                      
+            </div>
+
+                
+                 
+            </div>
+            <div class="col-xs-3" >
+                 @Html.LabelFor(m=>m.BillType,new{@class="col-xs-4 top10"})
+                  <div class="col-xs-8 top5">
+                      <select id="@Html.IdFor(m=>m.BillType)" name="@Html.NameFor(m=>m.BillType)"
+                             class="select2 form-control"
+                              data-bind="options:$root.BillTypes,
+                                  value: $root.SelectedBillTypeId,
+                                  optionsText:'Value' ,
+                                  optionsValue:'Key',
+                                  select2: {allowClear: true}">
+                   </select>  
+            </div>
+           
+          </div>
+                 <div class="col-xs-1">
+               <button id="RunReport" type="submit" class=" btn-sm btn btn-success col-xs-12" value="Search">
+                        <span class="glyphicon glyphicon-search"></span>  Search
+               </button>
+                <a id="Close"  href="@Url.Action("Index", "FinanceReports")" class="top5  btn-sm btn btn-danger col-xs-12">
+                        <span class="glyphicon glyphicon-off"></span>  Close
+                    </a>
+            </div>
+          <div id="reportWrapper" class="col-xs-12 top10 container-fluid" style="min-height: 360px; background-color: #6C7A89;"></div>
+        </div>
+        
+    </div>
+        }
+</div>
+
+
+
+<input id="urlActions" class="hidden" 
+    data-searchcompanies="@Url.Action("GetCompanyByCategory")" />
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    <script type="text/javascript" src="~/Scripts/ManagementReports/FinanceReports/RevenueAdjustments.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            var viewModel = new ViewModel(JSON.parse(data));
+            viewModel.inputUrlActions = $("#urlActions");
+            ko.applyBindings(viewModel);
+        });
+    </script>
+}

@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "AR Covering Letter Generation";
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">AR Covering Letter Generation</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="IT_custom_filter_container">
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="width:98% !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Report Generated</h4>
+            </div>
+            <div class="modal-body">
+                <div id="report-container">
+                    <iframe id="myReport2"></iframe>
+                </div>
+                <div class="clear-botn"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-primary AR_custom_btn_fixed_width" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden" id="url"
+       data-reporturl="@Url.Content("~/Areas/AROPBILLING/Reports/Reports.aspx")"
+       data-arcommon="@Url.Content("~/Common")"
+       data-getexppolicies="@Url.Action("get_expired_policies")" />
+@Scripts.Render("~/Scripts/commonwrapper")
+@Scripts.Render("~/Scripts/jsExpiredPolicies")

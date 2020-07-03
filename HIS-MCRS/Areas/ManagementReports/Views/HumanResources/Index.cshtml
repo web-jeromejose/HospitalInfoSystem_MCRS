@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "Human Resources Department Reports";
+}
+@Styles.Render("~/Styles/arcustom")
+
+<div class="row">
+    <br />
+    <div class="col-sm-12">
+
+
+        <a class="mc_rep_continer" href="@Url.Action("StaffContractDetailsReport","HumanResources")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                1. Staff Contract Details Report
+            </section>
+        </a>
+
+
+        <a class="mc_rep_continer" href="@Url.Action("ListEmployeeByCategory","HumanResources")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               2. List Of Employee By Category Report
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("EvaluationMonitor","HumanResources")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               3. Evaluation Monitor
+            </section>
+        </a>
+
+
+
+        <a class="mc_rep_continer" href="@Url.Action("EmployeeWise","HumanResources")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               4. Employee Wise Evaluation Report
+            </section>
+        </a>
+
+
+
+
+        <a class="mc_rep_continer" href="@Url.Action("PerformanceEvaluationMapping","HumanResources")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               5. Performance Evaluating Mapping
+            </section>
+        </a>
+
+
+
+
+
+
+        <a class="mc_rep_continer" href="@Url.Action("VaccinationMaster","HumanResources")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               6. Vaccination Master File
+            </section>
+        </a>
+
+
+        
+
+
+
+
+       
+     
+       
+       
+
+     
+
+
+
+
+    </div>
+</div>

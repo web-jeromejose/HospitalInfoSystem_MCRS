@@ -1,0 +1,287 @@
+﻿@{
+    ViewBag.Title = "AR Reports";
+}
+@Styles.Render("~/Styles/arcustom")
+
+<div class="row">
+    <br />
+    <div class="col-sm-12">
+        @* <a class="mc_rep_continer" href="@Url.Content("ActAdjReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                Actual and Adjusted Bills
+            </section>
+        </a>*@
+        @*<a class="mc_rep_continer" href="@Url.Action("UCAF", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                1. UCAF Single View
+            </section>
+        </a>*@
+
+        <a class="mc_rep_continer" href="@Url.Action("UCAFv2", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                1. UCAF Single View - Tariff Version 2
+            </section>
+        </a>
+
+
+        <a class="mc_rep_continer" href="@Url.Action("StatementSummaryByCategory", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                2. Statement Summary By Category
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("StatementSummaryForAllCategory", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                3. Statement Summary For All Category
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("UCAFBatchPrinting", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                4. Ucaf Batch Printing
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("ListOfExpiredCompany", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                5. List Of Expired Company
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("ListOfCompanyWithTransactions", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                6. List Of Company with Transactions
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("BillingEfficiencyReport", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                7. Billing Efficency Report
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("SummaryOfAccounts", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                8. Summary of Accounts (no Vat)
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("SummaryOfAccountswithVAT", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                9. Summary of Accounts with VAT
+            </section>
+        </a>
+
+
+        <a class="mc_rep_continer" href="@Url.Action("ARAMCOPatientList", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                10. ARAMCO Patient List
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("ARPackageAndInvoices", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                11. AR Package / Non-Package Invoices
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("ARCompanyAuditTrail", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                12. AR Company Audit Trail
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("ARPackageDeal", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                13. AR Package Deal Report
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("PINTransactionSummary", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                14. PIN Transaction Details Summary
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("ARPackageDealDaily", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                15. AR Package Deal Daily Cases
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("CompanyCharges", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                16. Company Service Charge
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("ARAverageClaim", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                17. AR Average Claim
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("PhysiotherapyBilling", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                18. Physiotherapy Billing Report
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("IPServiceRequiredApproval", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                19. Services Required for Approval In - Patient
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("ActiveServiceItem", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                20. Active Service Items
+            </section>
+        </a>
+
+        @*        <a class="mc_rep_continer" href="@Url.Action("InPatientIPCR","ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                21. In-patient IPCR
+            </section>
+        </a>*@
+
+        <a class="mc_rep_continer" href="@Url.Action("CompanyTariffCodes", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                21. Company Tariff Codes
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("BillingByCategory", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                22. Billing Report Category Wise
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("ServiceFrequency", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                23. Service Frequency
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("OPFrontLineBillingTracker", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                24. OP FrontLine Tracker
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("CancelledServices", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                25. Cancelled Services Report
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("BillingReportDeptWise", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                26. Billing Report Department Wise
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("OPBillPinWise", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                27. PIN-Wise OP Billing Report
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("PatientUnderReferral", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                28. Patient Under Referral Report
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("ExpiringPolicies", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                29. Expiring Policies Report
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("PinWiseOPInvoicePrinting", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                30. Pin-wise IP Invoice Printing
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("YearlySummaryOfAccounts", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                31. (Category-Wise) Monthly Credit Report
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("MonthlyCreditSubCatWise", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                32. (SubCategory-Wise)Monthly Credit Report
+            </section>
+        </a>
+
+
+        <a class="mc_rep_continer" href="@Url.Action("OPRevenue", "FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                33. OP Revenue Report
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("DoctorRevenueOP", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                34. Doctor's Revenue Report - OP
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("PendingServices", "FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                35. Pending Services Report (Not Done)
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("CompanyTotalPatientVisit", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                36. Company Total Patient And Visit Count
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("IpBillARFinalize", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                37. IP BILL - AR - Finalize Report
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("ReportDoctorListPatientRecord", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                38. Doctor Visit Log Report
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("ReportIPUninvoice", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                39. IP Uninvoiced Report
+            </section>
+        </a>
+
+    </div>
+</div>

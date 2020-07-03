@@ -1,0 +1,117 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.AROPBillPinWise
+ 
+@using HIS_MCRS.Common
+
+@{
+    ViewBag.Title = "AR Reports";
+   AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Patients Under Referral Class Report</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+
+    @using(Ajax.BeginForm(options)){
+        <div class="panel-body">
+
+            <div class=" col-xs-12">
+                <div class="col-xs-4">
+                    <div class="col-xs-12 border10">
+                        @Html.Label("Report Date Range (Referral Class)", new { @class = "col-xs-12" })
+                        @Html.LabelFor(m => m.StartDate, new { @class = "col-xs-2" })
+
+                        <div class="col-xs-10">
+
+                            <div class="input-group">
+                                @Html.TextBoxFor(m => m.StartDate,Model.StartDate.ToString("dd-MMM-yyyy"), new { @readonly=true, @class = "datepicker form-control", style = "z-index:0 !important;", 
+                                                                    data_bind="datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy', autoclose: true}" })
+                                <span class="input-group-btn ">
+                                    <button data-bind="glyphfor:'StartDate'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                                </span>
+                            </div>
+
+                        </div>
+                        @Html.LabelFor(m => m.EndDate, new { @class = "col-xs-2 top10" })
+                        <div class="col-xs-10 top5">
+                            <div class="input-group">
+                                @Html.TextBoxFor(m => m.EndDate,Model.StartDate.ToString("dd-MMM-yyyy"), new {@readonly=true, @class = "datepicker form-control ", style = "z-index:0 !important;",
+                                                                  data_bind="datepicker:$root.EndDate, datepickerOptions:{format: 'dd-M-yyyy', autoclose: true}"})
+                                <span class="input-group-btn">
+                                    <button data-bind="glyphfor:'EndDate'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                    <div class="col-xs-12 border10">
+                      
+                        @Html.LabelFor(m => m.CategoryId, new { @class = "col-xs-3 top10" })
+                        <div class="col-xs-9 top5">
+                            <select id="@Html.IdFor(m=>m.CategoryId)" name="@Html.NameFor(m=>m.CategoryId)" class="form-control"
+                                data-bind="options:$root.CategoryList ,optionsValue:'Id' , optionsText: 'Name',
+                                           value: $root.SelectedCategoryId, select2:{}">
+                            </select>
+                            @Html.HiddenFor(m=>m.CategoryName, new {data_bind="value:$root.SelectedCategoryName"})
+                        </div>
+                   
+
+                    </div>
+                </div>
+
+                <div class="col-xs-2 top10">
+                    <div class="pull-right col-xs-10 top10">
+                        <button id="RunReport" type="submit" class="btn btn-success col-xs-12" value="RunReport">
+                            <span class="glyphicon glyphicon-tasks"></span>Run Report
+                        </button>
+                        <a id="Close"  href="@Url.Action("Index", "ARReports")" class="top5 btn btn-danger col-xs-12">
+                            <span class="glyphicon glyphicon-off"></span>Close
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="reportWrapper" class="container-fluid" style="margin-top: 11%;" />
+
+
+        </div>
+    }
+</div>
+
+<input id="urlInput" class="hidden" data-getcompanybycategory="@Url.Action("getCompanyByCategory")" />
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    <script type="text/javascript" src="~/Scripts/ManagementReports/ARReports/OPBillPinWise.js"></script>
+    <script type="text/javascript">
+        var viewModel = ""
+        $(document).ready(function () {
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            viewModel = new ViewModel(JSON.parse(data),$("#urlInput"));
+            ko.applyBindings(viewModel);
+        });
+    </script>
+}
+
+

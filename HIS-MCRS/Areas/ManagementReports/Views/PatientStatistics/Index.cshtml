@@ -1,0 +1,156 @@
+﻿@{
+    ViewBag.Title = "Patient Statisctics";
+}
+@Styles.Render("~/Styles/arcustom")
+
+<div class="row">
+    <br />
+    <div class="col-sm-12">
+        <ul>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Content("DashboardMonitoring")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        1. Dashboard Monitoring
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Content("IPAdmissionCensus")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        2. In-Patient Admission
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Content("OPVisitCensus")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        3. Out Patient Visit
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Content("CurrentlyAdmittedPatientWithCharge")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        4. Currently Admitted Patients with Charges
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Content("DailyPatientVisitStatistics")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        5. Daily Patient Visit Statistics
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Content("PatientStatisticByNationality")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        6. Patient Statistic by Nationality
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Content("PatientConsultationBetween1to5pm")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        7. Patient Consultation Between 1 to 5pm
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Content("PatientListByAgeRange")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        8. Patient List By Age Range
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Content("DepartmentWiseAdmissionIndexing")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        9. Department Wise Admission Indexing
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Content("CurrentlyAdmittedPatientList")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        10. Currently Admitted Patient List
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Content("OPCancellation")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        11. OP Cancellation Report
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Content("ERConsultationStatisticCount")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        12. ER Consultation Statistics Count Report
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Content("DeficiencyFiles")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        13. Deficiency Files
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Content("DeficiencyFilesPINWise")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        14. Deficiency Files PIN Wise
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Content("PatientRegistrationByCity")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        15. Patient Registration By City
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Content("ICUAdmissionWithDiagnosis")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        16. ICU Admission with Diagnosis
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Content("ORReport")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        17. OR Report
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Action("OPDCancellationByDoctor")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        18. OPD Cancellation 
+                    </section>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

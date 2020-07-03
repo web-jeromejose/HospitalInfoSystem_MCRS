@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Sales Promotion Reports";
+}
+
+@Styles.Render("~/Styles/arcustom")
+
+<div class="row">
+    <br />
+    <div class="col-sm-12">
+        <a class="mc_rep_continer" href="@Url.Action("CensusAndGraphs")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               1. Census and Graphs
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("DailyIncomeDetails")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               2. Daily Income Details
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("DailyCensus")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               3. Daily Census
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("IncomeYearlySummary")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               4. Income (Yearly Summary by Office)
+            </section>
+        </a>
+
+    @*  // connncection in  ReportDoc.SetDatabaseLogon("sghit", "SGHIT", "130.1.2.223", "BI")
+        <a class="mc_rep_continer" href="@Url.Action("DailyPerformanceActualVsBudget")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               Daily Performance Actual vs Budget Report
+            </section>
+        </a>*@
+
+
+
+
+
+
+
+    </div>
+</div>
+

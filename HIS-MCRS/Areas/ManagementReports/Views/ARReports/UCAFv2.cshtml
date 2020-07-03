@@ -1,0 +1,278 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.Models.UCAFVM
+@using System.Web.UI.WebControls
+@using ReportViewerForMvc
+@using HIS_MCRS.Models
+
+@{
+    ViewBag.Title = "UCAF";
+
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">UCAF Printing</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+    <div class="panel-body" style="height: auto;">
+        @using (Ajax.BeginForm(options))
+        {
+            <fieldset id="ucafReport">
+                <div class="col-xs-8">
+                    <div class="row">
+                        @Html.LabelFor(m => m.RegistrationNo, new { @class = "col-xs-2 top10" })
+                        <div class="col-xs-6">
+                            @* knockout - registration no*@
+                            @Html.TextBoxFor(m => m.RegistrationNo, " ", new { @class = "form-control", data_bind = "textInput:RegistrationNo, executeOnEnter: getvisitDates" })
+                            @Html.ValidationMessageFor(m => m.RegistrationNo)
+                        </div>
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(m => m.VisitId, new { @class = "col-xs-2 top10" })
+                        <div class="col-xs-6">
+                            @* knockout - visitdate*@
+                            @Html.DropDownListFor(m => m.VisitId, Model.VisitDates, new { @class = "form-control select2", data_bind = " value: selectedVisitId, options: VisitDates, optionsValue: 'Id', optionsText: 'Text', select2: {placeholder: 'Select visit date', allowClear: true}" })
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <button id="Preview" type="submit" class="btn btn-default col-xs-6" value="Preview">
+                        <span class="glyphicon glyphicon-search"></span> Preview
+                    </button>
+                    <button id="Update" type="button" data-bind="click: $root.showUpdateModal" class="btn btn-default col-xs-6">
+                        <span class="glyphicon glyphicon-upload"></span> Update
+                    </button>
+                    <button id="Clear" type="button" data-bind="click:clearFields" class="btn btn-default col-xs-6">
+                        <span class="glyphicon glyphicon-erase"></span> Clear
+                    </button>
+                    <a id="Close" href="@Url.Action("Index","ARReports")" class="btn btn-danger col-xs-6">
+                        <span class="glyphicon glyphicon-off"></span> Close
+                    </a>
+                </div>
+                <div class="row" style="height: 100px;"></div>
+                <div id="reportWrapper" class="container-fluid" >
+                </div>
+            </fieldset>
+        }
+
+       @* insert update ar modal*@
+        <div id="InserUpdateARModal" class="modal fade" tabindex="-1" role="dialog" data-bind="modal:showARDialog">
+            <div class="modal-dialog modal-lg" style="z-index:1200;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Update Clinical Visit Details(For AR Only)</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <label class="col-xs-2">Chief Complaints </label>
+                            <div class="col-xs-10">
+                                @*knockout ChiefComplaints*@
+                                <textarea id="ChiefComplaints" class="form-control" style="background-color: #ffffcc; resize: none;" data-bind="value: ClinicVisitDetail().ChiefComplaints" spellcheck="false" rows="4" wrap="virtual"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-xs-2">Diagnosis </label>
+                            <div class="col-xs-10">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <button id="SearhICD" type="submit"  data-bind="click:function(){$root.SearchICDDialog.ShowDialog(true)}"class="top5 col-xs-12 btn btn-info btn-sm" value="Preview">
+                                            <span class="glyphicon glyphicon-search"></span>Search ICD
+                                        </button>
+                                        @*knockout click remove diagnosis*@
+                                        <button id="RemoveDiagnosis" type="submit" data-bind="click:$root.removeDiagnosis, enable: $root.selectedDiagnosis().isSelected" class="col-xs-12 btn btn-default btn-xs bottom10" value="RemoveDiagnosis">
+                                            <strong>< <<small class="badge"> remove icd </small> </strong>
+                                        </button>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        @*knockout ArDiagnosis*@
+                                        <table class="table top5">
+                                            <thead>
+                                                <tr>
+                                                    <th>CODE</th>
+                                                    <th>DESCRIPTION</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody data-bind="foreach: ARDiagnosis">
+                                                <tr data-bind="click: $root.selectDiselectDiagnosis, css: { selectedrow: isSelected}">
+                                                    <td data-bind="text: Code"></td>
+                                                    <td data-bind="text: Description"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-xs-2">Treatment Plan </label>
+                            <div class="col-xs-10">
+                                @*knockout TreatmentPlan*@
+                                <textarea id="TreatmentPlan" class="form-control" style="background-color: #ffffcc; resize: none;" data-bind="value: ClinicVisitDetail().TreatmentPlan" spellcheck="false" rows="3" wrap="virtual"></textarea>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button id="Cancel" data-bind="click: function(){$root.showARDialog(false)}" type="submit" class="top5 col-xs-2  pull-right btn btn-danger btn-sm" value="Cancel">
+                            <span class="glyphicon glyphicon-off"></span>Cancel
+                        </button>
+                        <button id="SaveOrUpdate" type="submit" data-bind="click:function(){$root.showConfirmUpdateDialog(true)}" class="top5 col-xs-2 pull-right btn btn-success btn-sm" value="SaveOrUpdate">
+                            <span class="glyphicon glyphicon-save"></span>Save
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       @* search icd modal*@
+        <div id="SearchICDModal" class="modal fade" tabindex="-1" role="dialog" data-bind="modal:$root.SearchICDDialog.ShowDialog">
+            <div class="modal-dialog" style="width: 800px; z-index:1200;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">ICD10 CODES</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label class="col-xs-2 top5"> Code/Description: </label>
+                                <div class="col-xs-5">
+                                    <input id="SearchDescription" class="form-control" data-bind="textInput: $root.SearchICDDialog.SearchDiscripton, executeOnEnter: $root.SearchICDDialog.searchICDCode" />
+                                    <small class="badge ">(hit enter)</small>
+                                </div>
+                                <div class="col-xs-3">
+                                    <button id="AddICD" data-bind="click:$root.SearchICDDialog.AddSelectedCode , enable: $root.SearchICDDialog.selectedICD10Code()!=null" class="btn  btn-sm btn-primary" data-dismiss="modal">Select</button>
+                                    <button id="CloseSearch" class="btn  btn-sm btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                              @*knockout ICD Code Table*@
+                            <table class="table top5">
+                                <thead>
+                                    <tr>
+                                        <th>CODE</th>
+                                        <th>DESCRIPTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="foreach: $root.SearchICDDialog.ICD10Codes">
+                                    <tr data-bind="click: $root.SearchICDDialog.selectCode, css: { selectedrow: $data.isSelected}">
+                                        <td data-bind="text: $data.Code"></td>
+                                        <td data-bind="text: $data.Description"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                                </div>
+
+                        </div>
+                    
+                       <div>
+                            <ul class="pagination">
+                               <li><a href="#" data-bind="click:$root.SearchICDDialog.Prev">&laquo;</a></li>
+                                    <!-- ko foreach: $root.SearchICDDialog.Pages -->
+                                    <li data-bind=" css: { active: $data.isActive}" ><a href="#" data-bind="text: $data.Number, click:$root.SearchICDDialog.searchICDCode"></a></li>
+                                    <!-- /ko -->
+                                 <li><a href="#" data-bind="click:$root.SearchICDDialog.Next">&raquo;</a></li>
+                            </ul>
+                       </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* confirm update  modal dialog*@
+        <div id="ConfirmUpdate" class="modal fade" tabindex="-1" role="dialog" data-bind="modal:showConfirmUpdateDialog">
+            <div class="modal-dialog" style="width: 350px; z-index:1300; ">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header alert-info" style="padding: 8px;">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">UPDATE CONFIRMATION</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Save the Clinical details of this visit (For AR only)</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-default col-xs-2 pull-right" style="margin-left: 5px;" data-dismiss="modal">Cancel</button>
+                        <button type="button" data-bind="click:saveOrUpdateClinicDetails" class="btn btn-sm btn-default col-xs-2 pull-right">OK</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        @* generic dialog*@
+        <div id="Dialog" class="modal fade" tabindex="-1" role="dialog" data-bind="modal:$root.Dialog().Show">
+            <div class="modal-dialog" style="width: 350px;z-index:1400;">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header" data-bind="css: $root.Dialog().AlertCSS" style="padding: 8px;">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title" data-bind="text: $root.Dialog().Header">Header</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p data-bind="text:$root.Dialog().Message">error message container</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-default col-xs-2 pull-right" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<input id="urlActions" class="hidden" 
+    data-getvisitdates ="@Url.Action("getVisitDates", "ARReports")"
+    data-getconsultationdetail ="@Url.Action("getConsultationDetail", "ARReports")"
+    data-getdiagnosis ="@Url.Action("getDiagnosis", "ARReports")"
+    data-deleteardiagnosis ="@Url.Action("deleteARDiagnosis", "ARReports")"
+    data-updatediagnosis ="@Url.Action("updateARDiagnosis", "ARReports")"
+    data-saveclinicalvisit ="@Url.Action("saveClinicalVisit", "ARReports")"
+    data-isuserardoctor ="@Url.Action("isUserARDoctor", "ARReports")"
+    data-geticd10codes ="@Url.Action("getICD10Codes", "ARReports")"/>
+
+
+@Scripts.Render("~/Scripts/commonwrapper")
+@Scripts.Render("~/Scripts/knockoutjs")
+@Scripts.Render("~/bundles/jqueryval")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    <script type="text/javascript" src="~/Scripts/ManagementReports/ARReports/ucaf.js?ver=2020jfj"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            var viewModel = new UCAFViewModel(JSON.parse(data));
+            viewModel.inputUrlActions = $("#urlActions");
+            ko.applyBindings(viewModel);
+        });
+    </script>
+}

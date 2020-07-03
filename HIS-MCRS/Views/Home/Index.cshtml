@@ -1,0 +1,169 @@
+﻿@model List<DataLayer.ApplicationMenuModel>
+@{
+    ViewBag.Title = "Main";
+    int maxI = Convert.ToInt16(Model.Max(x => x.MenuLevel));
+    string parentID = "0";
+    int ctr = 1;
+    int ctrAll = 1;
+    var dis = "";
+    var sLink = "";
+}
+
+@{
+    ViewBag.Title = "MCRS";
+}
+
+
+<input type="hidden" id="url" data-arcommon="@Url.Content("~/Common")" />
+@Scripts.Render("~/Scripts/commonwrapper")
+
+
+
+<h4>Welcome to Management Consolidated Reports System (MCRS)</h4>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Most Viewed Reports</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-wrench"></i>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </div>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div class="row">
+
+
+
+
+                    @{
+                        foreach (var menu in Model.OrderBy(x => x.ParentSequence))
+                        {
+
+                                 
+                                
+                                if (menu.ID == "1908")
+                                {
+                                @:<div class="col-lg-3 col-xs-6"><div class="small-box  " style=" background-color: #7aa01b;" >
+                                @:<div class="inner"><h3>&nbsp;</h3>
+                                @:<p><b>POLYCLINIC</b></p>
+                                @:</div><div class="icon">
+                                @:<i class="ion ion-connection-bars"></i>
+                                @:</div><a href="@menu.MenuURL" class="small-box-footer">Check Reports <i class="fa fa-arrow-circle-right"></i></a></div></div>  
+                                }
+
+                                   
+                                if (menu.ID == "1951")
+                                {
+                                @:<div class="col-lg-3 col-xs-6"><div class="small-box" style=" background-color: #ff6a00;">
+                                @:<div class="inner"><h3>&nbsp;</h3>
+                                @:<p><b>PATIENT STATS</b></p>
+                                @:</div><div class="icon">
+                                @:<i class="ion ion-drag"></i>
+                                @:</div><a href="@menu.MenuURL" class="small-box-footer">Check Reports <i class="fa fa-arrow-circle-right"></i></a></div></div>  
+                                }
+                               
+                                      if (menu.ID == "1958")
+                                {
+                                @:<div class="col-lg-3 col-xs-6"><div class="small-box  " style=" background-color: #00a65a !important;">
+                                @:<div class="inner"><h3>&nbsp;</h3>
+                                @:<p><b>AR</b></p>
+                                @:</div><div class="icon">
+                                @:<i class="ion ion-clipboard"></i>
+                                @:</div><a href="@menu.MenuURL" class="small-box-footer">Check Reports <i class="fa fa-arrow-circle-right"></i></a></div></div>  
+                                }
+                                
+ 
+                                if (menu.ID == "1985")
+                                {
+                                @:<div class="col-lg-3 col-xs-6"><div class="small-box " style=" background-color: #00c0ef !important;">
+                                @:<div class="inner"><h3>&nbsp;</h3>
+                                @:<p><b>FINANCE</b></p>
+                                @:</div><div class="icon">
+                                @:<i class="ion ion-stats-bars"></i>
+                                @:</div><a href="@menu.MenuURL" class="small-box-footer">Check Reports <i class="fa fa-arrow-circle-right"></i></a></div></div>  
+                                }
+                             
+                                
+                            if (menu.ID == "2047")
+                                {
+                                @:<div class="col-lg-3 col-xs-6"><div class="small-box " style=" background-color:#a79027 !important;">
+                                @:<div class="inner"><h3>&nbsp;</h3>
+                                @:<p><b>MARKETING</b></p>
+                                @:</div><div class="icon">
+                                @:<i class="ion ion-cash"></i>
+                                @:</div><a href="@menu.MenuURL" class="small-box-footer">Check Reports <i class="fa fa-arrow-circle-right"></i></a></div></div>  
+                                }
+                             
+                                
+                            if (menu.ID == "2048")
+                                {
+                                @:<div class="col-lg-3 col-xs-6"><div class="small-box " style=" background-color:#dd4b39 !important;">
+                                @:<div class="inner"><h3>&nbsp;</h3>
+                                @:<p><b>INVENTORY</b></p>
+                                @:</div><div class="icon">
+                                @:<i class="ion ion-document-text"></i>
+                                @:</div><a href="@menu.MenuURL" class="small-box-footer">Check Reports <i class="fa fa-arrow-circle-right"></i></a></div></div>  
+                                }
+                                
+                                     
+                            if (menu.ID == "2051")
+                                {
+                                @:<div class="col-lg-3 col-xs-6"><div class="small-box " style=" background-color:#9839b9 !important;">
+                                @:<div class="inner"><h3>&nbsp;</h3>
+                                @:<p><b>QPS</b></p>
+                                @:</div><div class="icon">
+                                @:<i class="ion ion-folder"></i>
+                                @:</div><a href="@menu.MenuURL" class="small-box-footer">Check Reports <i class="fa fa-arrow-circle-right"></i></a></div></div>  
+                                }
+                             
+                                    if (menu.ID == "2068")
+                                {
+                                @:<div class="col-lg-3 col-xs-6"><div class="small-box " style=" background-color:#18bb8e !important;">
+                                @:<div class="inner"><h3>&nbsp;</h3>
+                                @:<p><b>OTHER</b></p>
+                                @:</div><div class="icon">
+                                @:<i class="ion ion-cube"></i>
+                                @:</div><a href="@menu.MenuURL" class="small-box-footer">Check Reports <i class="fa fa-arrow-circle-right"></i></a></div></div>  
+                                }
+                        
+
+
+
+
+
+
+
+
+
+
+
+                        }
+                    }
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

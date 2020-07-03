@@ -1,0 +1,185 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.HRDStaffContractDetails
+
+
+@{  
+    ViewBag.Title = "Human Resources Department Reports ";
+
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Staff Contract Details Report</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body" style="height: auto;">
+        @using (Ajax.BeginForm(options))
+            {
+            <div class="form-inline">
+                <div class="row">
+              
+
+                    <div class="col-xs-6  " style="">
+                        <div class="col-xs-5 ">
+                            <div class="form-inline">
+                                @Html.LabelFor(m => m.DepartmentId, new { @class = "  " })
+                                <div class="col-xs-12">
+
+                                    <select id="@Html.IdFor(m=>m.DepartmentId)" name="@Html.NameFor(m=>m.DepartmentId)" class="form-control"
+                                data-bind="options:$root.DepartmentList, optionsText:'Name', optionsValue:'Id', 
+                                           value: $root.SelectedDepartmentList, select2:{allowClear: true, placeholder:''}">
+                                    </select>
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-7">
+                            <div class="form-inline">
+                                @Html.LabelFor(m => m.PositionId, new { @class = "  " })
+                                <div class="col-xs-12">
+                                    <select id="@Html.IdFor(m=>m.PositionId)" name="@Html.NameFor(m=>m.PositionId)" class="form-control" 
+                                data-bind="options:$root.PositionList, optionsText:'FullName', optionsValue:'OperatorId', 
+                                           value: $root.SelectedPositionList, select2:{allowClear: true, placeholder:''}">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 " style="">
+                    </div>@*  col-xs-3*@
+                    <div class="col-xs-3" style="">
+
+                        <button id="RunReport" data-bind="click:$root.submit" type="submit" class="btn btn-success" value="RunReport">
+                            <span class="glyphicon glyphicon-tasks"></span>Run Report
+                        </button>
+
+
+                        <a id="Close"  href="@Url.Action("Index", "HumanResources")" class="btn btn-danger ">
+                            <span class="glyphicon glyphicon-off"></span>Close
+                        </a>
+                    </div>
+                </div>
+                
+                <div id="reportWrapper" class="col-xs-12 top10 container-fluid" style="min-height: 390px; background-color: #6C7A89;"></div>
+
+            </div>
+           
+            }
+    </div>@*panel-body*@
+</div>
+
+
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/MCRS/otherreports/js_generalexpenses.js"></script>*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            var viewModel = new ViewModel(JSON.parse(data));
+            viewModel.inputUrlActions = $("#urlActions");
+            ko.applyBindings(viewModel);
+
+
+        });
+
+        function ViewModel(model) {
+
+            self = this;
+            //self.Uri;
+            //self.StartDate = ko.observable(new Date(moment(model.StartDate)));
+            //self.EndDate = ko.observable(new Date(moment(model.EndDate)));
+
+            //self.SelectedGenderList = ko.observable(0);
+            //self.GenderId = ko.observable(0);
+            //self.GenderList = ko.observableArray(model.GenderList);
+
+            //self.NationalityId = ko.observable(0);
+            //self.SelectedNationalityList = ko.observable(0);
+            //self.NationalityList = ko.observableArray(model.NationalityList);
+
+            //self.HrId = ko.observable(0);
+            //self.SelectedHrList = ko.observable(0);
+            //self.HrList = ko.observableArray(model.HrList);
+
+            self.SelectedDepartmentList = ko.observable(0);
+            self.DepartmentId = ko.observable(0);
+            self.DepartmentList = ko.observableArray(model.DepartmentList);
+
+            self.SelectedPositionList = ko.observable(0);
+            self.PositionId = ko.observable(0);
+            self.PositionList = ko.observableArray(model.PositionList);
+
+            //self.SelectedCompany = ko.observable();
+            //self.DoctorId = ko.observable();
+            //self.StationId = ko.observable();
+            //self.Sort = ko.observable();
+
+            //self.Stations = ko.observableArray(model.Departments);
+            //self.SortOptions = ko.observableArray(model.SortOptions);
+            console.log('test');
+            //self.SearchCompanies = function (query) {
+            //    param = { searchString: query.term };
+            //    url = self.Uri.data('searchcompanies');
+            //    ajaxWrapper.Get(url, param, function (data, e) {
+            //        var filteredData = [];
+            //        ko.utils.arrayForEach(data, function (company) {
+            //            filteredData.push({ id: company.Id, text: company.Code + " - " + company.Name });
+
+            //        });
+            //        query.callback({
+            //            results: filteredData
+            //        });
+            //    });
+            //};
+
+            //self.SearchDoctors = function (query) {
+            //    param = { searchString: query.term };
+            //    url = self.Uri.data('searchdoctors');
+            //    ajaxWrapper.Get(url, param, function (data, e) {
+            //        var filteredData = [];
+            //        ko.utils.arrayForEach(data, function (doctor) {
+            //            filteredData.push({ id: doctor.OperatorId, text: doctor.EmpCode + " - " + doctor.FullName });
+
+            //        });
+            //        query.callback({
+            //            results: filteredData
+            //        });
+            //    });
+            //};
+
+            self.init = function () {
+                self.PositionList.unshift({ OperatorId: "0", FullName: "ALL" });
+                self.DepartmentList.unshift({ Id: '0', Name: "ALL" });
+                //self.GenderList.unshift({ Key: '0', Value: "ALL" });
+            };
+            self.init();
+        }
+
+    </script>
+}
+

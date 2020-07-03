@@ -1,0 +1,158 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.QpsPatientListByAge
+
+
+@{
+    ViewBag.Title = "QPS Reports";
+    AjaxOptions options = new AjaxOptions();
+
+    options.HttpMethod = "POST";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+    
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Patient List By Age Range</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+
+
+    <div class="panel-body" style="height: auto;">
+        @using (Ajax.BeginForm(options))
+    {
+         
+            <div class="form-inline">
+                <div class="col-xs-3 border10 center" style="width: auto;">
+                    @Html.Label("PIN Creation Date", new { @class = "col-xs-12" })
+                    <div class="form-group">
+                        @Html.HiddenFor(m => m.checkDate)
+                        <input class="comp" data-mini="true" id="checkbox" name="checkbox" type="checkbox" value="9" onclick="return calc()" />
+
+                        
+
+                        @Html.LabelFor(m => m.StartDate, new { @class="" })&nbsp;&nbsp;
+                    @Html.TextBoxFor(m => m.StartDate, Model.StartDate.ToString("dd-MMM-yyyy"), new { 
+                        @readOnly="true",@class="datepicker form-control ",style="",data_bind="datepicker:$root.StartDate, datepickerOptions:{format:'dd-M-yyyy',autoclose:true}" 
+                    })
+                        <span class="  ">
+                <button data-bind="glyphfor:'@Html.IdFor(m=>m.StartDate)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-left: -2px; "></button>
+                        </span>
+
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                    @Html.LabelFor(m => m.EndDate, new { @class="" })&nbsp;&nbsp;
+                    @Html.TextBoxFor(m => m.EndDate, Model.EndDate.ToString("dd-MMM-yyyy"), new { 
+                        @readOnly="true",@class="datepicker form-control",style="",data_bind="datepicker:$root.EndDate, datepickerOptions:{format:'dd-M-yyyy',autoclose:true}" 
+                    })
+                        <span class="  ">
+                            <button data-bind="glyphfor:'@Html.IdFor(m=>m.EndDate)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-left: -2px; "></button>
+                        </span>
+
+                    </div>
+                </div>
+                <div class="col-xs-2 ">
+               
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.AgeRangeID, new { @class="" })
+                        <select id="@Html.IdFor(m=>m.AgeRangeID)" name ="@Html.NameFor(m=>m.AgeRangeID)" class="form-control">
+                            @*<option value="0">All</option>*@
+                        @foreach (var item in Model.AgeRange)
+                        {
+                                <option value="@item.id">@item.name</option>
+                        }
+                        </select>
+                        @Html.HiddenFor(m => m.AgeRangeName)
+                       
+                    </div>
+                </div>
+               @* <div class="col-xs-2 "></div>*@
+                <div class="col-xs-2" style="">
+                    <button id="RunReport" data-bind="click:$root.submit" type="submit" class="btn btn-success" value="RunReport">
+                        <span class="glyphicon glyphicon-tasks"></span>Run Report
+                    </button>
+                    <br />
+                    <br />
+
+                    <a id="Close"  href="@Url.Action("Index", "QpsReports")" class="btn btn-danger ">
+                        <span class="glyphicon glyphicon-off"></span>Close
+                    </a>
+                </div>
+
+                <div id="reportWrapper" class="col-xs-12 top10 container-fluid" style="min-height: 390px; background-color: #6C7A89;"></div>
+            </div>
+    }
+
+    </div>
+ </div>
+
+
+
+
+
+
+
+
+
+
+
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/ManagementReports/FinanceReports/IPDischargesStatement.js"></script>*@
+    <script type="text/javascript" src="~/Scripts/ManagementReports/MarketingReports/NoofCashVisit.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            console.log(data);
+            var viewModel = new ViewModel(JSON.parse(data));
+            viewModel.inputUrlActions = $("#urlActions");
+            ko.applyBindings(viewModel);
+        });
+
+        $(document).ready(function () {
+            $("#AgeRangeName").val($("#AgeRangeID").find("option:selected").text());
+            $("#AgeRangeID").change(function () {
+                //if ($(this).find("option:selected").text() != "All")
+                $("#AgeRangeName").val($(this).find("option:selected").text());
+                //else
+                //    $("#AgeRangeName").val("");
+                console.log($("#AgeRangeName").val());
+            });
+            console.log($("#AgeRangeName").val());
+
+
+        });
+
+
+        function calc() {
+
+       
+            if ($("#checkbox").is(':checked')) {
+                console.log('check1');
+                $('.datepicker,.glyphicon-calendar,.glyphicon').prop("disabled", true);
+                $('#checkDate').val('1');
+                console.log('check--' + $('#checkDate').val());
+                $('#StartDate').val(moment($('#StartDate').val()).format('DD-MMM-YYYY'));
+                $('#EndDate').val(moment($('#EndDate').val()).format('DD-MMM-YYYY'));
+                //document.getElementById("StartDate").disabled = true;
+            } else {
+                $('.datepicker,.glyphicon-calendar,.glyphicon').prop("disabled", false);
+                $('#checkDate').val('0');
+                console.log('uncheck' + $('#checkDate').val());
+            }
+
+
+        }
+
+
+    </script>
+}

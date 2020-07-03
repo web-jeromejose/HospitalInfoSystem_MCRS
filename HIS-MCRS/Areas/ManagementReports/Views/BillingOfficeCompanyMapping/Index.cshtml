@@ -1,0 +1,98 @@
+﻿@{
+    ViewBag.Title = "Billing Officer Company Mapping";
+}
+@Styles.Render("~/Styles/arcustom")
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Billing Officer Company Mapping</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+                <button type="button" class="btn btn-sm btn-primary" id="btn_save">
+                    <span class="glyphicon glyphicon-floppy-save"></span> Save Changes
+                </button>
+                <button type="button" class="btn btn-sm btn-default" id="btn_clear" disabled="disabled">
+                    <span class=""></span> Un-Mapped Company
+                </button>
+                <button type="button" class="btn btn-sm btn-default" id="btn_clear">
+                    <span class="glyphicon glyphicon-erase"></span> Clear
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="IT_custom_filter_container">
+            <form class="form form-horizontal">
+                <div class="row">
+                    <label for="billingofficer" class="control-label col-sm-1">Billing Officer</label>
+                    <div class="col-sm-4">
+                        <input type="text" id="billingofficer" class="form-control" disabled="disabled" />
+                    </div>
+                    <div class="col-sm-7">
+                        @*<button type="button" class="btn btn-sm btn-default" id="btn_sel_all_cat" disabled="disabled">
+                            <span class="glyphicon glyphicon-ok"></span> Select All Categories
+                        </button>*@
+                        <button type="button" class="btn btn-sm btn-default" id="btn_sel_all_com" disabled="disabled">
+                            <span class="glyphicon glyphicon-ok"></span> Select All Companies
+                        </button>
+                        <button type="button" class="btn btn-sm btn-default" id="btn_desel_all_com" disabled="disabled">
+                            <span class="glyphicon glyphicon-remove"></span> De-Select All Companies
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="form-group">
+                    <table class="table table-bordered table-striped" id="catdisptable" style="background-color:#fff;">
+                        <thead class="IT_custom_table_header">
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-sm-7">
+                <div class="form-group">
+                    <table class="table table-bordered table-striped" id="comdisptable" style="background-color:#fff;">
+                        <thead class="IT_custom_table_header">
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<input type="hidden" value="@ViewBag.MyOperatorId" id="his_opeid" />
+<input type="hidden" id="url"
+       data-reporturl="@Url.Content("~/Areas/AROPBILLING/Reports/Reports.aspx")"
+       data-arcommon="@Url.Content("~/Common")"
+       data-savebillofficer="@Url.Action("save_billing_officer_mapping")"
+       data-getbillofficer="@Url.Action("get_billing_officer_list")"
+       data-getbillofficercompany="@Url.Action("get_billing_officer_com_list")"
+       data-getbillofficercategory="@Url.Action("get_billing_officer_cat_list")" />
+
+
+@Scripts.Render("~/Scripts/commonwrapper")
+@Scripts.Render("~/Scripts/jsBillingOfficerCompMapping")

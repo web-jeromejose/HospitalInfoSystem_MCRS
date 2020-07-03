@@ -1,0 +1,128 @@
+﻿@{
+    ViewBag.Title = "Actual and Adjusted Bill Reports";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Actual and Adjusted Bill Reports</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="col-md-8" style="padding-left:0px;padding-right:0px;height:540px;">
+            <div id="report-container">
+                <iframe id="myReport2" style="height: 540px; background-color: #6C7A89;"></iframe>
+            </div>
+        </div>
+        <div class="col-md-4" style="padding-left:0px;padding-right:0px;">
+            <div style="padding:5px;padding-left:15px;">
+                <form class="AR_custom_font_default AR_custom_label_default AR_custom_label_left_align form-horizontal">
+
+
+@*                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div class="alert alert-info alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <strong>Info: </strong> Due to large amount of data in Out Patient. It may take some time to generate the list. It may seem unresponsive at times, but it is working on the background.
+                            </div>
+                        </div>
+                    </div>*@
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label class="control-label" for="filtertype">Filter Type</label>
+                            <input type="text" class="form-control" id="filtertype" disabled="disabled" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-sm-6">
+                            <label class="control-label" for="fdate">From</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control def_datepicker" id="fdate" name="fdate" value="@DateTime.Today.ToString("dd-MMM-yyyy")" data-date-end-date="0d" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" onclick="_common.dateshow('#fdate');"><span class="glyphicon glyphicon-calendar"></span></button>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label class="control-label" for="tdate">To</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control def_datepicker" id="tdate" name="tdate" value="@DateTime.Today.AddMonths(1).ToString("dd-MMM-yyyy")" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" onclick="_common.dateshow('#tdate');"><span class="glyphicon glyphicon-calendar"></span></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label class="control-label" for="invtype">Invoice Type</label>
+                            <input type="text" class="form-control" id="invtype" disabled="disabled" />
+                        </div>
+                    </div>
+
+                    @*<div class="form-group">
+                        <div class="col-sm-12">
+                            <label class="control-label" for="invtype">Type</label>
+                            <input type="text" class="form-control" id="invtype" disabled="disabled" />
+                        </div>
+                    </div>*@
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label class="control-label" for="category">Category</label>
+                            <input type="text" class="form-control" id="category" disabled="disabled" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label class="control-label" for="company">Company</label>
+                            <input type="text" class="form-control" id="company" disabled="disabled" />
+                        </div>
+                    </div>
+
+    @*                <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="control-label" for="pin">PIN</label>
+                            <input type="text" class="form-control" id="pin" disabled="disabled" />
+                        </div>
+                    </div>*@
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <br />
+                            @*<button type="button" id="btn_generate" class="btn btn-sm btn-primary" disabled="disabled"><span class="glyphicon glyphicon-arrow-left"></span> Generate</button>*@
+                            <button type="button" id="btn_runreport" class="btn btn-sm btn-info" disabled="disabled"><span class="glyphicon glyphicon-list-alt"></span> Run Report</button>
+                            <button type="button" id="btn_clear" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-erase"></span> Clear</button>
+                        </div>
+
+                    </div>
+                    <div class="clear-both"></div>
+                </form>
+            </div>
+            <div class="clear-both"></div>
+            <br />
+        </div>
+
+        <div class="clear-both"></div>
+    </div>
+</div>
+
+<input type="hidden" id="hdn_opeid" value="@ViewBag.OperatorId" />
+
+<input type="hidden" id="url"
+       data-reporturl="@Url.Content("~/Areas/MCRS/Reports/Reports.aspx")"
+       data-arcommon="@Url.Content("~/Common")" />
+@Scripts.Render("~/Scripts/commonwrapper")
+@Scripts.Render("~/Scripts/jsActAdjBillReports")
+
+

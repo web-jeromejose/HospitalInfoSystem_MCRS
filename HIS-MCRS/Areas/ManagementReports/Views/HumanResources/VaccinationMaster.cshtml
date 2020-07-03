@@ -1,0 +1,319 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.HRvaccinationFile
+
+
+@{  
+    ViewBag.Title = "Human Resources Reports ";
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-9">
+                <h4><span class="navbar-header">Vaccination Master File</span></h4>
+            </div>
+            <div class="col-xs-2  ">
+
+                <a id="Close"  href="@Url.Action("Index", "HumanResources")" class="btn btn-danger pull-right ">
+                    <span class="glyphicon glyphicon-off"></span>Close
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body" style="height: auto;">
+@using (Ajax.BeginForm(options))
+{
+    
+    <div class="col-xs-5" id="VaccineWrapper">
+        <table class="table" style="background-color: #e3e9f9;">
+            <thead>
+                <tr>
+                   
+                    <th>Item Code</th>
+                    <th>Item Name</th>
+                    
+                </tr>
+            </thead>
+            <tbody class="border10" data-bind="dataTablesForEach:{data:$root.VaccinationData,dataTableOptions:{bDestroy: true,fnDestroy:true,fnClearTable:true,paging:false,bFilter: false, bInfo: false}}">
+
+                <tr data-bind="click : $root.clickItem">
+                    <td style="padding: 0px !important;" data-bind="text:ItemCode "></td>
+                    <td style="padding: 0px !important;" data-bind="text:ItemName "></td>
+                </tr>
+            </tbody>
+
+        </table>
+        <input id="SelectVaccination" class="col-xs-12" name="SelectVaccination" type="hidden" data-bind="value: ko.toJSON($root.SelectedVaccination())" />
+ 
+
+        
+    </div>
+    
+    <div class="col-xs-7 border10">
+        <fieldset>
+            <legend>Vaccination Information</legend>
+
+            <div class="col-xs-12 ">
+                @Html.LabelFor(m=>m.ItemCode,new { @class = "col-xs-3"})
+                @Html.TextBoxFor(m => m.ItemCode, new { @class = "col-xs-6",@type="number",data_bind="value: $root.SelectedVaccination().ItemCode,enable:$root.Enable"  })
+            </div>
+            <div class="col-xs-12 top10">
+                @Html.LabelFor(m=>m.Name,new { @class = "col-xs-3" })
+                @Html.TextBoxFor(m => m.Name, new { @class = "col-xs-6",data_bind="value: $root.SelectedVaccination().ItemName,enable:$root.Enable " })
+            </div>
+            <br />
+            <div class="col-xs-12 top10">
+            <table class="table table-striped table-hover table-bordered top10">
+                <thead>
+                    <tr>
+                        <th>@Html.LabelFor(m=>m.Serology,new { @class = "" })</th>
+                        <th>@Html.LabelFor(m=>m.Dose1,new { @class = "" })</th>
+                        <th>@Html.LabelFor(m=>m.Dose2,new { @class = "" })</th>
+                        <th>@Html.LabelFor(m=>m.Dose3,new { @class = "" })</th>
+                        <th>@Html.LabelFor(m=>m.Dose4,new { @class = "" })</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <input data-bind="checked: $root.SelectedVaccination().Serology, enable:$root.Enable "  id="@Html.IdFor(m=>m.Serology)" name="@Html.IdFor(m=>m.Serology)" type="checkbox"  />
+                        </td>
+                        <td>
+                            <input data-bind="checked: $root.SelectedVaccination().Dose1, enable:$root.Enable " id="@Html.IdFor(m=>m.Dose1)" name="@Html.IdFor(m=>m.Dose1)" type="checkbox" value="true" />
+                        </td>
+                        <td>
+                            <input data-bind="checked: $root.SelectedVaccination().Dose2, enable:$root.Enable "  id="@Html.IdFor(m=>m.Dose2)" name="@Html.IdFor(m=>m.Dose2)" type="checkbox" value="true" />
+                        </td>
+                        <td>
+                            <input data-bind="checked: $root.SelectedVaccination().Dose3, enable:$root.Enable "  id="@Html.IdFor(m=>m.Dose3)" name="@Html.IdFor(m=>m.Dose3)" type="checkbox" value="true" />
+                        </td>
+                        <td>
+                            <input data-bind="checked: $root.SelectedVaccination().Dose4, enable:$root.Enable "  id="@Html.IdFor(m=>m.Dose4)" name="@Html.IdFor(m=>m.Dose4)" type="checkbox" value="true" />
+                        </td>
+
+                    </tr>
+                </tbody>
+
+            </table>
+
+                <div class="col-xs-12 border10">
+                <div class="col-xs-3 ">
+                    <button id="New" data-bind="click: function(){ $root.new() }" type="submit" class="  pull-left btn btn-success btn-sm">
+                        <span class="glyphicon glyphicon-plus"></span> New
+                    </button>
+               
+                        <button id="Update" data-bind="click: function(){$root.update() },enable: $root.buttonDisable" type="submit" class="pull-right btn btn-info btn-sm">
+                            <span class="glyphicon glyphicon-edit"></span> <span id="TextSaveId" data-bind="text: $root.TextUpdate"></span>
+                        </button>
+                    </div>
+                    <div class="col-xs-4 col-xs-offset-2">
+                        <button id="Delete" data-bind="click: function(){ $root.delete() },enable: $root.buttonDisable" type="submit" class=" pull-left btn btn-warning btn-sm">
+                            <span class="glyphicon glyphicon-remove"></span> Delete
+                        </button>
+                    
+                        <button id="Close" data-bind="click: function(){ $root.Clear() },enable: $root.buttonDisable" type="submit" class=" pull-right   btn btn-danger btn-sm">
+                            <span class="glyphicon glyphicon-off"></span>Cancel
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </fieldset>
+    
+    </div>
+    
+    @* generic dialog*@
+            
+    
+    
+    <div id="Dialog" class="modal fade" tabindex="-1" role="dialog" data-bind="modal:$root.Dialog().Show" style="z-index: 1300">
+        <div class="modal-dialog" style="width: 350px; z-index: 1300;">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header" data-bind="css: $root.Dialog().AlertCSS" style="padding: 8px;">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" data-bind="text: $root.Dialog().Header">Header</h4>
+                </div>
+                <div class="modal-body">
+                    <p data-bind="text:$root.Dialog().Message">error message container</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-bind="click: $root.notdelete()" class="btn btn-sm btn-default col-xs-2 pull-right" data-dismiss="modal">No</button>
+
+                    <button data-bind="click: $root.Dialog().FnOK" type="button" class="btn btn-sm btn-default col-xs-2 pull-left" data-dismiss="modal">Yes</button>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+    </div>@*panel-body*@
+
+
+</div>
+
+
+<input id="urlActions" class="hidden" data-savevaccination="saveVaccination" />
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/MCRS/otherreports/js_generalexpenses.js"></script>*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            var viewModel = new ViewModel(JSON.parse(data));
+            viewModel.inputUrlActions = $("#urlActions");
+            ko.applyBindings(viewModel);
+        });
+
+        function ViewModel(model) {
+
+            self = this;
+            self.inputUrlActions = null;
+            self.VaccinationData = ko.observableArray(model.VaccinationList);
+             
+            self.buttonDisable = ko.observable(false);
+            self.TextUpdate = ko.observable("Update");
+            self.Clear = ko.observable();
+            self.Enable = ko.observable(false);
+            self.Inserted = ko.observable("0");
+        
+            self.SelectedVaccination = ko.observable(new Vaccination());
+            self.Dialog = ko.observable(new Dialog("", "", "", false));
+
+            self.clickItem = function (e) {
+                console.log(e);
+                self.buttonDisable(true);
+                self.SelectedVaccination(new Vaccination(e.Id, e.ItemCode, e.ItemName, e.Serology, e.Dose1, e.Dose2, e.Dose3, e.Dose4, e.Deleted));
+            };
+            self.delete = function () {
+                self.Inserted = ko.observable("0");
+                self.SelectedVaccination().Deleted("1");
+                var urlajax = new urlAjax(self.inputUrlActions.data('savevaccination'), self.Inserted);
+                self.Dialog(new Dialog("REMINDER", "Delete this record?", "alert-danger", true, urlajax));
+            };
+            self.new = function () {
+                self.Inserted = ko.observable("1");
+              
+                self.buttonDisable(true);
+
+                $('#New').prop('disabled', true);
+                $('#Delete').prop('disabled', true);
+                //self.buttonDisable = ko.observable(true);
+                $('#Close').prop('disabled', false);
+                $('#Update').prop('disabled', false);
+                self.TextUpdate("Save");
+                self.Enable(true);
+                self.SelectedVaccination([]);
+                self.SelectedVaccination(new Vaccination('', '', '', '', '', '', '', '', '0'));
+                self.Inserted = ko.observable("1");
+                self.SelectedVaccination().Deleted("0");
+
+
+            };
+            self.notdelete = function () {
+                self.Inserted = ko.observable("0");
+                self.SelectedVaccination().Deleted("0");
+
+            };
+            self.Clear = function () {
+                self.buttonDisable(false);
+                $('#New').prop('disabled', false);
+             
+                self.TextUpdate("Update");
+                self.SelectedVaccination([]);
+            };
+            self.update = function () {
+
+                if (self.TextUpdate() == 'Update')
+                {
+                    self.TextUpdate("Save");
+                    self.Enable(true);
+                   
+                } else { //save
+                  
+                    var urlajax = new urlAjax(self.inputUrlActions.data('savevaccination'), self.Inserted);
+                    self.Dialog(new Dialog("REMINDER", "Save/Update Vaccination Item?", "alert-danger", true, urlajax));
+                }
+
+            };
+        }
+
+        function urlAjax(url, Isinsert)
+        {
+            var object = this;
+            object.send = function () {
+               
+
+                param = { SelectedVaccination: ko.toJSON(self.SelectedVaccination()),IsInsert : Isinsert};
+                 
+                ajaxWrapper.PostWithLoading(url, param, $("#VaccineWrapper"), function (data, e) {
+                    if (data)
+                    {
+                        location.reload();
+                    }
+                });
+
+            }
+
+        }
+
+        function Dose(value) {
+            that = this;
+            that.Enable = ko.observable(false);
+            that.Value = ko.observable(value);
+        }
+      
+        function Vaccination(Id, ItemCode, ItemName, Serology, Dose1, Dose2, Dose3, Dose4, Deleted, parent) {
+            this.Id = Id;
+            this.ItemCode = ko.observable(ItemCode);
+            this.ItemName = ko.observable(ItemName);
+            var Serology = Serology ? 1 : 0;
+            console.log('ser' + Serology);
+            this.Serology = ko.observable(Serology);
+            this.Dose1 = ko.observable(Dose1);
+            this.Dose2 = ko.observable(Dose2);
+            this.Dose3 = ko.observable(Dose3);
+            this.Dose4 = ko.observable(Dose4);
+            this.Deleted = ko.observable(Deleted);
+             
+        }
+
+
+
+
+        function Dialog(header, message, alertCSS, show, FnOk) {
+            this.Header = ko.observable(header);
+            this.Message = ko.observable(message);
+            this.AlertCSS = ko.observable(alertCSS);
+            this.Show = ko.observable(show);
+            this.FnOK = function () {
+                FnOk.send();
+            }
+        }
+
+
+
+    </script>
+}
+
+
+

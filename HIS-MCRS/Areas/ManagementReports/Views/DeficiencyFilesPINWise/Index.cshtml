@@ -1,0 +1,121 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.Models.DeficiencyFilesPINWiseModel
+
+@using System.Web.UI.WebControls
+@using ReportViewerForMvc
+
+@using (Html.BeginForm("Index", "DeficiencyFilesPINWise", FormMethod.Post))
+{
+    <div class="panel panel-default ">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-xs-5">
+                    <h4><b class="navbar-header">Deficiency Files PIN Wise</b></h4>
+                </div>
+                <div class="col-xs-7">
+                    <div class="col-xs-11">
+                        <div class="col-xs-7"></div>
+                        <div class="col-xs-5">
+
+                        </div>
+                    </div>
+                    <div class="col-xs-1">
+                        <input id="button1" type="submit" value="Submit" class="btn btn-default pull-right" />
+                    </div>
+
+                </div>
+            </div>
+        </div>@*Header Panel*@
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-4">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label>Date</label>
+                            <div class="input-group input-daterange">
+                                @Html.TextBoxFor(model => model.StartDate, new { id = "txtFromDate", name = "DateFrom", @class = "form-control datepicker", @placeholder = "From Date" })
+                                <span class="input-group-addon">
+                                </span>
+                                @Html.TextBoxFor(model => model.EndDate, new { id = "txtToDate", name = "DateTo", @class = "form-control datepicker", @placeholder = "To Date" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="pull-right">Exclude Admission less than 24hrs @Html.CheckBoxFor(m => m.ExcludeAdmission)</label>
+                    </div>
+                    <div class="row">
+                        <label class="pull-right">Include Parameters @Html.CheckBoxFor(m => m.IncludeParameter)</label>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    @Html.LabelFor(model => model.Speciality, "Speciality")
+                    @Html.TextBox("txtSpeciality", null, new { id = "txtSpeciality", name = "txtSpeciality", @class = "form-control", @placeholder = "Select Speciality" })
+                    @Html.HiddenFor(model => model.Speciality)
+                    @Html.LabelFor(model => model.Doctor, "Doctor")
+                    @Html.TextBox("txtDoctor", null, new { id = "txtDoctor", name = "txtDoctor", @class = "form-control", @placeholder = "Select Doctor" })
+                    @Html.HiddenFor(model => model.Doctor)
+                    @Html.LabelFor(model => model.PIN, "PIN")
+                    @Html.TextBox("txtPIN", null, new { id = "txtPIN", name = "txtPIN", @class = "form-control", @placeholder = "Select PIN" })
+                    @Html.HiddenFor(model => model.PIN)
+                </div>
+                <div class="col-xs-4">
+                    <div class="includeparameters hidden" >
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label>Include 2014 Standards : @Html.CheckBoxFor(m => m.IncludeStandards)</label><br />
+                                @*@Html.LabelFor(model => model.Standard, "Standard")*@
+                                @Html.TextBox("txtStandard", null, new { id = "txtStandard", name = "txtStandard", @class = "form-control", @placeholder = "Select Standard" })
+                                @Html.HiddenFor(model => model.Standard)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                @Html.LabelFor(model => model.MonthFromDate, "From")
+                                <div class="input-group input-daterange">
+                                    @Html.DropDownListFor(m => m.MonthFromDate, new SelectList(Model.MonthOptions, "Id", "Value", Model.MonthOptions.First().Id), new { @class = "form-control" })
+                                    <span class="input-group-addon">
+                                    </span>
+                                    @Html.DropDownListFor(m => m.YearFromDate, new SelectList(Model.YearOptions, "Id", "Value", Model.YearOptions.First().Id), new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                @Html.LabelFor(model => model.MonthToDate, "To")
+                                <div class="input-group input-daterange">
+                                    @Html.DropDownListFor(m => m.MonthToDate, new SelectList(Model.MonthOptions, "Id", "Value", Model.MonthOptions.First().Id), new { @class = "form-control" })
+                                    <span class="input-group-addon">
+                                    </span>
+                                    @Html.DropDownListFor(m => m.YearToDate, new SelectList(Model.YearOptions, "Id", "Value", Model.YearOptions.First().Id), new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    @if (ViewBag.ReportViewer != null)
+                    {
+                        @Html.ReportViewer(ViewBag.ReportViewer as Microsoft.Reporting.WebForms.ReportViewer, new { SizeToReportContent = true, Width = Unit.Percentage(100), Height = "450px" })
+                    }
+                </div>
+            </div>
+        </div>@*Body*@
+    </div>@*Panel Head*@
+}
+
+<input type="hidden" id="url"
+       data-getspeciality="@Url.Action("GetSpeciality")"
+       data-getdoctor="@Url.Action("GetDoctor")"
+       data-getpin="@Url.Action("GetPIN")"
+       data-getstandard="@Url.Action("GetStandard")" />
+
+@section scripts {
+    <script src="~/Scripts/MCRS/patientstatistics/jqGlobal.js"></script>
+    <script src="~/Scripts/MCRS/patientstatistics/jqReport.js"></script>
+    <script src="~/Scripts/MCRS/patientstatistics/jqDeficiencyFilesPINWise.js"></script>
+}
+
+@*
+    <script src="~/Scripts/CATHLAB/jqCathLabGlobal.js"></script>
+    <script src="~/Scripts/CATHLAB/jqGlobal.js"></script>
+    <script src="~/Scripts/CATHLAB/jqCathReport.js"></script>
+*@

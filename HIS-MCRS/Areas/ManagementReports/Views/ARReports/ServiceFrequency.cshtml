@@ -1,0 +1,107 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.ARServiceFrequency
+
+@{
+    ViewBag.Title = "AR Reports";
+   AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Active Service Frequency with Price (OP & IP)</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+
+    @using(Ajax.BeginForm(options)){
+    <div class="panel-body" >
+        
+        <div class=" col-xs-12">
+           
+            <div class="col-xs-4">
+               <div class="col-xs-12 border10">
+                 @Html.Label("Report Date Range (Discharge Date) ", new { @class = "col-xs-12 top5" })
+                 @Html.LabelFor(m => m.StartDate, new { @class = "col-xs-3 top5" })
+                
+                <div  class="col-xs-7">
+                    
+                    <div class="input-group">
+                            @Html.TextBoxFor(m => m.StartDate,Model.StartDate.ToString("dd-MMM-yyyy"), new { @readonly=true, @class = "datepicker form-control", style = "z-index:0 !important;", 
+                                                                    data_bind="datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy', autoclose: true}" })
+                            <span class="input-group-btn ">
+                                <button data-bind="glyphfor:'StartDate'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                            </span>
+                        </div>
+
+                </div>
+                <div class="col-xs-12"></div>
+                 @Html.LabelFor(m => m.EndDate, new { @class = "col-xs-3 top5" })
+                <div  class="col-xs-7">
+                      <div class="input-group">
+                            @Html.TextBoxFor(m => m.EndDate,Model.StartDate.ToString("dd-MMM-yyyy"), new {@readonly=true, @class = "datepicker form-control ", style = "z-index:0 !important;",
+                                                                  data_bind="datepicker:$root.EndDate, datepickerOptions:{format: 'dd-M-yyyy', autoclose: true}"})
+                            <span class="input-group-btn">
+                                <button  data-bind="glyphfor:'EndDate'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                            </span>
+                        </div>
+                 </div>
+                </div>
+            </div>
+              
+            <div class="col-xs-6">
+              
+
+
+               
+            
+            </div>
+            
+            <div class="col-xs-2">
+                <div class="pull-right col-xs-10">
+                    <button id="RunReport" type="submit" class="btn btn-success col-xs-12" value="RunReport">
+                        <span class="glyphicon glyphicon-tasks"></span> Run Report
+                    </button>
+                   <a id="Close"  href="@Url.Action("Index", "ARReports")" class="top5 btn btn-danger col-xs-12">
+                        <span class="glyphicon glyphicon-off"></span> Close
+                    </a>
+
+                </div>
+            </div>
+        </div>
+        
+        <div id="reportWrapper" style="margin-top:10%;" />
+     
+
+    </div>
+    }
+</div>
+
+<input id="urlInput" class="hidden" data-print="@Url.Action("Preview", "Print", new { Area = "" })" />
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{ 
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    <script type="text/javascript" src="~/Scripts/ManagementReports/ARReports/ServiceFrequency.js"></script>
+    <script type="text/javascript">
+        var viewModel = ""
+        $(document).ready(function () {
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            viewModel = new ViewModel(JSON.parse(data), $("#urlInput"));
+            ko.applyBindings(viewModel);
+        });
+    </script>
+}

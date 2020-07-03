@@ -1,0 +1,116 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@Styles.Render("~/Styles/arcustom")
+
+<div class="row">
+    <br />
+    <div class="col-sm-12">
+        <ul>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Action("Index","PINRegistrationbyDateRange")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                       1. PIN Registration by Date Range
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Action("PatientReservationSummary")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                       2. Summary of Patient Reservation
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Action("Index","ReceptionistTransactionSummary")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                       3. Receptionist Transaction Summary
+                    </section>
+                </a>
+            </li>
+             <li>
+                <a class="mc_rep_continer" href="@Url.Action("SummaryOfCancelledAppointments","PolyClinic")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                       4. Summary of Cancelled Patient Appointments
+                    </section>
+                </a>
+            </li>
+             <li>
+                <a class="mc_rep_continer" href="@Url.Action("CancelledPatientAppointment","PolyClinic")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        5. List of Cancelled Patient Appointments
+                    </section>
+                </a>
+            </li>
+           
+            <li>
+                <a class="mc_rep_continer" href="@Url.Action("Index","OPDPatientCount")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                       6. OPD Patient Count
+                    </section>
+                </a>
+            </li>
+
+             <li>
+                <a class="mc_rep_continer" href="@Url.Action("OPPatientCount","PolyClinic")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                       7. OP Patient Count
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Action("Index","PatientRevisits")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                       8. Patient Revisits
+                    </section>
+                </a>
+            </li>
+              <li>
+                <a class="mc_rep_continer" href="@Url.Action("OPProcedureStatistics","PolyClinic")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                      9. OP Procedure Statistics
+                    </section>
+                </a>
+            </li>
+               <li>
+                <a class="mc_rep_continer" href="@Url.Action("OPItemBillCount","PolyClinic")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                      10. OP Item Bill Count
+                    </section>
+                </a>
+            </li>
+
+               <li>
+                <a class="mc_rep_continer" href="@Url.Action("BookedAppointment","PolyClinic")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                      11. IP/OP Numbers of Booked Appointments
+                    </section>
+                </a>
+            </li>
+
+            
+               <li>
+                <a class="mc_rep_continer" href="@Url.Action("BookvsWalkin","PolyClinic")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                      12.  Booked Appointments vs Walk in
+                    </section>
+                </a>
+            </li>
+
+
+            
+        </ul>
+    </div>
+</div>

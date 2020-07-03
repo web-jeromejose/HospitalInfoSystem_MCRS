@@ -1,0 +1,136 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.OperationTheatreSurgeryRecordSummary
+@{
+    ViewBag.Title = "Operation Theatre Reports";
+   AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading" style="padding-top: 0px;">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">List of OR Done List</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+
+    @using(Ajax.BeginForm(options)){
+        <div class="panel-body">
+            <div class="row">
+                <div class=" col-xs-12">
+                    <div class="col-xs-3 border10 top5">
+                        @*@Html.Label("Report Date Range", new { @class = "col-xs-12" })*@
+                       <label class="col-xs-2">Date</label>
+                        <div class="col-xs-10">
+
+                            <div class="input-group">
+                                @Html.TextBoxFor(m => m.From,Model.From.ToString("dd-MMM-yyyy"), new { @readonly=true, @class = "datepicker form-control", style = "z-index:0 !important;", 
+                                                                    data_bind="datepicker:$root.StartDate, datepickerOptions:{format: 'dd-MM-yyyy', autoclose: true}" })
+                                <span class="input-group-btn ">
+                                    <button data-bind="glyphfor:'@Html.IdFor(m=>m.From)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                                </span>
+                            </div>
+
+                        </div>
+                       @* @Html.LabelFor(m => m.To, new { @class = "col-xs-2 top10" })
+                        <div class="col-xs-10 top5">
+                            <div class="input-group">
+                                @Html.TextBoxFor(m => m.To,Model.To.ToString("dd-MMM-yyyy"), new {@readonly=true, @class = "datepicker form-control ", style = "z-index:0 !important;",
+                                                                  data_bind="datepicker:$root.EndDate, datepickerOptions:{format: 'dd-M-yyyy', autoclose: true}"})
+                                <span class="input-group-btn">
+                                    <button  data-bind="glyphfor:'@Html.IdFor(m=>m.To)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                                </span>
+                            </div>
+                        </div>*@
+                    </div>
+
+                    <div class="col-xs-4 top5">
+                      @*  <div class="col-xs-12 border10">
+                            <br />
+                            @Html.LabelFor(m => m.DepartmentId, new { @class = "col-xs-3 top5" })
+                            <div class="col-xs-9">
+
+                                <select id="@Html.IdFor(m=>m.DepartmentId)" name="@Html.NameFor(m=>m.DepartmentId)" class="form-control select2"
+                        data-bind="options:$root.Stations, optionsText:'Name', optionsValue:'Id', value:$root.StationId, select2: {allowClear:true, placeholder:'Select Department'}">
+                                </select>
+
+                            </div>
+                            @Html.LabelFor(m=>m.DoctorId , new { @class = "col-xs-3 top10" })
+
+                            <div class="col-xs-9 top5" style="margin-bottom: 5px;">
+
+                                <input id="@Html.IdFor(m=>m.DoctorId)" name="@Html.NameFor(m=>m.DoctorId)"
+                         class="select2 form-control" style="font-size:12px;"
+                          data-bind="value:$root.SelectedDoctor, 
+                                     select2: {minimumInputLength: 2, query:$root.SearchDoctors, placeholder:'Search Doctor', allowClear: true}"/>
+                            </div>
+
+                        </div>*@
+                    </div>
+                    <div class="col-xs-3 top5">
+                        @*<div class="col-xs-12 border10">
+                            <br />
+                            @Html.LabelFor(m => m.SortMode, new { @class = "col-xs-12" })
+                            <div class="col-xs-12" style="margin-bottom: 18px;">
+
+                                <select id="@Html.IdFor(m=>m.SortMode)" name="@Html.NameFor(m=>m.SortMode)" class="form-control select2"
+                        data-bind="options:$root.SortOptions, optionsText:'Value', optionsValue:'Key', value:$root.Sort, select2: {allowClear:true, placeholder:'Select Sort mode'}">
+                                </select>
+
+                            </div>
+                        </div>*@
+                    </div>
+                    <div class="col-xs-2 top10">
+                        <div class="pull-right col-xs-10 top10">
+                            <button id="RunReport" type="submit" class="btn btn-sm btn-success col-xs-12" value="RunReport">
+                                <span class="glyphicon glyphicon-tasks"></span>Run Report
+                            </button>
+                            <a id="Close"  href="@Url.Action("Index", "OperationTheatre")" class="top5 btn btn-sm btn-danger col-xs-12">
+                                <span class="glyphicon glyphicon-off"></span>Close
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div id="reportWrapper" class="container-fluid" />
+                </div>
+
+            </div>
+
+        </div>
+    }
+</div>
+
+<input id="urlInput" class="hidden" 
+    data-print="@Url.Action("Preview", "Print", new { Area = "" })"
+    data-searchcompanies="@Url.Action("SearchCompanies")"
+    data-searchdoctors="@Url.Action("SearchDoctors")"
+      />
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    <script type="text/javascript" src="~/Scripts/ManagementReports/OperationTheatreReports/SurgeryRecordSummary.js"></script>
+    <script type="text/javascript">
+        var viewModel = ""
+        $(document).ready(function () {
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            viewModel = new ViewModel(JSON.parse(data));
+            viewModel.Uri = $("#urlInput");
+            ko.applyBindings(viewModel);
+        });
+    </script>
+}

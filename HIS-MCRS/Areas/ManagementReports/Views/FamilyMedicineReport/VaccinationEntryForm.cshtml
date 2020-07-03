@@ -1,0 +1,770 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.FMRVaccinationReport
+
+@{  
+    ViewBag.Title = "Family Medicine Reports ";
+
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+<style>
+.aqua {
+     background-color:aqua;
+    }
+.yellow {
+        background-color:yellow;
+    }
+</style>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Vaccination Entry Form / Report</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body" style="height: auto;">
+        @using (Ajax.BeginForm(options))
+            {
+            <div class="form-inline">
+                <div class="row">
+
+                    <div class="col-xs-4">
+                        <fieldset>
+                            <legend style="font-size: 13px; margin-bottom: 3px;"><strong>Search Option</strong></legend>
+                            <div class="col-xs-12">
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        @*@Html.ValidationMessageFor(m => m.EmployeeId)*@
+                                        @Html.RadioButton("Option", "Employee", new {@checked="checked" ,@onclick="return calc()" })
+                                        <label class="">Employee Id:</label>
+                                        @Html.TextBoxFor(m => m.EmployeeId," ", new { @class = "form-control", @maxlength = "14" })
+
+                                    </div>
+
+                
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+
+                    <div class="col-xs-5 ">
+                        <fieldset>
+                            <legend style="font-size: 13px; margin-bottom: 3px;"><strong>&nbsp;  </strong></legend>
+                            <div class="col-xs-12 ">
+                                <div class="col-xs-12 ">
+                                    <div class="form-group">
+                                        <div class="col-xs-6 ">
+                                            @Html.RadioButton("Option", "Dept", new {@onclick="return calc()", @value="Dept" })
+                                            <label class="">Department:</label>
+                                        </div>
+                                        <div class="col-xs-6 ">
+                                            <select id="@Html.IdFor(m=>m.DepartmentId)" name="@Html.NameFor(m=>m.DepartmentId)" class="form-control col-xs-5  "
+                                data-bind="options:$root.DepartmentList, optionsText:'Name', optionsValue:'Id', 
+                                           value: $root.SelectedDepartmentList, select2:{allowClear: true, placeholder:''}">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                 
+                    <div class="col-xs-3" style="width: auto;">
+                        <a id="Search" data-bind="click:$root.Search" class="btn btn-success">
+                            <span class="glyphicon glyphicon-tasks"></span>Search
+                        </a>
+                      @*  <button id="RunReport" data-bind="click:$root.submit" type="submit" class="btn btn-success" value="RunReport">
+                            <span class="glyphicon glyphicon-tasks"></span>Run Report
+                        </button>*@
+                        <a id="Close"  href="@Url.Action("Index", "FamilyMedicineReport")" class="btn btn-danger ">
+                            <span class="glyphicon glyphicon-off"></span>Close
+                        </a>
+                    </div>
+                </div>
+
+                <div id="reportWrapper" class="col-xs-12 top10 container-fluid" style="min-height: 390px; background-color: #6C7A89;"></div>
+
+                <div id="dataTable1" class="col-md-12 top10">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Emp No</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Nationality</th>
+                                <th>Designation</th>
+                            </tr>
+                        </thead>
+                        <tbody class="border10" data-bind="dataTablesForEach:{data:$root.TestData, 
+                                                            dataTableOptions:{paging:true,scrollY: 200 ,bDestroy: true,fnDestroy:true,fnClearTable:true
+                                                                            @* ,columns:[
+                                                                                    {width: '50px'},
+                                                                                    {width: '100px'},
+                                                                                    {width: '100px'}
+                                                                                        ]*@
+                                                                                }
+                                                                                }" style="overflow: auto; height: 200px;">
+                            @*<tr class="linen" data-bind="click: Id == 0 ?  '' :  $root.ShowPopUp ,css: Id == 0 ?  'linen' :  toscore == 0 || toscore == null  ? 'lightyellow' : 'lightblue'">
+                             *@   @*<td style="padding: 0px !important;" data-bind="text:Id, visible:false"></td>*@
+                            <tr class="linen" style="background-color: lightgray;" data-bind="click : $root.clickItem ">
+                                <td style="padding: 0px !important;" data-bind="text:EmployeeId"></td>
+                                <td style="padding: 0px !important;" data-bind="text:Name"></td>
+                                <td style="padding: 0px !important;" data-bind="text:Department"></td>
+                                <td style="padding: 0px !important;" data-bind="text:Nationality"></td>
+                                <td style="padding: 0px !important;" data-bind="text:Designation"></td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <div id="dataTable2" class="col-md-12 top10">
+                    <legend style="font-size: 13px; margin-bottom: 3px;"><strong>&nbsp;  </strong></legend>
+                    <div class="row">
+                        <div class="col-xs-12"> 
+                            <label class="col-xs-3">Employee No : </label> <input class="col-xs-3" id="table2_employeeId" disabled/> </div>
+                    </div>
+                     <div class="row">
+                         <div class="col-xs-12"><label class="col-xs-3"> Name : </label>
+                             <input class="col-xs-3" id="table2_employeename" disabled /></div>
+                    </div>
+                    <br />
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Item Code</th>
+                                <th>Item Name</th>
+                                <th>Serology</th>
+                                <th>1st Dose</th>
+                                <th>2nd Dose</th>
+                                <th>3rd Dose</th>
+                                <th>Booster Dose</th>
+                            </tr>
+                        </thead>
+                     <tbody class="border10" data-bind="dataTablesForEach:{data:$root.TestData2,dataTableOptions:{ scrollY: 100 ,bDestroy: true,fnDestroy:true,fnClearTable:true}}" style="overflow: auto; height: 100px;">
+                      
+                            <tr class="aqua" style=" " data-bind="click : $root.clickItem2,css:''">
+                                <td style="padding: 0px !important;" data-bind="text:itemcode"></td>
+                                <td style="padding: 0px !important;" data-bind="text:itemname"></td>
+                                <td style="padding: 0px !important;" data-bind="text:serology,css: serology == 'PENDING' || serology == ''  ?  'aqua' :  'yellow'"></td>
+                                <td style="padding: 0px !important;" data-bind="text:dose1,css: dose1 == 'PENDING' || dose1 == ''  ?  'aqua' :  'yellow'"></td>
+                                <td style="padding: 0px !important;" data-bind="text:dose2,css: dose2 == 'PENDING' || dose2 == ''  ?  'aqua' :  'yellow'"></td>
+                                <td style="padding: 0px !important;" data-bind="text:dose3,css: dose3 == 'PENDING'  || dose3 == ''   ?  'aqua' :  'yellow'"></td>
+                                <td style="padding: 0px !important;" data-bind="text:dose4,css: dose4 == 'AS PER NEEDED'  || dose4 == ''  ?  'aqua' :  'yellow'"></td>
+                             
+                            </tr>
+                        </tbody>
+
+                    </table>
+                    <br />
+
+                    <div id="table_bottom">
+                    <div class="row ">
+                        <div class="col-xs-12"> 
+                            <label class="col-xs-3">Item Code :</label> <input class="col-xs-3" id="table2_itemcode" disabled /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label class="col-xs-3">Item Name :</label> <input class="col-xs-3" id="table2_itemname" disabled />
+                        </div>
+                    </div>
+                <div class="row">
+                        <div class="col-sm-12">
+                        <label class="col-xs-3">Serology</label>
+                        <div class="col-xs-3">@Html.CheckBox("isSerology", false)</div>
+                        <div class="col-xs-3">
+                                <input type="text" class="form-control datepicker def_datepicker" id="serologydate" name="serologydate" value="@DateTime.Today.ToString("dd-MMM-yyyy")" />
+                         </div>
+                        <div class="col-xs-3 ">
+                            <input type="text" class="form-control " id="serologyremarks" name="serologyremarks" value="" />
+                        </div>
+   
+                    </div>
+                </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label class="col-xs-3">1st  Dose</label>
+                            <div class="col-xs-3">@Html.CheckBox("is1stDose", false)</div>
+                            <div class="col-xs-3">
+                                <input type="text" class="form-control datepicker def_datepicker" id="1stDoseDate" name="1stDoseDate" value="@DateTime.Today.ToString("dd-MMM-yyyy")" />
+                            </div>
+                            <div class="col-xs-3 ">
+                                <input type="text" class="form-control " id="1stDoseremarks" name="1stDoseremarks" value="" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label class="col-xs-3">2nd  Dose</label>
+                            <div class="col-xs-3">@Html.CheckBox("is2ndDose", false)</div>
+                            <div class="col-xs-3">
+                                <input type="text" class="form-control datepicker def_datepicker" id="2ndDoseDate" name="2ndDoseDate" value="@DateTime.Today.ToString("dd-MMM-yyyy")" />
+                            </div>
+                            <div class="col-xs-3 ">
+                                <input type="text" class="form-control " id="2ndDoseremarks" name="2ndDoseremarks" value="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label class="col-xs-3">3rd  Dose</label>
+                            <div class="col-xs-3">@Html.CheckBox("is3rdDose", false)</div>
+                            <div class="col-xs-3">
+                                <input type="text" class="form-control datepicker def_datepicker" id="3rdDoseDate" name="3rdDoseDate" value="@DateTime.Today.ToString("dd-MMM-yyyy")" />
+                            </div>
+                            <div class="col-xs-3 ">
+                                <input type="text" class="form-control " id="3rdDoseremarks" name="3rdDoseremarks" value="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label class="col-xs-3">Booster  Dose</label>
+                            <div class="col-xs-3">@Html.CheckBox("isBoosterDose", false)</div>
+                            <div class="col-xs-3">
+                                <input type="text" class="form-control datepicker def_datepicker" id="BoosterDoseDate" name="BoosterDoseDate" value="@DateTime.Today.ToString("dd-MMM-yyyy")" />
+                            </div>
+                            <div class="col-xs-3 ">
+                                <input type="text" class="form-control " id="BoosterDoseremarks" name="BoosterDoseremarks" value="" />
+                            </div>
+                        </div>
+                    </div>
+
+       
+                    <br />
+                    <br />
+                    <div class="row ">
+                        <div class="col-xs-12">
+                            <div class="col-xs-4">
+                               @* <a id="SaveUpdate" data-bind="click:$root.SaveUpdate" class="btn btn-success">
+                                    <span class="glyphicon glyphicon-floppy-save"></span>Save / Update
+                                </a>*@
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="row">
+                                    <div class="col-xs-12 border10">
+                                    <div style="border-color: #57d9ff; width: 20px; height: 18px; background-color: #57d9ff;"></div>
+                                    <label>With Pending Vaccination</label>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 border10">
+                                        <div style="border-color: yellow; width: 20px; height: 18px; background-color: yellow;"></div>
+                                        <label>All Vaccination is Done</label>
+                                    </div>
+                                    
+                                </div>
+                               
+
+                            </div>
+                            <div class="col-xs-4">
+                                <a id="Back" data-bind="click:$root.Back" class="btn btn-warning">
+                                    <span class="glyphicon glyphicon-remove"></span> Back
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    </div>
+
+                </div>
+
+
+                <div id="EmployeeDueVaccineDIV" class="" style="">
+                    <legend style="font-size: 13px; margin-bottom: 3px;"><strong>&nbsp;  </strong></legend>
+                    <br />
+                    <br />
+                 
+                    <div class="col-xs-12" style="background-color: lightgray;">
+                        <div class="col-xs-3 text-left"><label>Vaccination Test:</label></div>
+                        <div class="col-xs-3">
+                            <div class="form-group">
+                            <select id="vaccinationtest" name="vaccinationtest" class="form-control select" data-bind="value: VaccinationTest">
+                                <option value="0" selected>&nbsp;</option>
+                                <option value="1">MMR</option>
+                                <option value="2">VARICELLA</option>
+                                <option value="3">HEP B VACCINATION</option>
+                            </select>
+                            </div>
+
+                        </div>
+                    </div>
+                    <br />
+                    <div class="col-xs-12" style="background-color: lightgray;">
+
+                        <table class="table">
+                            <thead>
+                                <tr style="overflow: auto; width: 100%;">
+                                    <th>Employee ID </th>
+                                    <th>Employee Name</th>
+                                    <th>Department</th>
+                                    <th>Due for Vaccination</th>
+                                </tr>
+                            </thead>
+                            <tbody class="border10" data-bind="dataTablesForEach:{data:$root.TestData3,dataTableOptions:{ scrollY: 250 ,bDestroy: true,fnDestroy:true,fnClearTable:true}}"
+                                style="overflow: auto; height: 200px;">
+
+                                <tr class="" style="" data-bind="">
+                                   
+
+                                   @* <td style="padding: 0px !important;" data-bind="text:moment(dose1date).format('DD-MMM-YYYY')"></td>
+                                    <td style="padding: 0px !important;" data-bind="text:moment(new Date()).add('months',1).format('DD-MMM-YYYY') "></td>*@
+
+
+                                    
+                              <!-- ko if: (itemname == 'MMR' && dose1 == 'PENDING')-->
+                                    <td style="padding: 0px !important;" data-bind="text:employeeid"></td>
+                                    <td style="padding: 0px !important;" data-bind="text:name"></td>
+                                    <td style="padding: 0px !important;" data-bind="text:department"></td> 
+                              <td style="padding: 0px !important;" data-bind="text: 'PENDING - No Vaccination has been done'"> 
+                                 
+                              </td>
+                               <!-- /ko -->
+
+                                <!-- ko if: (itemname == 'VARICELLA' )-->
+                                    <td style="padding: 0px !important;" data-bind="text:employeeid"></td>
+                                    <td style="padding: 0px !important;" data-bind="text:name"></td>
+                                    <td style="padding: 0px !important;" data-bind="text:department"></td>
+                                    <td style="padding: 0px !important;" data-bind="text: '(2nd Dose)' +  moment(dose1date).add('months',1).format('DD-MMM-YYYY')">
+                                </td>
+                                <!-- /ko -->
+                           
+
+
+                            <!-- ko if: (itemname == 'HEP B VACCINATION')-->
+                            <td style="padding: 0px !important;" data-bind="text:employeeid"></td>
+                            <td style="padding: 0px !important;" data-bind="text:name"></td>
+                            <td style="padding: 0px !important;" data-bind="text:department"></td>
+                            <td style="padding: 0px !important;" data-bind="text: '(2nd Dose)' +  moment(dose1date).add('months',1).format('DD-MMM-YYYY')"></td>
+                            <!-- /ko -->
+
+                       
+
+
+
+                               <!-- ko if: (serology == 'DONE'  && dose1 == 'DONE'  && dose2 != 'DONE'  )-->
+                                    <td style="padding: 0px !important;" data-bind="text:employeeid"></td>
+                                    <td style="padding: 0px !important;" data-bind="text:name"></td>
+                                    <td style="padding: 0px !important;" data-bind="text:department"></td>
+                                <td style="padding: 0px !important;" data-bind="text: '(3rd Dose)' +  moment(dose1date).add('months',1).format('DD-MMM-YYYY')"></td>
+                                <!-- /ko -->
+
+                                <!-- ko if: (serology == 'DONE'  && dose1 != 'DONE'  && dose2 == 'DONE' && dose3 == '' &&  moment(new Date()).format('DD-MMM-YYYY') > moment(dose2date).add('months',4).format('DD-MMM-YYYY')  )-->
+                                    <td style="padding: 0px !important;" data-bind="text:employeeid"></td>
+                                    <td style="padding: 0px !important;" data-bind="text:name"></td>
+                                    <td style="padding: 0px !important;" data-bind="text:department"></td>
+                                     <td style="padding: 0px !important;" data-bind="text: '(3rd Dose)' +  moment(dose2date).add('months',4).format('DD-MMM-YYYY')"></td>
+                                <!-- /ko -->
+
+                                <!-- ko if: (serology == 'DONE'  && dose2 != 'DONE' && dose1 == '' &&  moment(new Date()).format('DD-MMM-YYYY') > moment(serologydate).add('months',1).format('DD-MMM-YYYY')  )-->
+                                    <td style="padding: 0px !important;" data-bind="text:employeeid"></td>
+                                    <td style="padding: 0px !important;" data-bind="text:name"></td>
+                                    <td style="padding: 0px !important;" data-bind="text:department"></td>
+                                    <td style="padding: 0px !important;" data-bind="text: '(1st Dose)' +  moment(serologydate).add('months',1).format('DD-MMM-YYYY')"></td>
+                                <!-- /ko -->
+
+
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            @*    <div class="">
+                    <legend style="font-size: 13px; margin-bottom: 3px;"><strong>&nbsp;  </strong></legend>
+                    <div class="col-xs-3">
+                        <button id=""   type="button" class="btn" onclick="gethidden('EmployeeDueforVaccination')">
+                             Employee Due for Vaccination    
+                        </button>
+                    </div>
+                    <div class="col-xs-3">
+                        <button id="PrintAllPending" data-bind="click:$root.submit" type="submit" onclick="return gethidden('PrintAllPending')" class="btn">Print All with Pending   
+                        </button>
+                    </div>
+                    <div class="col-xs-3">
+                        <button id="PrintAllDone" data-bind="click:$root.submit" type="submit" onclick="gethidden('PrintAllDone')" class="btn">Print All with Done   
+                        </button>
+                    </div>
+                    <div class="col-xs-3">
+                        <button id="PrintDepartment" data-bind="click:$root.submit" type="submit" onclick="gethidden('PrintDepartment')" class="btn">Print By Department    
+                        </button>
+                    </div>
+
+                </div>*@
+               
+
+               @Html.Hidden("PostType")
+                @Html.Hidden("DeptName")
+
+
+
+
+            </div>
+           
+            }
+    </div>@*panel-body*@
+</div>
+
+
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/MCRS/otherreports/js_generalexpenses.js"></script>*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            var viewModel = new ViewModel(JSON.parse(data));
+            viewModel.inputUrlActions = $("#urlActions");
+            ko.applyBindings(viewModel);
+            $('#DepartmentId').prop("disabled", true);
+            $('#dataTable2').hide(); 
+            $('#reportWrapper').hide();
+            $('#table_bottom').hide();
+            $('#EmployeeDueVaccineDIV').hide();
+            
+
+            $("#EmployeeId").keydown(function (e) {
+                // Allow: backspace, delete, tab, escape, enter and .
+                if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                    // Allow: Ctrl+A, Command+A
+                    (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                    // Allow: home, end, left, right, down, up
+                    (e.keyCode >= 35 && e.keyCode <= 40)) {
+                    // let it happen, don't do anything
+                    return;
+                }
+                // Ensure that it is a number and stop the keypress
+                if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                    e.preventDefault();
+                }
+            });
+
+
+            //$('#Search').on('click', function (e) {
+            //    var form = this;
+            //    var myRadio = $('input[name=Option]');
+            //    var checkedValue = myRadio.filter(':checked').val();
+
+            //    if (checkedValue == "Employee")
+            //    {
+            //        var EmployeeId = $('#EmployeeId').val().replace(/\s+/g, '');
+            //        var DepartmentId = 0;
+            //    } else {
+            //        var EmployeeId = 0;
+            //        var DepartmentId = $('#DepartmentId').val().replace(/\s+/g, '');
+            //    }
+
+            //    console.log(EmployeeId); console.log(DepartmentId);
+             
+            //    $.ajax({
+            //        type: 'post',
+            //        url: 'get_data_vaccinationEntryForm',
+            //        data: {
+            //            EmployeeId: JSON.stringify(EmployeeId),
+            //            DepartmentId: JSON.stringify(DepartmentId),
+            //        },
+            //        success: function (response) {
+            //            console.log("You data will be saved, resposnse: ", response);
+            //        }
+            //    });
+            //    return false
+            //});
+
+
+
+
+        });
+
+        function gethidden(type) {
+            
+            if (type == 'EmployeeDueforVaccination')
+            {
+
+                $('#dataTable1').hide();
+                $('#dataTable2').hide();
+                $('#table_bottom').hide();
+                $('#reportWrapper').hide();
+                $('#EmployeeDueVaccineDIV').show();
+
+            } else {
+                
+
+                $('#DeptName').val($("#DepartmentId option:selected").text());
+                $('#PostType').val(type);
+                console.log($('#PostType').val());
+                $('#dataTable1').hide();
+                $('#dataTable2').hide();
+                $('#table_bottom').hide();
+                $('#EmployeeDueVaccineDIV').hide();
+                $('#reportWrapper').show();
+            }
+        }
+            function calc() {
+                var myRadio = $('input[name=Option]');
+                var checkedValue = myRadio.filter(':checked').val();
+                if ($("#Option").is(':checked')) {
+
+                    $('#DepartmentId').prop("disabled", true);
+                    $('#EmployeeId').prop("disabled", false);
+                    //$('#DocOrNone').val(true);
+                    console.log('test1' + checkedValue);
+                } else {
+                    $('#EmployeeId').prop("disabled", true);
+                    $('#DepartmentId').prop("disabled", false);
+                    //$('#DocOrNone').val(false);
+                    console.log('test2' + checkedValue);
+                }
+            }
+
+
+            function ViewModel(model)
+            {
+                var self = this;
+
+                self.SelectedDepartmentList = ko.observable(0);
+                self.DepartmentId = ko.observable(0);
+          
+                self.DepartmentList = ko.observableArray(model.DepartmentList);
+                self.TestData = ko.observableArray([]);
+                self.TestData2 = ko.observableArray([]);
+                self.TestData3 = ko.observableArray([]);
+
+                self.VaccinationTest = ko.observable();
+                self.VaccinationTest.subscribe(function (newValue) {
+                     
+                    self.TestData3([]);
+                    $param = { xvID: newValue };
+                    ajaxwrapper.std('get_data_VaccinationTest', 'POST', $param,
+                       function () { _indicator.Body(); },
+                        function (data) {
+                            ko.utils.arrayPushAll(self.TestData3, data.Res);
+                            _indicator.Stop();
+                        },
+                        function (err) {
+                            ardialog.Pop(4, "Error", err, "OK", function () { _indicator.Stop(); });
+                        }
+                    );
+
+                }, this);
+
+                self.Back = function () {
+                    $('#dataTable1').show();
+                    $('#dataTable2').hide();
+                };
+
+                self.clickItem2 = function (e) {
+                    console.log(e);
+                    $('#EmployeeDueVaccineDIV').hide();
+                    $('#table_bottom').show();
+                    $('#table2_itemcode').val(e.itemcode);
+                    $('#table2_itemname').val(e.itemname);
+
+                    if (e.serology != '') {
+                        $('#isSerology').prop('disabled', false);
+                        $('#serologydate').prop('disabled', false);
+                        $('#serologyremarks').prop('disabled', false);
+                        if (e.serology == 'DONE') {
+                            $('#isSerology').prop('checked', true);
+                            $('#serologyremarks').val(e.serologyAt);
+                            //Dose2TestedAt
+                            //Dose3TestedAt
+                            //Dose4TestedAt
+                            //Id
+                            //dose1
+                            //dose1date
+                            //dose2
+                            //dose2date
+                            //dose3
+                            //dose3date
+                            //dose4
+                            //dose4date
+                            //employeeid
+                            //itemcode
+                            //itemname
+                            //name
+                            //serology
+                            //serologyAt
+                            //serologydate
+                            //vaccineid "1"
+                        } else {
+                            $('#isSerology').prop('checked', false);
+                            $('#serologydate').prop('disabled', false);
+                            $('#serologyremarks').prop('disabled', false);
+                        }
+                    } else {
+                        $('#isSerology').prop('disabled', true);
+                        $('#serologydate').prop('disabled', true);
+                        $('#serologyremarks').prop('disabled', true);
+                    }
+
+
+
+                    if (e.dose1 != '') {
+                        $('#is1stDose').prop('disabled', false);
+                        $('#1stDoseDate').prop('disabled', false);
+                        $('#1stDoseremarks').prop('disabled', false);
+                        if (e.serology == 'DONE') {
+                            $('#isdose1').prop('checked', true);
+                            $('#1stDoseremarks').val(e.serologyAt);
+                       
+                        } else {
+                            $('#is1stDose').prop('checked', false);
+                            $('#1stDoseDate').prop('disabled', false);
+                            $('#1stDoseremarks').prop('disabled', false);
+                        }
+                    } else {
+                        $('#is1stDose').prop('disabled', true);
+                        $('#1stDoseDate').prop('disabled', true);
+                        $('#1stDoseremarks').prop('disabled', true);
+                    }
+
+
+                    if (e.dose2 != '') {
+                        $('#is2ndDose').prop('disabled', false);
+                        $('#2ndDoseDate').prop('disabled', false);
+                        $('#2ndDoseremarks').prop('disabled', false);
+                        if (e.serology == 'DONE') {
+                            $('#is2ndDose').prop('checked', true);
+                            $('#2ndDoseremarks').val(e.serologyAt);
+
+                        } else {
+                            $('#is2ndDose').prop('checked', false);
+                            $('#2ndDoseDate').prop('disabled', false);
+                            $('#2ndDoseremarks').prop('disabled', false);
+                        }
+                    } else {
+                        $('#is2ndDose').prop('disabled', true);
+                        $('#2ndDoseDate').prop('disabled', true);
+                        $('#2ndDoseremarks').prop('disabled', true);
+                    }
+
+
+                    if (e.dose3 != '') {
+                        $('#is3rdDose').prop('disabled', false);
+                        $('#3rdDoseDate').prop('disabled', false);
+                        $('#3rdDoseremarks').prop('disabled', false);
+                        if (e.serology == 'DONE') {
+                            $('#is2ndDose').prop('checked', true);
+                            $('#3rdDoseremarks').val(e.serologyAt);
+
+                        } else {
+                            $('#is3rdDose').prop('checked', false);
+                            $('#3rdDoseDate').prop('disabled', false);
+                            $('#3rdDoseremarks').prop('disabled', false);
+                        }
+                    } else {
+                        $('#is3rdDose').prop('disabled', true);
+                        $('#3rdDoseDate').prop('disabled', true);
+                        $('#3rdDoseremarks').prop('disabled', true);
+                    }
+
+                    if (e.dose4 != '') {
+                        $('#isBoosterDose').prop('disabled', false);
+                        $('#BoosterDoseDate').prop('disabled', false);
+                        $('#BoosterDoseremarks').prop('disabled', false);
+                        if (e.serology == 'DONE') {
+                            $('#is2ndDose').prop('checked', true);
+                            $('#BoosterDoseDate').prop('disabled', true);
+                            $('#BoosterDoseremarks').val(e.serologyAt);
+                        } else {
+                            $('#isBoosterDose').prop('checked', false);
+                            $('#BoosterDoseDate').prop('disabled', false);
+                            $('#BoosterDoseremarks').prop('disabled', false);
+                        }
+                    } else {
+                        $('#isBoosterDose').prop('disabled', true);
+                        $('#BoosterDoseDate').prop('disabled', true);
+                        $('#BoosterDoseremarks').prop('disabled', true);
+                    }
+
+
+                
+                };
+
+                self.clickItem = function(e){
+                    console.log(e);
+                    $('#table2_employeeId').val(e.EmployeeId);
+                    $('#table2_employeename').val(e.Name);
+                    $('#dataTable1').hide();
+                    $('#dataTable2').show();
+                    $('#table_bottom').hide();
+                    $('#EmployeeDueVaccineDIV').hide();
+
+                
+                    self.TestData2([]);
+                    ajaxwrapper.std('get_data_vaccinationPerEmployee', 'POST', $param,
+                       function () { _indicator.Body(); },
+                        function (data) {
+                            ko.utils.arrayPushAll(self.TestData2, data.Res);
+                            _indicator.Stop();
+                        },
+                        function (err) {
+                            ardialog.Pop(4, "Error", err, "OK", function () { _indicator.Stop(); });
+                        }
+                    );
+
+ 
+                };
+                self.Search = function () {
+                    $('#dataTable1').show();
+                    $('#dataTable2').hide();
+                    $('#reportWrapper').hide();
+                    $('#EmployeeDueVaccineDIV').hide();
+                    var myRadio = $('input[name=Option]');
+                    var checkedValue = myRadio.filter(':checked').val();
+
+                    if (checkedValue == "Employee") {
+                        var EmployeeId = $('#EmployeeId').val().replace(/\s+/g, '');
+                        if (EmployeeId == '')
+                        {
+                            
+                            ardialog.Pop(4, "Error", 'Please input an Employee ID', "OK", function () { _indicator.Stop(); });
+                        }
+                        var DepartmentId = 0;
+                    } else {
+                        var EmployeeId = 0;
+                        var DepartmentId = $('#DepartmentId').val().replace(/\s+/g, '');
+                    }
+                    $param = { EmployeeId: EmployeeId, DepartmentId: DepartmentId };
+                    console.log($param);        
+                    self.TestData([]);
+                    ajaxwrapper.std('get_data_vaccinationEntryForm', 'POST', $param,
+                       function () { _indicator.Body(); },
+                        function (data) {
+                            ko.utils.arrayPushAll(self.TestData, data.Res);
+                            _indicator.Stop();
+                        },
+                        function (err) {
+                            ardialog.Pop(4, "Error", err, "OK", function () { _indicator.Stop(); });
+                        }
+                    );
+                };
+
+            }
+    </script>
+}

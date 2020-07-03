@@ -1,0 +1,119 @@
+﻿@{
+    ViewBag.Title = "PIN Gross Created";
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">PIN Gross Created</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+                <button type="button" class="btn btn-sm btn-primary AR_custom_btn_fixed_width" id="reportpreview">
+                    <span class="glyphicon glyphicon-eye-open"></span> Print Preview
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="form-group">
+            <div class="IT_custom_filter_container">
+                <div class="col-sm-2">
+                    <label class="control-label" for="fdate">From</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control def_datepicker" id="fdate" name="fdate" value="@DateTime.Today.ToString("dd-MMM-yyyy")" data-date-end-date="0d" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" onclick="_common.dateshow('#fdate');"><span class="glyphicon glyphicon-calendar"></span></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <label class="control-label" for="tdate">To</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control def_datepicker" id="tdate" name="tdate" value="@DateTime.Today.AddMonths(1).ToString("dd-MMM-yyyy")" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" onclick="_common.dateshow('#tdate');"><span class="glyphicon glyphicon-calendar"></span></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <label class="control-label" for="pin">PIN</label>
+                    <div class="input-group">
+                        <span class="input-group-addon bg-primary">
+                            @ViewBag.IssueAuthorityCode
+                        </span>
+                        <input type="text" class="form-control" id="pin" name="pin" autofocus/>
+                    </div>
+                </div>
+
+                <div class="col-sm-5">
+                    <label class="control-label" for="ptname">Name</label>
+                    <input type="text" class="form-control" id="ptname" disabled="disabled" />
+                </div>
+
+                <div class="clear-both"></div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <table class="table table-condensed table-bordered table-striped" id="dtdisplaytable">
+                <thead class="IT_custom_table_header">
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="width:98% !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Report Generated</h4>
+            </div>
+            <div class="modal-body">
+                <div id="report-container">
+                    <iframe id="myReport2"></iframe>
+                </div>
+                <div class="clear-botn"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-primary AR_custom_btn_fixed_width" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden" id="url"
+       data-reporturl="@Url.Content("~/Areas/AROPBILLING/Reports/Reports.aspx")"
+       data-arcommon="@Url.Content("~/Common")"
+       data-getpingrosscreated="@Url.Action("get_pingross_created")"
+/>
+@Scripts.Render("~/Scripts/commonwrapper")
+@Scripts.Render("~/Scripts/jsPINGrossCreated")

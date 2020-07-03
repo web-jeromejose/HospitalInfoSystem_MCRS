@@ -1,0 +1,206 @@
+﻿@{
+    ViewBag.Title = "General Invoice Printing";
+}
+
+@Styles.Render("~/Styles/arcustom")
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">General Invoice Printing</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="col-md-8" style="padding-left:0px;padding-right:0px;height:540px;">
+            <div class="IT_custom_filter_container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <fieldset>
+                            <legend style="font-size:12px;font-weight:bold;margin-bottom:0px;">Break Up Options</legend>
+                            <div class="checkbox disabled">
+                                <label>
+                                    <input type="checkbox" id="DayWiseCSTPH" disabled="disabled" />
+                                    <span style="position:absolute;margin-top:5px;">Day Wise CST and Pharmacy</span>
+                                </label>
+                            </div>
+                            <div class="checkbox disabled">
+                                <label>
+                                    <input type="checkbox" id="RBM" disabled="disabled"/>
+                                    <span style="position:absolute;margin-top:5px;">RB/Medical Supervision Summary In Break Bill</span>
+                                </label>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-sm-6">
+                        <fieldset>
+                            <legend style="font-size: 12px; font-weight: bold; margin-bottom: 0px; ">Print Options</legend>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" id="MainBill" name="billtype" checked="checked" />
+                                    <span style="position:absolute;margin-top:5px;">Main Bill</span>
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" id="BreakBill" name="billtype" />
+                                    <span style="position:absolute;margin-top:5px;">Break Bill</span>
+                                </label>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <table class="table table-bordered table-striped" id="generatedbilllist">
+                            <thead class="IT_custom_table_header">
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4" style="padding-left:10px;padding-right:0px;">
+            <div style="padding:5px;padding-right:0px;">
+                <form class="IT_custom_font_default AR_custom_label_default IT_custom_label_left_align form-horizontal">
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label class="control-label" for="invtype">Invoice Type</label>
+                            <input type="text" class="form-control" id="invtype" disabled="disabled" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label class="control-label" for="pin">PIN</label>
+                            <div class="input-group">
+                                <span class="input-group-addon" id="opbbcode">@ViewBag.IssueAuthorityCode</span>
+                                <input type="text" class="form-control" id="pin" autofocus />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label class="control-label" for="admitdate">Admit Date</label>
+                            <input type="text" class="form-control" id="admitdate" disabled="disabled" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <hr />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-sm-6">
+                            <label class="control-label" for="fdate">From</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control def_datepicker" id="fdate" name="fdate" value="@DateTime.Today.ToString("dd-MMM-yyyy")" data-date-end-date="0d" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" onclick="_common.dateshow('#fdate');"><span class="glyphicon glyphicon-calendar"></span></button>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label class="control-label" for="tdate">To</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control def_datepicker" id="tdate" name="tdate" value="@DateTime.Today.AddMonths(1).ToString("dd-MMM-yyyy")" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" onclick="_common.dateshow('#tdate');"><span class="glyphicon glyphicon-calendar"></span></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label class="control-label" for="category">Category</label>
+                            <input type="text" class="form-control" id="category" disabled="disabled" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label class="control-label" for="company">Company</label>
+                            <input type="text" class="form-control" id="company" disabled="disabled" />
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <br />
+                            <button type="button" id="btn_printpreview" class="btn btn-sm btn-info" disabled="disabled"><span class="glyphicon glyphicon-print"></span> Print Preview</button>
+                            <button type="button" id="btn_clear" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-erase"></span> Clear</button>
+                        </div>
+
+                    </div>
+                    <div class="clear-both"></div>
+                </form>
+            </div>
+            <div class="clear-both"></div>
+            <br />
+        </div>
+        <div class="clear-both"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="myReportModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="width:98% !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Report Generated</h4>
+            </div>
+            <div class="modal-body">
+                <div id="report-container">
+                    <iframe id="myReport2"></iframe>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-primary IT_custom_btn_fixed_width" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<input type="hidden" id="hdn_opeid" value="@ViewBag.OperatorId" />
+
+<input type="hidden" id="url"
+       data-reporturl="@Url.Content("~/Areas/ARIPBILLING/Reports/Reports.aspx")"
+       data-getadmitdate="@Url.Action("get_AdmitDT_List")"
+       data-getbilllist="@Url.Action("get_Bill_List")"
+       data-getbilllistbatch="@Url.Action("get_Bill_List_Batch")"
+       data-getaccountlist="@Url.Action("get_AccountList")"
+       
+       data-arcommon="@Url.Content("~/Common")" />
+@Scripts.Render("~/Scripts/commonwrapper")
+@Scripts.Render("~/Scripts/jsGeneralInvoicePrinting")
+
+

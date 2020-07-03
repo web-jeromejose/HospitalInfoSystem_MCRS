@@ -1,0 +1,18 @@
+﻿@model HIS_MCRS.Models.ReportViewerVm
+@using System.Web.UI.WebControls
+@using ReportViewerForMvc
+<div class="row">
+
+
+<center class="top5 bottom5" style="overflow:auto;">
+ @Html.ReportViewer(Model.ReportViewer as Microsoft.Reporting.WebForms.ReportViewer,
+                    new { Height = Unit.Percentage(100), style="background-color:white;"})
+</center>
+
+</div>
+
+
+
+
+    
+

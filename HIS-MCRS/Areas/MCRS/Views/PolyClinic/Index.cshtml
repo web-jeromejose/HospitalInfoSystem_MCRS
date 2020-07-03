@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@Styles.Render("~/Styles/arcustom")
+
+<div class="row">
+    <br />
+    <div class="col-sm-12">
+        <ul>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Content("PINRegistrationbyDateRange")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        PIN Registration by Date Range
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Content("SummaryPatientReservation")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        Summary of Patient Reservation
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Content("ReceptionistTransactionSummary")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        Receptionist Transaction Summary
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Content("OPDPatientCount")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        OPD Patient Count
+                    </section>
+                </a>
+            </li>
+            <li>
+                <a class="mc_rep_continer" href="@Url.Content("PatientRevisits")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <section>
+                        Patient Revisits
+                    </section>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

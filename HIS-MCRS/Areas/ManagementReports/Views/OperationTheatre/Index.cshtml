@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Operation Theatre Reports";
+}
+@Styles.Render("~/Styles/arcustom")
+
+<div class="row">
+    <br />
+    <div class="col-sm-12">
+     
+         <a class="mc_rep_continer" href="@Url.Action("SurgeryRecordSummary","OperationTheatre")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               1. Surgery Record Summary
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("OTOrCathLabOperation","OperationTheatre")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+              2. OR and Cath Lab Reports
+            </section>
+        </a>
+
+        @*<a class="mc_rep_continer" href="@Url.Action("ListOrDone","OperationTheatre")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                List Of OR Done
+            </section>
+        </a>*@
+
+       
+    </div>
+</div>

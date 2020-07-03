@@ -1,0 +1,1 @@
+﻿forfiles -s -m *.pdf /D -0 /C "cmd /c del @path"

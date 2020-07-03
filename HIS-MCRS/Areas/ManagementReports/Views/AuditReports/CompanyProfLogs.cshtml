@@ -1,0 +1,350 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.AuditReportIPChargeBilledReport
+
+@using HIS_MCRS.Enumerations;
+
+@{
+    ViewBag.Title = "Audit Reports";
+
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Audit Report Company Profile Change Tracking</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+
+    @using (Ajax.BeginForm(options))
+    {
+        <div class="panel-body" style="height: auto;">
+            <div class="col-xs-12">
+                <div class="col-xs-4 ">
+                    <fieldset>
+                        <legend style="font-size: 13px;"><strong>Date</strong></legend>
+                        <div class="col-xs-12">
+                            @Html.LabelFor(m => m.StartDate, new { @class = "col-xs-3 top5" })
+                            <div class="col-xs-8 input-group">
+                                @* @Html.TextBoxFor(m => m.StartDate, new { @class = "datepicker form-control",disabled="disabled", style = "z-index:0 !important;", 
+                                                                    data_bind="datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy', autoclose: true}" })
+                                *@
+                                @*@Html.TextBoxFor(m => m.StartDate, "{0:d-MMM-yyyy}", new { @class = "form-control" })*@
+                                @Html.TextBoxFor(m => m.StartDate, new
+                                {
+                                    @class = "datepicker form-control",
+                                    style = "z-index:0 !important;",
+                                    data_bind = "datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy', autoclose: true}"
+                                })
+
+                                <span class="input-group-btn ">
+                                    <button data-bind="glyphfor:'StartDate'" class=" btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                                </span>
+
+                            </div>
+                        </div>
+                        <div class="col-xs-12 top5  ">
+                            @Html.LabelFor(m => m.EndDate, new { @class = "col-xs-3 top5" })
+                            <div class="col-xs-8 input-group">
+                                @Html.TextBoxFor(m => m.EndDate, new
+                           {
+                               @class = "datepicker form-control",
+                               style = "z-index:0 !important;",
+                               data_bind = "datepicker:$root.EndDate, datepickerOptions:{format: 'dd-M-yyyy', autoclose: true}"
+                           })
+                                <span class="input-group-btn">
+                                    <button data-bind="glyphfor:'EndDate'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 top10">
+                            <fieldset>
+                            <legend style=""><strong></strong></legend>
+                                @Html.LabelFor(m => m.CategoryId, new { @class = "col-xs-3" })
+                                <select class="form-control select2"id="@Html.IdFor(model=>model.CategoryId)" name="@Html.NameFor(model=>model.CategoryId)"
+                        data-bind="options: $root.CategoryList, optionsValue:'Id', optionsText:'Name', value: $root.SelectedCategory, select2:{}">
+                                </select>
+  
+                            </fieldset>
+                        </div>
+
+                    </fieldset>
+                </div>
+     
+                <div class="col-xs-5 ">
+                    <fieldset>
+                        <legend style="font-size: 13px; margin-bottom: 3px;"><strong>
+                           <label class=""> Consultation</label>
+                            @Html.CheckBoxFor(m => m.IsConsultation, new { @class = " ",data_bind="value:true, checked:$root.IsConsultation" })
+                                                                             </strong></legend>
+                        <div class="col-xs-12">
+
+                            <div id="TypeIpDiv">
+                            @Html.LabelFor(m => m.TypeIPId, new { @class = "col-xs-3" })
+                            <select id="@Html.IdFor(m => m.TypeIPId)" name="@Html.NameFor(m => m.TypeIPId)"
+                             class="select2 col-xs-9"  
+                              data-bind="options:$root.TypeIPList,
+                                  value: $root.SelectedTypeIPList,
+                                  optionsText:'Value' ,
+                                  optionsValue:'Key',
+                                  select2: {allowClear: true}">
+                            </select>
+
+                                <div id="LevelIP">
+                                        @Html.LabelFor(m => m.LevelId, new { @class = "col-xs-3" })
+                                        <select id="@Html.IdFor(m => m.LevelId)" name="@Html.NameFor(m => m.LevelId)"
+                                     class="select2 col-xs-9"  
+                                      data-bind="options:$root.LevelList,
+                                          value: $root.SelectedLevelList,
+                                          optionsText:'Value' ,
+                                          optionsValue:'Key',
+                                          select2: {allowClear: true}">
+                                        </select>
+                                </div>
+
+                                <div id="LevelOP">
+                                        @Html.LabelFor(m => m.LevelOPId, new { @class = "col-xs-3" })
+                                        <select id="@Html.IdFor(m => m.LevelOPId)" name="@Html.NameFor(m => m.LevelOPId)"
+                                     class="select2 col-xs-9"  
+                                      data-bind="options:$root.LevelOPList,
+                                          value: $root.SelectedLevelOPList,
+                                          optionsText:'Value' ,
+                                          optionsValue:'Key',
+                                          select2: {allowClear: true}">
+                                        </select>
+                                </div>
+
+
+
+                                @Html.LabelFor(m => m.SubCategoryId, new { @class = "col-xs-3 " })
+                                <select id="@Html.IdFor(m => m.SubCategoryId)" name="@Html.NameFor(m => m.SubCategoryId)"
+                             class="select2 col-xs-9"  
+                              data-bind="options:$root.SubCategoryList,
+                                  value: $root.SelectedSubCategoryList,
+                                  optionsText:'Value' ,
+                                  optionsValue:'Key',
+                                  select2: {allowClear: true}">
+                                </select>
+
+
+                            </div>
+                            <div id="TypeGradeDiv">
+                            @Html.LabelFor(m => m.TypeGradeId, new { @class = "col-xs-3" })
+                            <select id="@Html.IdFor(m => m.TypeGradeId)" name="@Html.NameFor(m => m.TypeGradeId)"
+                             class="select2 col-xs-9"  
+                              data-bind="options:$root.TypeGradeList,
+                                  value: $root.SelectedTypeGradeList,
+                                  optionsText:'Value' ,
+                                  optionsValue:'Key',
+                                  select2: {allowClear: true}">
+                            </select>
+                            </div>
+                            
+                        </div>
+                    </fieldset>
+                </div>
+               
+                <div class="col-xs-2">
+                    <div class="pull-right col-xs-10">
+                        <button id="RunReport" type="submit" class="btn btn-success col-xs-12" value="RunReport">
+                            <span class="glyphicon glyphicon-tasks"></span>Run Report
+                        </button>
+                        <a id="Close"  href="@Url.Action("Index", "AuditReports")" class="top5 btn btn-danger col-xs-12">
+                            <span class="glyphicon glyphicon-off"></span>Close
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <input name="TypeName" type="hidden" value="false" data-bind="value:$root.SelectedTypeNameText" />
+            <input name="LevelName" type="hidden" value="false" data-bind="value:$root.SelectedLevelNameText" />
+            <input name="SubCategoryName" type="hidden" value="false" data-bind="value:$root.SelectedSubCatNameText" />
+            <input name="CategoryName" type="hidden" value="false" data-bind="value:$root.SelectedCategoryText" />
+
+            <div class="row" style="height: auto;"></div>
+            <div id="reportWrapper" class="container-fluid">
+            </div>
+
+        </div>
+   
+
+    }
+</div>
+
+<input id="urlActions" class="hidden"
+    data-getcompanybycategory="getCompanyByCategory"
+    data-getcashcategory="getCashCategory" />
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/ManagementReports/ARReports/StatementSummaryByCategory.js"></script>*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            var viewModel = new ViewModel(JSON.parse(data), $("#urlActions"));
+            ko.applyBindings(viewModel);
+            $('#TypeGradeDiv').hide();
+            $('#TypeIpDiv').show();
+            $('#LevelOP').hide();
+        });
+
+        function ViewModel(model, elem) {
+            self = this;
+            console.log(model.StartDate);
+            self.StartDate = ko.observable(model.StartDate);
+            self.EndDate = ko.observable(model.EndDate);
+            self.inputUrlActions = elem;
+            self.IsConsultation = ko.observable(false);
+
+            self.SelectedCategory = ko.observable(0);
+            self.CategoryList = ko.observableArray(model.CategoryList);
+
+            self.SelectedTypeIPList = ko.observable(0);
+            self.TypeIPList = ko.observableArray(model.TypeIPList);
+
+            self.SelectedTypeGradeList = ko.observable(0);
+            self.TypeGradeList = ko.observableArray(model.TypeGradeList);
+
+            self.SelectedSubCategoryList = ko.observable(0);
+            self.SubCategoryList = ko.observableArray(model.SubCategoryList);
+
+            self.SelectedLevelList = ko.observable(0);
+            self.LevelList = ko.observableArray(model.LevelList);
+
+            self.SelectedLevelOPList = ko.observable(0);
+            self.LevelOPList = ko.observableArray(model.LevelOPList);
+
+
+            self.SelectedTypeNameText = ko.observable(self.TypeIPList()[0].Value);
+            self.SelectedLevelNameText = ko.observable(self.LevelList()[0].Value);
+            self.SelectedSubCatNameText = ko.observable(self.SubCategoryList()[0].Value);
+            self.SelectedCategoryText = ko.observable([0]);
+
+            self.SelectedCategory.subscribe(function (value) {
+                if (value) {
+                    $.each(self.CategoryList(), function (index, item) {
+                       
+                        if (item.Id == value) {
+                            self.SelectedCategoryText(item.Name);
+                        }
+                    });
+                }
+            });
+
+            self.SelectedSubCategoryList.subscribe(function (value) {
+
+                $.each(self.SubCategoryList(), function (index, item) {
+
+                    if (item.Key == value) {
+                        self.SelectedSubCatNameText(item.Value);
+                    }
+                });
+            });
+
+
+            self.SelectedLevelOPList.subscribe(function (value) {
+                 
+                $.each(self.LevelOPList(), function (index, item) {
+                    if (item.Key == value) {
+                        self.SelectedLevelNameText(item.Value);
+                    }
+                });
+            });
+
+            self.SelectedLevelList.subscribe(function (value) {
+                 
+                $.each(self.LevelList(), function (index, item) {
+                    if (item.Key == value) {
+                        self.SelectedLevelNameText(item.Value);
+                    }
+                });
+            });
+            self.SelectedTypeIPList.subscribe(function (value) {
+               
+                    $.each(self.TypeIPList(), function (index, item) {
+                        
+                        if (item.Key == value) {
+                            self.SelectedTypeNameText(item.Value);
+                        }
+                    });
+            });
+
+            self.SelectedTypeGradeList.subscribe(function (value) {
+               
+                $.each(self.TypeGradeList(), function (index, item) {
+                  
+                    if (item.Key == value) {
+                        self.SelectedTypeNameText(item.Value);
+                    }
+                });
+            });
+
+
+            
+            self.SelectedTypeIPList.subscribe(function (OP) {
+                if (OP) {
+                  
+                    $('#LevelOP').show();
+                    $('#LevelIP').hide();
+                } else {
+                    $('#LevelIP').show();
+                    $('#LevelOP').hide();
+
+                }
+            });
+
+
+            self.IsConsultation.subscribe(function (checked) {
+        
+                if (checked)
+                {
+                    self.SelectedTypeGradeList(0);
+                    self.SelectedTypeNameText('Grade');
+                    $('#TypeGradeDiv').show();
+                    $('#TypeIpDiv').hide();
+                } else {
+                    self.SelectedTypeIPList(0);
+                    self.SelectedLevelList(0);
+                    self.SelectedSubCategoryList(0);
+                    self.SelectedTypeNameText('In-Patient');
+                    $('#TypeGradeDiv').hide();
+                    $('#TypeIpDiv').show();
+                }
+            });
+
+  
+
+            self.Init = function () {
+            self.CategoryList.unshift({ Id: '0', Name: 'ALL' });
+            };
+ 
+
+          
+            self.Init();
+
+            
+ 
+         
+
+        }
+ 
+
+    </script>
+}

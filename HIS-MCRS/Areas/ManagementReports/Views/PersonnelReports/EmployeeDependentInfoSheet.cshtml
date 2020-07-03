@@ -1,0 +1,371 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.PersonnelReportsVM
+
+@{  
+    ViewBag.Title = "Personnel Reports ";
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Employee's Dependent Information Sheet</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body" style="height: auto;">
+        @using (Ajax.BeginForm(options))
+            {
+            <div class="form-inline">
+                <div class="row">
+
+                    <div class="col-xs-6 border10">
+                        @Html.LabelFor(m => m.DepartmentId, new { @class = "col-xs-4" })
+                        <div class="col-xs-8">
+                            <select id="@Html.IdFor(m=>m.DepartmentId)" name="@Html.NameFor(m=>m.DepartmentId)" class="form-control" 
+                                data-bind="options:$root.DepartmentList, optionsText:'Name', optionsValue:'Id', 
+                                           value: $root.SelectedDepartmentList, select2:{allowClear: true, placeholder:'Select Service'}">
+                            </select>
+                        </div>
+
+                        @Html.LabelFor(m => m.ContractType, new { @class = "col-xs-4 top10" })
+                        <div class="col-xs-8 top10">
+                            <select id="@Html.IdFor(m=>m.ContractType)" name="@Html.NameFor(m=>m.ContractType)" class="form-control" 
+                                data-bind="options:$root.ContractTypeList, optionsText:'Name', optionsValue:'Id', 
+                                           value: $root.SelectedContractTypeList, select2:{allowClear: true, placeholder:'Select Service'}">
+                            </select>
+                        </div>
+
+
+
+                    </div>
+
+
+                    <div class="col-xs-2 col-xs-offset-2">
+                        <div class="pull-right col-xs-12">
+                            <button id="RunReport" data-bind="click: function(){ $root.generateDataTable(); }"
+                                type="submit" class="btn btn-success col-xs-12" value="RunReport">
+                                <span class="glyphicon glyphicon-tasks"></span>Generate
+                            </button>
+                            <a id="Clear" data-bind="click: $root.Clear" href="#" class="top5 btn btn-default col-xs-12">
+                                <span class="glyphicon glyphicon-erase"></span>Clear
+                            </a>
+                            <a id="Close"  href="@Url.Action("Index", "PersonnelReports")" class="top5 btn btn-danger col-xs-12">
+                                <span class="glyphicon glyphicon-off"></span>Close
+                            </a>
+                        </div>
+                    </div>
+ 
+                </div>
+                <br />
+                <div class="col-xs-12 border10" id="EmployeeWrapper">
+                    <table class="table" style="background-color: #e3e9f9;">
+                        <thead>
+                            <tr>
+                                <th>
+                                <div class="">
+                                    <input data-bind="checkedValue: true,checked:$root.SelectAllEmployee" type="checkbox" />Check ALL
+                                </div>
+                                </th>
+                                <th>EmployeeID</th>
+                                <th>Name</th>
+                                <th>Designation</th>
+                                <th>Date Hired</th>
+                                <th>Department</th>
+                                <th>Contract</th>
+                            </tr>
+                        </thead>
+                        <tbody class="border10" data-bind="dataTablesForEach:{data:$root.Employees,dataTableOptions:{ scrollY: 250 ,bDestroy: true,fnDestroy:true,fnClearTable:true,paging:false}}" style="overflow: auto; height: 300px;">
+
+                        <tr data-bind="">
+                                <td class="col-xs-1" style="padding: 0 0 0 0 !important;">
+                                <input data-bind="value: $data.Id, checked: $root.UCAFSelectedIds " type="checkbox" /></td>
+                                <td style="padding: 0px !important; width: 10%;" data-bind="text:EmployeeId,click : $root.clickItem"></td>
+                                <td style="padding: 0px !important; width: 24%;" data-bind="text:Name,click : $root.clickItem"></td>
+                                <td style="padding: 0px !important;" data-bind="text:Designation,click : $root.clickItem"></td>
+                                <td style="padding: 0px !important;" data-bind="text: moment(DateHired).format('DD-MMM-YYYY'),click : $root.clickItem"></td>
+                                <td style="padding: 0px !important;" data-bind="text:Department,click : $root.clickItem"></td>
+                                <td style="padding: 0px !important;" data-bind="text:ContractType,click : $root.clickItem"></td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                    <div class="col-xs-12 col-xs-offset-10">
+                    <button id="Print" data-bind="click: $root.PrintPreviewBySelectedIds, enable:$root.UCAFSelectedIds().length < 2500 && $root.UCAFSelectedIds().length > 0" class="btn btn-primary" value="Print">
+                        <span class="glyphicon glyphicon-print"></span> Batch Print
+                    </button>
+
+                    </div>
+                    </div>
+
+               @*<div id="reportWrapper" class="col-xs-12 top10 container-fluid" style="min-height: 390px; background-color: #6C7A89;"></div>*@
+
+            </div>
+            <input id="ListOfSelectedEmployees" name="ListOfSelectedEmployees" type="hidden" data-bind="value: ko.toJSON($root.UCAFSelectedIds())" /> 
+            <input id="asdasd" name="asdasd" type="hidden" data-bind="hidden: $root.UCAFVisitIdList()" /> 
+            
+            
+            <!-- Modal -->
+
+            
+            <div id="myModal" class="modal fade" role="dialog" tabindex="-1" data-bind="modal:showModal">
+                @*<div id="InserUpdateARModal" class="modal fade" tabindex="-1" role="dialog" data-bind="modal:showARDialog">*@
+                <div class="modal-dialog" style="z-index: 1200; width: 98%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Employee's Dependent Information Sheet Report</h4>
+                        </div>
+                        <div class="modal-body" style="max-height: 420px; overflow-y: auto;">
+                            <div id="reportWrapper" class="col-xs-12 top10" style="background-color: #6C7A89;"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="Cancel" data-bind="click: function(){$root.showModal(false)}" type="submit" class="top5 col-xs-2  pull-right btn btn-danger btn-sm" value="Cancel">
+                                <span class="glyphicon glyphicon-off"></span>Close
+                            </button>
+                            @* <button id="SaveOrUpdate" type="submit" data-bind="click:function(){$root.showConfirmUpdateDialog(true)}" class="top5 col-xs-2 pull-right btn btn-success btn-sm" value="SaveOrUpdate">
+                            <span class="glyphicon glyphicon-save"></span>Save
+                        </button>
+
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                   *@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+@* generic dialog*@
+            
+            <div id="Dialog" class="modal fade" tabindex="-1" role="dialog" data-bind="modal:$root.Dialog().Show" style="z-index: 1300">
+                <div class="modal-dialog" style="width: 350px; z-index: 1300;">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header" data-bind="css: $root.Dialog().AlertCSS" style="padding: 8px;">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title" data-bind="text: $root.Dialog().Header">Header</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p data-bind="text:$root.Dialog().Message">error message container</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-bind="click: $root.Dialog().FnOK" type="button" class="btn btn-sm btn-default col-xs-2 pull-right" data-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            }
+    </div>@*panel-body*@
+
+   
+</div>
+
+ 
+
+
+
+
+
+
+<input id="urlActions"  class="hidden" data-getemployeedata="getEmployeeData" 
+    data-employeedependentinfosheet="EmployeeDependentInfoSheet"
+     data-episbatchprinting="EPISBatchPrinting" />
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/MCRS/otherreports/js_generalexpenses.js"></script>*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            var viewModel = new ViewModel(JSON.parse(data));
+            viewModel.inputUrlActions = $("#urlActions");
+            ko.applyBindings(viewModel);
+
+           
+
+
+        });
+
+        function ViewModel(model) {
+
+            self = this;
+            self.inputUrlActions = null;
+            //..EndDate = ko.observable(new Date(moment(model.EndDate)));
+            self.showModal = ko.observable(false);
+            self.SelectedDepartmentList = ko.observable(0);
+            self.DepartmentId = ko.observable(0);
+            self.DepartmentList = ko.observableArray(model.DepartmentList);
+
+            self.SelectedContractTypeList = ko.observable(0);
+            self.ContractType = ko.observable(0);
+            self.ContractTypeList = ko.observableArray(model.ContractTypeList);
+            self.EmployeeData = ko.observableArray([]);
+            self.SelectAllEmployee = ko.observable(false);
+            self.SelectedEmployees = ko.observableArray([]);
+            self.Employees = ko.observableArray([]);
+            self.UCAFSelectedIds = ko.observableArray([]);
+            self.UCAFVisitIdList = ko.observableArray([]);
+            
+
+            self.init = function () {
+                self.ContractTypeList.unshift({ Id: 0, Name: 'ALL' });
+            }
+            self.init();
+
+          
+
+
+            self.Clear = function () {
+                self.SelectedDepartmentList(1);
+                self.SelectedContractTypeList(0);
+                self.EmployeeData([]);
+                self.Employees([]);
+                self.UCAFVisitIdList([]);
+                self.UCAFSelectedIds.removeAll();
+            };
+            self.SelectAllEmployee = ko.computed({
+                read: function () {
+                  
+                    var persons = self.Employees();
+                    for (var i = 0, l = persons.length; i < l; i++) {
+                        if (!persons[i].Selected()) return false;
+                    }
+                   
+                    return true;
+                },
+                write: function (value) {
+                    console.log('value ' + value);
+                    ko.utils.arrayForEach(self.Employees(), function (person) {
+                        person.Selected(value);
+                       
+                    });
+                   
+                }
+            });
+
+            self.SelectAllEmployee.subscribe(function (checked) {
+                console.log('checked subscribe ' + self.UCAFSelectedIds());
+                if (checked) {
+                    self.UCAFSelectedIds.removeAll();
+                    ko.utils.arrayPushAll(self.UCAFSelectedIds, self.UCAFVisitIdList());
+                } else {
+                    self.UCAFSelectedIds.removeAll();
+                }
+
+            });
+
+            self.generateDataTable = function () {
+                blockUILoading(true, $("#EmployeeWrapper"));
+                self.EmployeeData([]);
+                self.Employees([]);
+                url = self.inputUrlActions.data("getemployeedata");
+             param = { department: self.SelectedDepartmentList, contractType: self.SelectedContractTypeList  };
+           
+                ajaxWrapper.GetWithLoading(url, param, $("#EmployeeWrapper"), function (data, e) {
+                    //ko.utils.arrayPushAll(self.EmployeeData, data.Res);
+                    
+                    for (i = 0; i < data.Res.length; i++) {
+                        self.UCAFVisitIdList.push(data.Res[i].Id);
+                       
+                        self.Employees.push(new Employee(data.Res[i].Id, data.Res[i].EmployeeId, data.Res[i].Name, data.Res[i].Designation, data.Res[i].DateHired, data.Res[i].Department, data.Res[i].ContractType, self));
+                    };
+                   
+                });
+            };
+
+            self.clickItem = function (e) {
+               // console.log(e);
+                self.showModal(true);
+                param = { EmployeeId: e.Id };
+                url = self.inputUrlActions.data("episbatchprinting");
+                ajaxWrapper.PostWithLoading(url, param, $("#reportWrapper"), function (data, e) {
+                    $('#reportWrapper').html(data);
+                });
+
+            };
+
+            self.PrintPreviewBySelectedIds = function () {
+               
+                var dummy = new iframeform(self.inputUrlActions.data('employeedependentinfosheet'));
+                console.log(ko.toJSON(self.UCAFSelectedIds()));
+                dummy.addParameter('ListOfSelectedEmployees', ko.toJSON(self.UCAFSelectedIds()));
+
+                self.Dialog(new Dialog("REMINDER", "Be sure to select  Lazer jet printer before printing", "alert-danger", true, dummy));
+                console.log( "Be sure to select  Lazer jet printer before printing"+dummy);
+            };
+            //modals & Dialogs
+            self.Dialog = ko.observable(new Dialog("", "", "", false));
+
+        }
+
+        function Employee(id,empid, name, Designation, DateHired, Department, ContractType, parent) {
+            this.Id = id;
+            this.EmployeeId = id;
+            this.Name = name;
+            this.Designation = Designation;
+            this.DateHired = DateHired;
+            this.Department = Department;
+            this.ContractType = ContractType;
+            this.Selected = ko.observable(false);
+        }
+
+
+        function iframeform(url) {
+            var object = this;
+            object.time = new Date().getTime();
+            object.form = $('<form action="' + url + '" target="iframe' + object.time + '" method="post" style="display:none;" id="form' + object.time + '" name="form' + object.time + '"></form>');
+         
+            object.form
+            object.addParameter = function (parameter, value) {
+                console.log(parameter + ' -1- ' + value);
+                $("<input type='hidden' />")
+                 .attr("name", parameter)
+                 .attr("value", value)
+                 .appendTo(object.form);
+            }
+
+            object.send = function () {
+                var iframe = $('<iframe data-time="' + object.time + '" style="display:none;" id="iframe' + object.time + '"></iframe>');
+                $("body").append(iframe);
+                $("body").append(object.form);
+                object.form.submit();
+                iframe.load(function () { $('#form' + $(this).data('time')).remove(); $(this).remove(); });
+            }
+        }
+
+
+        function Dialog(header, message, alertCSS, show, FnOk) {
+            this.Header = ko.observable(header);
+            this.Message = ko.observable(message);
+            this.AlertCSS = ko.observable(alertCSS);
+            this.Show = ko.observable(show);
+            this.FnOK = function () {
+                FnOk.send();
+            }
+        }
+
+
+
+    </script>
+}
+
+
+

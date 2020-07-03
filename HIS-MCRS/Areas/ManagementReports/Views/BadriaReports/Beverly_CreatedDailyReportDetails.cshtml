@@ -1,0 +1,83 @@
+﻿@model  DataLayer.Data.Beverly_CreatedDailyReportVM
+
+@{
+    ViewBag.Title = "Beverly Clinic - Doctor Commission Details";
+    
+}
+
+@using System.Web.UI.WebControls
+@using ReportViewerForMvc
+
+@using (Html.BeginForm("Beverly_CreatedDailyReportDetails", "BadriaReports", FormMethod.Post, new { @class = "moh-form" }))
+{
+    <div class="panel panel-default ">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-xs-10">
+                    <h4><b class="navbar-header">Beverly Clinic - Created Daily Doctor Commission Report</b></h4>
+                </div>
+                <div class="col-xs-1">
+                    <input id="button1" type="submit" value="Submit" class="btn btn-primary pull-right" />
+                </div>
+                <div class="col-xs-1">
+                    <a    href="@Url.Action("Index", "BadriaReports")" class="btn btn-danger pull-left">Close</a>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-xs-3 ">
+                    <fieldset>
+                        <legend style="font-size: 13px; margin-bottom: 3px;"><strong>Date</strong>&nbsp; </legend>
+                        <div class="form-group">
+                            <input type="text" class="datepicker form-control  " id="txtFromDate" value="@Model.txtFromDate.ToString("MM-dd-yyyy")"   name="txtFromDate" placeholder=" From Date" />
+                            <br />
+                            <input type="text" class="datepicker form-control  " id="txtToDate" value="@Model.txtToDate.ToString("MM-dd-yyyy")"    name="txtToDate" placeholder="To Date" />
+                        </div>
+                    </fieldset>
+                </div>
+
+                 <div class="col-xs-5 ">
+                    <fieldset>
+                        <legend style="font-size: 13px; margin-bottom: 3px;"><strong>Doctor</strong>&nbsp; </legend>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => Model.sel2doctor, new { @class = "form-control col-xs-4" })
+                      </div>
+                    </fieldset>
+                </div>
+
+              
+            </div>
+
+
+        </div>@*Header Panel*@
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-12">
+                    @if (ViewBag.ReportViewer != null)
+                    {
+                        @Html.ReportViewer(ViewBag.ReportViewer as Microsoft.Reporting.WebForms.ReportViewer, new { SizeToReportContent = true, Width = Unit.Percentage(100), Height = "450px" })
+                    }
+                </div>
+            </div>
+        </div>@*Body*@
+    </div>@*Panel Head*@
+}
+
+<input type="hidden" id="url"   
+data-getdoclist="@Url.Action("GetDocList")"
+ 
+data-model  = '@Html.Raw(Json.Encode(this.Model))';
+/>
+
+
+<link href="~/Content/plugins/toastr/content/toastr.min.css" rel="stylesheet" />
+@section scripts {
+    <script src="~/Content/plugins/toastr/scripts/toastr.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jqGlobal.js"></script>
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    <script src="~/Scripts/MCRS/badria/createddailydoctorcommission.js"></script>
+
+}
+
+
+

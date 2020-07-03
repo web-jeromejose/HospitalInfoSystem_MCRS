@@ -1,0 +1,373 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.PRListOfEmployees
+
+@{  
+    ViewBag.Title = "Personnel Reports ";
+
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "TableWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Staff Documents Monitoring Report</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal AND LOADING-->
+    <style>
+                .modal-body{background-color: #FFFFFF;}
+                .modal-content{ border-radius: 6px;-webkit-border-radius: 6px;-moz-border-radius: 6px;background-color: transparent;}
+                .modal-footer{ border-bottom-left-radius: 6px;border-bottom-right-radius: 6px;-webkit-border-bottom-left-radius: 6px;-webkit-border-bottom-right-radius: 6px;-moz-border-radius-bottomleft: 6px;-moz-border-radius-bottomright: 6px;}
+                .modal-header{ border-top-left-radius: 6px;border-top-right-radius: 6px;-webkit-border-top-left-radius: 6px;-webkit-border-top-right-radius: 6px;-moz-border-radius-topleft: 6px;-moz-border-radius-topright: 6px;}
+                #myOverlay{position:absolute;height:100%;width:100%;}
+                #myOverlay{background:black;opacity:.7;z-index:2;display:none;}
+                #loadingGIF{position:absolute;top:40%;left:45%;z-index:3;display:none;   }
+                #button{margin:50px;height:60px;width:100px;}
+    </style>
+                <div id="myOverlay"></div>
+                <div id="loadingGIF"></div>
+                <button type="button" class="btn btn-info btn-lg" style="display:none" id="btnModal" data-toggle="modal" data-target="#mysuccess"></button>
+                <div id="mysuccess" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title  ">MCRS</h4>
+                            </div>
+                            <div class="modal-body bgColorWhite">
+                                <p>&nbsp;</p>
+                                <p>Updated Done.</p>
+                                <p>&nbsp;</p>
+                            </div>
+                            <div class="modal-footer  bg-info">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    <!-- Modal AND LOADING-->
+
+
+    <div class="panel-body" style="height: auto;">
+        @using (Ajax.BeginForm(options))
+            {
+            <div class="form-inline">
+                <div class="row">
+                    <div class="col-xs-3 " style="">
+
+                        @Html.LabelFor(m => m.StartDate, new { @class = "col-xs-4 " })
+                        @Html.TextBoxFor(m => m.StartDate,Model.StartDate.ToString("dd-MMM-yyyy"),new
+                       {
+                           @readOnly="true",
+                           @class = "datepicker form-control col-xs-7 ",
+                           style = " ",
+                           data_bind = "datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                       })
+
+
+
+                        @Html.LabelFor(m => m.EndDate, new { @class = "col-xs-4 top10 " })
+                        @Html.TextBoxFor(m => m.EndDate,Model.EndDate.ToString("dd-MMM-yyyy"),new
+                       {
+                           @readOnly="true",
+                           @class = "datepicker form-control col-xs-7 top10",
+                           style = " ",
+                          data_bind = "datepicker:$root.EndDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                       })
+
+
+                    </div>@*  col-xs-3*@
+
+                    <div class="col-xs-4 " style="">
+                        
+                          
+                               <label class="col-xs-5">Department</label>
+                                
+                                    <select id="@Html.IdFor(m=>m.DeptId)" name="@Html.NameFor(m=>m.DeptId)" class="  col-xs-7" 
+                                data-bind="options:$root.StaffDepartmentList, optionsText:'Name', optionsValue:'Id', 
+                                           value: $root.SelectedStaffDepartmentList, select2:{allowClear: true, placeholder:'Select Service'}">
+                                    </select>
+ 
+                            <label class="col-xs-6 top10">Employee ID:</label>
+                            <input class=" form-control col-xs-6 top10" id="EmployeeId" name="EmployeeId" type="number" value="" />
+                    
+                    </div>
+
+                    <div class="col-xs-3" style="">
+
+                        <button id="RunReport"   data-bind="click: function(){ $root.generateDataTable(); }" type="submit" class="btn btn-success" value="RunReport">
+                            <span class="glyphicon glyphicon-tasks"></span> Search 
+                        </button>
+
+
+                        <a id="Close"  href="@Url.Action("Index", "PersonnelReports")" class="btn btn-danger ">
+                            <span class="glyphicon glyphicon-off"></span>Close
+                        </a>
+                    </div>
+                </div>
+              
+                
+
+            </div>
+            
+           
+            <input id="SelectedEmployeeList" name="SelectedEmployeeList" type="hidden" data-bind="value: ko.toJSON(SelectedEmployees())" /> 
+      
+            
+            <br />    <div class="col-xs-12 border10" id="TableWrapper">
+                <fieldset>
+                    <div class="col-xs-9">
+                    <legend style="font-size: 15px;"><b>List of Employee</b></legend>
+                    </div>
+                    <div class="col-xs-3">
+                        <button id="Update" data-bind="click: $root.Save,enable: $root.buttonDisable" type="submit" class="pull-right btn btn-info btn-sm col-xs-6">
+                            <span class="glyphicon glyphicon-edit"></span>  Save
+                        </button>
+                    </div>
+                    <table class="table cell-border" style="background-color: #e3e9f9; width: 100%; overflow: auto;">
+                        <thead style="overflow: auto; padding: 0 !important; margin: 0 !important; white-space: nowrap;">
+                            <tr>
+                                <th class="cell-border border10 ">Employee ID</th>
+                                <th class="cell-border border10 ">Name</th>
+                                <th class="cell-border border10 ">Dept</th>
+                                <th class="cell-border border10 ">Position</th>
+                                <th class="cell-border border10 ">CV</th>                               
+                                <th class="cell-border border10 ">Orient_Dept</th>
+                                <th class="cell-border border10 ">Orient_Gen</th>
+                                <th class="cell-border border10 ">JD</th>
+                                <th class="cell-border border10 ">License</th>
+                                <th class="cell-border border10 ">Educ Cert </th>
+                                <th class="cell-border border10 ">FS</th>
+                                <th class="cell-border border10 ">IFC</th>
+                                <th class="cell-border border10 ">TQM</th>
+                                <th class="cell-border border10 ">BCLS</th>
+                                <th class="cell-border border10 ">ACLS</th>
+                                <th class="cell-border border10 ">EVAL_1</th>
+                                <th class="cell-border border10 ">EVAL_2</th>
+                                <th class="cell-border border10 ">EVAL_3</th>
+                                <th class="cell-border border10 ">EVAL_4</th>
+                                <th class="cell-border border10 ">Confidentiality</th>
+                                <th class="cell-border border10 ">Credentialing</th>
+                                <th class="cell-border border10 ">Previledging</th>
+                            </tr>
+                        </thead>
+                        <tbody class="border10" data-bind="dataTablesForEach:{data: $root.SelectedEmployees,
+                            dataTableOptions:{
+                            scrollY: 200 ,
+                            scrollX: '100%',
+                            autoWidth: true,
+                            bDestroy: true,
+                            fnDestroy:true,
+                            fnClearTable:true,
+                            paging:false,
+                            bFilter: true, 
+                            bInfo: true 
+                            }}">
+                            <tr data-bind=""  class="cell-border border10 ">
+                                <td class="cell-border border10" data-bind="text:employeeid "></td>
+                                <td class="border10" style="width: 100px !important;" data-bind="text:fullname "></td>
+                                <td class="cell-border border10 " style=""  data-bind="text:deptcode "></td>
+                                <td class="cell-border border10 " style="" data-bind="text:name "></td>
+                                <td class="cell-border border10 " style="" data-bind=" "><input data-bind="checked: cv" id="cv" name="cv" type="checkbox" /></td>
+                                <td class="cell-border border10 " style="" data-bind=""><input data-bind="checked: orient_dept" id="orient_dept" name="orient_dept " type="checkbox" /></td>
+                                <td class="cell-border border10 " style="" data-bind=""><input data-bind="checked: orient_gen" id="orient_gen" name="orient_gen" type="checkbox" /></td>
+                                <td class="cell-border border10 " style="" data-bind=""><input data-bind="checked: jd" id="jd" name="jd" type="checkbox" /></td>
+                                <td class="cell-border border10 " style="" data-bind=""><input data-bind="checked: license" id="license" name="license" type="checkbox" /></td>
+                                <td class="cell-border border10 " style="" data-bind=""><input data-bind="checked: educ_cert" id="educ_cert" name="educ_cert" type="checkbox" /></td>
+                                <td class="cell-border border10 " style="" data-bind=""><input data-bind="checked: fs" id="fs" name="fs" type="checkbox" /></td>
+                                <td class="cell-border border10 " style="" data-bind=""><input data-bind="checked: ifc" id="ifc" name="ifc" type="checkbox" /></td>
+                                <td class="cell-border border10 " style="" data-bind=""><input data-bind="checked: tqm" id="tqm" name="tqm" type="checkbox" /></td>
+                                <td class="cell-border border10 " style="" data-bind=""><input data-bind="checked: bcls" id="bcls" name="bcls" type="checkbox" /></td>
+                                <td class="cell-border border10 " style="" data-bind=""><input data-bind="checked: acls" id="acls" name="acls" type="checkbox" /></td>
+                                <td class="cell-border border10 " style="" data-bind=""><input data-bind="checked: eval_1" id="eval_1" name="eval_1" type="checkbox" /></td>
+                                <td class="cell-border border10 " style="" data-bind=""><input data-bind="checked: eval_2" id="eval_2" name="eval_2" type="checkbox" /></td>
+                                <td class="cell-border border10 " style="" data-bind=""><input data-bind="checked: eval_3" id="eval_3" name="eval_3" type="checkbox" /></td>
+                                <td class="cell-border border10 " style="" data-bind=""><input data-bind="checked: eval_4" id="eval_4" name="eval_4" type="checkbox" /></td>
+                                <td class="cell-border border10 " style="" data-bind=""><input data-bind="checked: confidentiality" id="confidentiality" name="confidentiality" type="checkbox" /></td>
+                                <td class="cell-border border10 " style="" data-bind=""><input data-bind="checked: credentialing" id="credentialing" name="credentialing" type="checkbox" /></td>
+                                <td class="cell-border border10 " style="" data-bind=""><input data-bind="checked: previledging" id="previledging" name="previledging" type="checkbox" /></td>                                                                                                                                       
+                                 </tr>
+                        </tbody>
+
+                    </table>
+                </fieldset>
+            </div>
+    
+         
+          
+            
+           
+            }
+     
+
+    </div>@*panel-body*@
+
+
+ 
+
+
+   
+</div>
+
+<input id="urlActions" class="hidden" data-getstaffdocmonitoring="get_StaffDocMonitoring"
+    data-savestaffdocmonitoring="saveStaffDocMonitoring"
+    data-episbatchprinting="EPISBatchPrinting" />
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/MCRS/otherreports/js_generalexpenses.js"></script>*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+           
+      
+
+            
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            var viewModel = new ViewModel(JSON.parse(data));
+            viewModel.inputUrlActions = $("#urlActions");
+            ko.applyBindings(viewModel);
+        });
+
+        function showLoading(e) {
+
+            if (e)
+            {
+                $('#myOverlay').show();
+                $('#loadingGIF').show();
+            } else {
+                $('#myOverlay').hide();
+                $('#loadingGIF').hide();
+            }
+        }
+
+        function ViewModel(model) {
+            self = this;
+            self.Uri;
+            self.StartDate = ko.observable(new Date(moment(model.StartDate)));
+            self.EndDate = ko.observable(new Date(moment(model.EndDate)));
+         
+            self.SelectedStaffDepartmentList = ko.observable(0);
+            self.DeptId = ko.observable(0);
+            self.StaffDepartmentList = ko.observableArray(model.StaffDepartmentList);
+            
+            self.SelectedEmployees = ko.observableArray([]);
+            self.buttonDisable = ko.observable(false);
+
+ 
+            self.init = function () {
+                self.StaffDepartmentList.unshift({ Id: "0", Name: "ALL" });
+            };
+            self.init();
+
+            self.generateDataTable = function () {
+                 
+                showLoading(true);
+                self.SelectedEmployees([]);
+                url = self.inputUrlActions.data("getstaffdocmonitoring");
+
+                var StartDate = moment(self.StartDate()).format("MM/DD/YYYY");
+                var EndDate = moment(self.EndDate()).format("MM/DD/YYYY");
+                
+                param = { StartDate: StartDate, EndDate: EndDate, EmpId: $('#EmployeeId').val(), DeptId: $('#DeptId').val() };
+             
+                ajaxWrapper.GetWithLoading(url, param, $("#TableWrapper"), function (data, e) {
+                    if (data.Res.length != 0)
+                    {
+                        self.buttonDisable(true);
+                    }
+                    for (i = 0; i < data.Res.length; i++) {
+                        console.log(data.Res[i].cv);
+                        self.SelectedEmployees.push(new Employees(data.Res[i].employeeid, data.Res[i].fullname, data.Res[i].deptcode, data.Res[i].name, data.Res[i].cv, data.Res[i].orient_dept, data.Res[i].orient_gen, data.Res[i].jd, data.Res[i].license, data.Res[i].educ_cert, data.Res[i].fs, data.Res[i].ifc, data.Res[i].tqm, data.Res[i].bcls, data.Res[i].acls, data.Res[i].eval_1, data.Res[i].eval_2, data.Res[i].eval_3, data.Res[i].eval_4, data.Res[i].confidentiality, data.Res[i].credentialing, data.Res[i].previledging, self));
+                    };
+                    showLoading(false);
+                });
+              
+            };
+            self.Save = function () {
+               
+                url = self.inputUrlActions.data("savestaffdocmonitoring");
+                param = { SelectedEmployees: $('#SelectedEmployeeList').val() };
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: param,
+                    beforeSend: function () {
+                        showLoading(true);
+                    },
+                    success: function (data) {
+                        console.log('success');
+                        showLoading(false);
+                        $("#btnModal").trigger("click");//succes message
+
+                    },
+                    dataType: "json"
+                })
+           };
+ 
+        }
+        function Employees(employeeid, fullname, deptcode, name, cv, orient_dept, orient_gen, jd, license, educ_cert, fs, ifc, tqm, bcls, acls, eval_1, eval_2, eval_3, eval_4,  confidentiality, credentialing, previledging, parent) {
+
+            this.employeeid = ko.observable(employeeid);
+                this.fullname = ko.observable(fullname);
+                this.deptcode = ko.observable(deptcode);
+                this.name = ko.observable(name);
+                var cv = cv == 'True' ? true : false;
+                console.log(cv);
+                this.cv = ko.observable(cv);
+                var orient_dept = orient_dept == 'True' ? true : false;
+                this.orient_dept = ko.observable(orient_dept);
+                var orient_gen = orient_gen == 'True' ? true : false;
+                this.orient_gen = ko.observable(orient_gen);
+                var jd = jd == 'True' ? true : false;
+                this.jd = ko.observable(jd);
+                var license = license == 'True' ? true : false;
+                this.license = ko.observable(license);
+                var educ_cert = educ_cert == 'True' ? true : false;
+                this.educ_cert = ko.observable(educ_cert);
+                var fs = fs == 'True' ? true : false;
+                this.fs = ko.observable(fs);
+                var ifc = ifc == 'True' ? true : false;
+                this.ifc = ko.observable(ifc);
+                var tqm = tqm == 'True' ? true : false;
+                this.tqm = ko.observable(tqm);
+                var bcls = bcls == 'True' ? true : false;
+                this.bcls = ko.observable(bcls);
+                var acls = acls == 'True' ? true : false;
+                this.acls = ko.observable(acls);
+                var eval_1 = eval_1 == 'True' ? true : false;
+                this.eval_1 = ko.observable(eval_1);
+                var eval_2 = eval_2 == 'True' ? true : false;
+                this.eval_2 = ko.observable(eval_2);
+                var eval_3 = eval_3 == 'True' ? true : false;
+                this.eval_3 = ko.observable(eval_3);
+                var eval_4 = eval_4 == 'True' ? true : false;
+                this.eval_4 = ko.observable(eval_4);
+                var confidentiality = confidentiality == 'True' ? true : false;
+                this.confidentiality = ko.observable(confidentiality);
+                var credentialing = credentialing == 'True' ? true : false;
+                this.credentialing = ko.observable(credentialing);
+                var previledging = previledging == 'True' ? true : false;
+                this.previledging = ko.observable(previledging);
+        }
+    </script>
+}

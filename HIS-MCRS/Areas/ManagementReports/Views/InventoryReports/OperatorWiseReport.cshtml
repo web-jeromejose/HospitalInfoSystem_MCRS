@@ -1,0 +1,188 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.IROperatorWiseReport
+@{
+    ViewBag.Title = "Inventory Reports";
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+
+<div class="panel panel-default">
+    <div class="panel-heading" style="padding-top: 0px;">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header info">Operator Wise Report</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+    <div class="panel-body" style="height: auto;">
+        @*body*@
+
+        @using (Ajax.BeginForm(options))
+        {
+            <div class="form-group">
+                <div class="row">
+
+                    
+
+                    <p class="col-xs-12"><strong>Report Date Range</strong></p>
+
+                    <div class="col-xs-3  border10" style="margin-left: 10px;" >
+                        @Html.LabelFor(m => m.StartDate, new { @class = "col-xs-4 top10" })
+
+                        <div class="col-xs-7 input-group top5">
+                            @Html.TextBoxFor(m => m.StartDate, Model.StartDate.ToString("dd-MMM-yyyy"), new
+                           {
+                               @class = "datepicker form-control",
+                               style = "z-index:0 !important;",
+                               data_bind = "datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                           })
+                            <span class="input-group-btn ">
+                                <button data-bind="glyphfor:'@Html.IdFor(m => m.StartDate)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                            </span>
+                        </div>
+
+
+                        @Html.LabelFor(m => m.EndDate, new { @class = "col-xs-4 top10" })
+
+                        <div class="col-xs-7 input-group top5">
+                            @Html.TextBoxFor(m => m.EndDate, Model.EndDate.ToString("dd-MMM-yyyy"), new
+                       {
+                           @class = "datepicker form-control",
+                           style = "z-index:0 !important;",
+                           data_bind = "datepicker:$root.EndDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                       })
+                            <span class="input-group-btn ">
+                                <button data-bind="glyphfor:'@Html.IdFor(m => m.EndDate)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                            </span>
+                        </div>
+                    
+                    
+                         @*for employee*@
+                        @Html.LabelFor(m => m.OperatorId, new { @class = "col-xs-4 top10",@style="margin-left: 100px;" })
+                          <div class="col-xs-12 input-group top5">
+                            <input id="@Html.IdFor(m => m.OperatorId)" name="@Html.NameFor(m => m.OperatorId)"
+                         class="select2 form-control" style="font-size:12px;"
+                          data-bind="value:$root.SelectedOperator, 
+                                     select2: {minimumInputLength: 2, query:$root.SearchOperators, placeholder:'Search Employee', allowClear: true}"/>
+                        </div>
+                        @*for employee*@
+
+                    
+                    </div>@*for col-xs-3*@
+
+                     @*for station*@
+                      <div class="col-xs-3  border10" style="margin-left: 10px;" >
+                          @Html.Label("Station", new { @class = "col-xs-10" })
+                            <div class="col-xs-9">
+
+                                <select id="@Html.IdFor(m => m.StationId)" name ="@Html.NameFor(m => m.StationId)" class="form-control">
+                                    @*<option value="0">All</option>*@
+                                    @foreach (var item in Model.Stations)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                </select>
+
+                            </div>
+                          <br /> <br /> <br /> <br />  @Html.HiddenFor(m => m.GenderName)
+                            <div class="col-xs-10" style="margin-left: 0px;" >
+                                 <div class="radio" style="margin-top:-5px;">
+                                    <label>
+                                        <input type="radio" id="Breakup" checked="checked" name="Summary" value="false" />
+                                        <span style="margin-top:5px;margin-left:0px;float:left;">Breakup</span>
+                                    </label>
+                                    <label>
+                                        <input type="radio" id="Summary" name="Summary" style="margin-left:0px;"  value="true"/>
+                                        <span style="margin-top:5px;margin-left:20px;float:left;">Summary</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>@*for station*@
+
+
+                    
+                        
+
+
+                       
+
+
+
+
+                    <div class="col-xs-5 top10">
+                        <div class="pull-right col-xs-5 top10">
+                            <button id="RunReport" type="submit" class="btn btn-sm btn-success col-xs-12" value="RunReport">
+                                <span class="glyphicon glyphicon-tasks"></span>Run Report
+                            </button>
+                            <a id="Close"  href="@Url.Action("Index", "InventoryReports")" class="top5 btn btn-sm btn-danger col-xs-12">
+                                <span class="glyphicon glyphicon-off"></span>Close
+                            </a>
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-xs-12">
+                        <div id="reportWrapper" class="container-fluid" />
+
+                    </div>
+
+
+                </div>
+                @*for row*@
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+<input id="urlActions" class="hidden" 
+    data-searchcompanies="@Url.Action("SearchCompanies")"
+    data-searchoperators="@Url.Action("SearchOperators")" />
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    <script type="text/javascript" src="~/Scripts/ManagementReports/InventoryReports/OperatorWise.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            console.log(data);
+            var viewModel = new ViewModel(JSON.parse(data));
+            viewModel.inputUrlActions = $("#urlActions");
+            ko.applyBindings(viewModel);
+
+           
+            $("#GenderName").val("");
+            $("#StationId").change(function () {
+                //if ($(this).find("option:selected").text() != "All")
+                    $("#GenderName").val($(this).find("option:selected").text());
+                    console.log('jere' + $("#GenderName").val());
+                //else
+                //    $("#GenderName").val("");
+
+            })
+
+
+
+        });
+    </script>
+}
+
+

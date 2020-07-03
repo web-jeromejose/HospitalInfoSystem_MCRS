@@ -1,0 +1,49 @@
+﻿function ViewModel(model) {
+
+    self = this;
+    self.Uri;
+    self.StartDate = ko.observable(new Date(moment(model.StartDate)));
+    self.EndDate = ko.observable(new Date(moment(model.EndDate)));
+    //self.SelectedCompany = ko.observable();
+    //self.DoctorId = ko.observable();
+    //self.StationId = ko.observable();
+    //self.Sort = ko.observable();
+
+    //self.Stations = ko.observableArray(model.Departments);
+    //self.SortOptions = ko.observableArray(model.SortOptions);
+    console.log('test');
+    //self.SearchCompanies = function (query) {
+    //    param = { searchString: query.term };
+    //    url = self.Uri.data('searchcompanies');
+    //    ajaxWrapper.Get(url, param, function (data, e) {
+    //        var filteredData = [];
+    //        ko.utils.arrayForEach(data, function (company) {
+    //            filteredData.push({ id: company.Id, text: company.Code + " - " + company.Name });
+
+    //        });
+    //        query.callback({
+    //            results: filteredData
+    //        });
+    //    });
+    //};
+
+    //self.SearchDoctors = function (query) {
+    //    param = { searchString: query.term };
+    //    url = self.Uri.data('searchdoctors');
+    //    ajaxWrapper.Get(url, param, function (data, e) {
+    //        var filteredData = [];
+    //        ko.utils.arrayForEach(data, function (doctor) {
+    //            filteredData.push({ id: doctor.OperatorId, text: doctor.EmpCode + " - " + doctor.FullName });
+
+    //        });
+    //        query.callback({
+    //            results: filteredData
+    //        });
+    //    });
+    //};
+
+    self.init = function () {
+        //self.Stations.unshift({ Id: '', Name: '' });
+    };
+    self.init();
+}

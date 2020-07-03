@@ -1,0 +1,621 @@
+﻿@{
+    ViewBag.Title = "Daily Hospital Dashboard Values";
+}
+@Styles.Render("~/Styles/arcustom")
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-6">
+                <h4><span class="navbar-header">Daily Hospital Dashboard Values</span></h4>
+            </div>
+            <div class="col-xs-6">
+                <div class="navbar-collapse navbar-right">
+                    <form class="form-horizontal IT_custom_label_left_align">
+                        <div class="form-group">
+                            <div class="col-sm-10">
+                                <label class="control-label col-sm-3" for="fdate">Business Date</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control def_datepicker" id="fdate" name="fdate" value="@DateTime.Today.ToString("dddd, MMMM dd, yyyy")" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" onclick="_common.dateshow('#fdate');"><span class="glyphicon glyphicon-calendar"></span></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <button type="button" class="btn btn-sm btn-primary IT_custom_btn_fixed_width" id="runreport" style="height:34px;margin-left:-20px;">
+                                    <span class="glyphicon glyphicon-dashboard"></span> Run Report
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body">
+
+        <div class="form-group">
+            <div>
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#dailydashboard" aria-controls="dailydashboard" role="tab" data-toggle="tab">Daily Dashboard</a></li>
+                    <li role="presentation"><a href="#graphreport" aria-controls="graphreport" role="tab" data-toggle="tab">Graph Report DEPT WISE</a></li>
+                    <li role="presentation"><a href="#cancellationstats" aria-controls="cancellationstats" role="tab" data-toggle="tab">Cancellation Statistics</a></li>
+
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="dailydashboard">
+                        @*<div class="form-group">
+                                <div class="IT_custom_filter_container">
+
+                                </div>
+                            </div>
+                            <div class="clear-both"></div>*@
+
+                        <div class="form-group">
+                            <div class="col-sm-8" style="background-color:#5b6e8f;color:#fff;padding:10px;">
+                                <header><b>IN-PATIENT</b></header>
+                                <form class="form-horizontal IT_custom_label_left_align">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-4">
+
+                                            </div>
+                                            <div class="col-sm-3">
+
+                                            </div>
+                                            <div class="col-sm-3" style="text-align:center;">
+                                                <label>(For the Day)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label class="control-label col-sm-4" for="ipNOCI">Number of Currently - In</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" readonly="readonly" class="form-control mc_notfortheday" id="ipNOCI" />
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <input type="text" readonly="readonly" class="form-control mc_fortheday" id="ipNOCIftd" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label class="control-label col-sm-4" for="ipNOA">Number of Admission</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" readonly="readonly" class="form-control mc_notfortheday" id="ipNOA" />
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <input type="text" readonly="readonly" class="form-control mc_fortheday" id="ipNOAftd" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label class="control-label col-sm-4" for="ipNOD">Number of Discharge</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" readonly="readonly" class="form-control mc_notfortheday" id="ipNOD" />
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <input type="text" readonly="readonly" class="form-control mc_fortheday" id="ipNODftd" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-sm-4" style="background-color:#d8d8d8;color:#000;padding:10px;">
+                                <header><b>DELIVERY</b></header>
+                                <form class="form-horizontal IT_custom_label_left_align">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-4">
+
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div style="height:20px;"></div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label class="control-label col-sm-4" for="delFTM">For the Month</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" readonly="readonly" class="form-control mc_notfortheday" id="delFTM" />
+                                            </div>
+                                            <label class="control-label col-sm-2" for="delTD">(Today)</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" readonly="readonly" class="form-control mc_fortheday" id="delTD" />
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label class="control-label col-sm-4" for="delFTD">For the Day</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" readonly="readonly" class="form-control mc_notfortheday" id="delFTD" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <div style="height:36px;"></div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-8" style="padding:0;">
+
+                                <form class="form-horizontal IT_custom_label_left_align">
+                                    <div style="background-color:#a6a3d7;color:#000;padding:10px;">
+                                        <header><b>OUT-PATIENT</b></header>
+                                        <div class="form-group">
+                                            <div class="col-sm-2">
+
+                                            </div>
+                                            <div class="col-sm-10">
+                                                <div class="col-sm-4" style="text-align:center;"><label>PAID VISIT</label></div>
+                                                <div class="col-sm-4" style="text-align:center;"><label>FREE VISIT</label></div>
+                                                <div class="col-sm-4" style="text-align:center;"><label>TOTAL</label></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-2">
+                                                <label class="control-label col-sm-12">CASH</label>
+                                            </div>
+                                            <div class="col-sm-10">
+
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_notfortheday" id="cspVcnt" />
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_fortheday" id="cspVper" />
+                                                </div>
+
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_notfortheday" id="csfVcnt" />
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_fortheday" id="csfVper" />
+                                                </div>
+
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_notfortheday" id="cstVcnt" />
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_fortheday" id="cstVper" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-2">
+                                                <label class="control-label col-sm-12">CHARGE</label>
+                                            </div>
+                                            <div class="col-sm-10">
+
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_notfortheday" id="chpVcnt" />
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_fortheday" id="chpVper" />
+                                                </div>
+
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_notfortheday" id="chfVcnt" />
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_fortheday" id="chfVper" />
+                                                </div>
+
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_notfortheday" id="chtVcnt" />
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_fortheday" id="chtVper" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-2">
+                                                <label class="control-label col-sm-12">ARAMCO(PCP)</label>
+                                            </div>
+                                            <div class="col-sm-10">
+
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_notfortheday" id="arampVcnt" />
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_fortheday" id="arampVper" />
+                                                </div>
+
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_notfortheday" id="aramfVcnt" />
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_fortheday" id="aramfVper" />
+                                                </div>
+
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_notfortheday" id="aramtVcnt" />
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_fortheday" id="aramtVper" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-sm-2">
+                                                <label class="control-label col-sm-12">TOTAL</label>
+                                            </div>
+
+                                            <div class="col-sm-10">
+
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_total" id="tpVcnt" />
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_total" id="tpVper" />
+                                                </div>
+
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_total" id="tfVcnt" />
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_total" id="tfVper" />
+                                                </div>
+
+
+                                                <div class="col-sm-4">
+                                                    <input type="text" readonly="readonly" style="text-align:center;font-size:20px;" class="form-control mc_total" id="ttVcnt" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="background-color:#fff;color:#000;padding:10px;">
+                                        <header><b><u>FOR THE DAY</u></b></header>
+                                        <div class="form-group">
+                                            <div class="col-sm-2">
+
+                                            </div>
+                                            <div class="col-sm-10">
+                                                <div class="col-sm-4" style="text-align:center;"><label>PAID VISIT</label></div>
+                                                <div class="col-sm-4" style="text-align:center;"><label>FREE VISIT</label></div>
+                                                <div class="col-sm-4" style="text-align:center;"><label>TOTAL</label></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-2">
+                                                <label class="control-label col-sm-12">TOTAL</label>
+                                            </div>
+                                            <div class="col-sm-10">
+
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_fortheday" id="tpVcntfdd" />
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_fortheday" id="tpVperfdd" />
+                                                </div>
+
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_fortheday" id="tfVcntfdd" />
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <input type="text" readonly="readonly" class="form-control mc_fortheday" id="tfVperfdd" />
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <input type="text" readonly="readonly" style="text-align:center;font-size:20px;" class="form-control mc_fortheday" id="ttVcntfdd" />
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-sm-4" style="padding:0px;">
+
+                                <form class="form-horizontal IT_custom_label_left_align">
+                                    <div style="background-color:#eee;color:#000;padding:10px;">
+                                        <header><b>ER</b></header>
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+
+                                                </div>
+                                                <div class="col-sm-4">
+
+                                                </div>
+                                                <div class="col-sm-4" style="text-align:center;">
+                                                    <label>(For the Day)</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <label class="control-label col-sm-4" for="erTC">Total Consultation</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" readonly="readonly" class="form-control mc_notfortheday" id="erTC" />
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <input type="text" readonly="readonly" class="form-control mc_fortheday" id="erTCftd" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <label class="control-label col-sm-4" for="erTA">Total Admission</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" readonly="readonly" class="form-control mc_notfortheday" id="erTA" />
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <input type="text" readonly="readonly" class="form-control mc_fortheday" id="erTAftd" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div style="background-color:#ccc;color:#000;padding:10px;">
+                                        <header><b>OR LIST</b></header>
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+
+                                                </div>
+                                                <div class="col-sm-4">
+
+                                                </div>
+                                                <div class="col-sm-4" style="text-align:center;">
+                                                    <label class="control-label">(For the Day)</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <label class="control-label col-sm-4" for="orFTD">For the Day</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" readonly="readonly" class="form-control mc_notfortheday" id="orFTD" />
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <input type="text" readonly="readonly" class="form-control mc_fortheday" id="orFTDftd" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <label class="control-label col-sm-4" for="orSCH">OR Scheduled</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" readonly="readonly" class="form-control mc_notfortheday" id="orSCH" />
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <input type="text" readonly="readonly" class="form-control mc_fortheday" id="orSCHftd" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <label class="control-label col-sm-8" for="orSCH">Original OR Request for the Day</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" readonly="readonly" class="form-control mc_fortheday" id="orSCHftdorig" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </form>
+                            </div>
+                        </div>
+                        <div class="clear-both"></div>
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="cancellationstats">
+                        <br />
+
+                        <div class="col-md-8" style="padding-left:0px;padding-right:5px;height:500px;">
+                            <div class="form-group">
+                                <table class="table table-bordered table-striped" id="resulttable" style="background-color:#fff;">
+                                    <thead class="IT_custom_table_header">
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+
+                            </div>
+                            <form class="form-horizontal IT_custom_label_left_align">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-5" for="totalamount">TOTAL AMOUNT CANCELLED FOR THE PERIOD</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" readonly="readonly" class="form-control mc_notfortheday" id="totalamount" />
+                                    </div>
+                                    <label class="control-label col-sm-5" for="totalamount" id="pertotalamount">
+                                        --
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-5" for="totalreceipt">TOTAL RECEIPT CANCELLED FOR THE PERIOD</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" readonly="readonly" class="form-control mc_notfortheday" id="totalreceipt" />
+                                    </div>
+                                    <label class="control-label col-sm-5" id="pertotalcount">
+                                        --
+                                    </label>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-4" style="padding-left:0px;padding-right:0px;">
+                            <div style="background-color:#eee;padding:10px;">
+                                <div class="form-group">
+                                    <div class="col-sm-6">
+                                        <label class="control-label" for="cfdate">From</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control def_datepicker" id="cfdate" name="cfdate" value="@DateTime.Today.ToString("dd-MMM-yyyy")" />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button" onclick="_common.dateshow('#cfdate');"><span class="glyphicon glyphicon-calendar"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label class="control-label" for="ctdate">To</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control def_datepicker" id="ctdate" name="ctdate" value="@DateTime.Today.ToString("dd-MMM-yyyy")" />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button" onclick="_common.dateshow('#ctdate');"><span class="glyphicon glyphicon-calendar"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="clear-both"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <label class="control-label" for="sertype">Service Type</label>
+                                        <input type="text" disabled="disabled" class="form-control" id="sertype" />
+                                    </div>
+                                    <div class="clear-both"></div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <label class="control-label" for="station">Station</label>
+                                        <input type="text" disabled="disabled" class="form-control" id="station" />
+                                    </div>
+                                    <div class="clear-both"></div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <label class="control-label" for="reason">Reason</label>
+                                        <input type="text" disabled="disabled" class="form-control" id="reason" />
+                                    </div>
+                                    <div class="clear-both"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <label class="control-label" for="receipts">Receipts Filter</label>
+                                        <input type="text" disabled="disabled" class="form-control" id="receipts" />
+                                    </div>
+                                    <div class="clear-both"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <label class="control-label" for="chargetype">Charge Type</label>
+                                        <input type="text" disabled="disabled" class="form-control" id="chargetype" />
+                                    </div>
+                                    <div class="clear-both"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <label class="control-label" for="chargeoperator">Charged Operator</label>
+                                        <input type="text" disabled="disabled" class="form-control" id="chargeoperator" />
+                                    </div>
+                                    <div class="clear-both"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <br />
+                                        <button type="button" id="btn_run_stat" class="btn btn-primary btn-block">
+                                            Run Statistics Report
+                                        </button>
+                                    </div>
+                                    <div class="clear-both"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div id="graphreport" class="tab-pane">
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="page-header">
+                                    <h4>IN PATIENT</h4>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <canvas id="CHART_INPATIENT" width="300" height="200"></canvas>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <canvas id="CHART_ER" width="300" height="200"></canvas>
+                            </div>
+                            <div class="col-sm-3">
+                                <canvas id="CHART_DELIVERY" width="300" height="200"></canvas>
+                            </div>
+
+                        </div>
+                        <hr />
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="page-header">
+                                    <h4>OUTPATIENT</h4>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <canvas id="CHART_OUTPATIENT_CASH" width="200" height="200"></canvas>
+                            </div>
+                            <div class="col-sm-6">
+                                <canvas id="CHART_OUTPATIENT_CHARGE" width="200" height="200"></canvas>
+                            </div>
+                            <div class="col-sm-9">
+                                <canvas id="CHART_OUTPATIENT_ARAMCO" width="400" height="200"></canvas>
+                            </div>
+                        </div>
+                        <hr />
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<input type="hidden" id="url"
+       data-reporturl="@Url.Content("~/Areas/AROPBILLING/Reports/Reports.aspx")"
+       data-arcommon="@Url.Content("~/Common")"
+       data-getcancellation="@Url.Action("get_Cancellation_Stats")"
+       data-getopcount="@Url.Action("get_OPBill_Count")"
+       data-getopamount="@Url.Action("get_OPBill_Amount")"
+       data-getcanopcount="@Url.Action("get_CANOPBill_Count")"
+       data-getcaopamount="@Url.Action("get_CANOPBill_Amount")"
+       data-getbioperator="@Url.Action("get_BI_Operator")"
+       data-getbireason="@Url.Action("get_BI_Reason")"
+       data-getbistation="@Url.Action("get_BI_Station")"
+       data-getbiservicetype="@Url.Action("get_BI_Service_Type")"
+       data-getdashboardmonitoring="@Url.Action("get_DashboardMonitoring")"
+       data-graphdashboardmonitoring="@Url.Action("graph_DashboardMonitoring")"
+       data-orrequest="@Url.Action("get_ORRequest")"
+       data-orrequestftd="@Url.Action("get_ORRequestFTD")"
+       data-origrequest="@Url.Action("get_ORRequestFTDProg")" />
+@Scripts.Render("~/Scripts/commonwrapper")
+@Scripts.Render("~/Scripts/jsDashboardMonitoring")
+
+

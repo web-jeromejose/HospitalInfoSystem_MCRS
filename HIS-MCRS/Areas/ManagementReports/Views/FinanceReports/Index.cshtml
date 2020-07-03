@@ -1,0 +1,319 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+@Styles.Render("~/Styles/arcustom")
+
+<div class="row">
+    <br />
+    <div class="col-sm-12">
+
+
+
+        @* have connection in ORA <a class="mc_rep_continer" href="@Url.Action("ListAdvancePayment","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+              Advance Payment Report
+            </section>
+        </a>*@
+
+        @* have connection in ORA <a class="mc_rep_continer" href="@Url.Action("ListAdvancePayment","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+             OP Advance Payment Transaction Detail
+            </section>
+        </a>*@
+
+        <a class="mc_rep_continer" href="@Url.Action("OPRevenue","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                1. OP Revenue Report
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("Beverly_OPRevenue","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                1-A. BEVERLY OP Revenue Report
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("IPRevenue","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                2. IP Revenue Report
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("RevenueAdjustments","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                3. Revenue Adjustments Report
+            </section>
+        </a>
+
+        @*new*@
+        <a class="mc_rep_continer" href="@Url.Action("CashInPatientDischargeReport","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                4. All Patient Cash In Discharge Report
+            </section>
+        </a>
+
+
+        <a class="mc_rep_continer" href="@Url.Action("SummaryReportAdvance","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                5. Summary Report of Advance Payment
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("DepartmentIssuanceReport","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                6. Department Issuance Report (PHA/CST)
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("MealSummary","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                7. Meal Summary
+            </section>
+        </a>
+
+
+        <a class="mc_rep_continer" href="@Url.Action("PayrollSummaryDept","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                8. Payroll Summary Per Department
+            </section>
+        </a>
+
+
+        <a class="mc_rep_continer" href="@Url.Action("IPOPReceipts","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                9. IP and OP Receipts
+            </section>
+        </a>
+
+        @* have connection in ORA <a class="mc_rep_continer" href="@Url.Action("ListAdvancePayment","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               List of Advance Payment Transfer to IP
+            </section>
+        </a>
+
+        @* have connection in ORA <a class="mc_rep_continer" href="@Url.Action("ListAdvancePayment","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               GOSI/Print Invoice Reconcilation
+            </section>
+        </a>*@
+
+        <a class="mc_rep_continer" href="@Url.Action("SummaryAccounts","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                10. Summary of Accounts (no vat)
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("SummaryOfAccountswithVAT", "ARReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                10-A. Summary of Accounts with VAT
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("BillingEffReport","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                11. Billing Efficiency Report
+            </section>
+        </a>
+
+
+        <a class="mc_rep_continer" href="@Url.Action("ArPackageNPInvoice","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                12. AR Package/Non-Package Invoices
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("WarehousetoStoreSummary","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                13. Warehouse Issueance  to Store Summary
+            </section>
+        </a>
+
+
+        @* diff connection <a class="mc_rep_continer" href="@Url.Action("DeptWiseLossDiscount","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               Department Wise and Losses Discount
+            </section>
+        </a>*@
+
+        @*  diff connection <a class="mc_rep_continer" href="@Url.Action("StaffBonus","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                Staff Bonus
+            </section>
+        </a>*@
+        <a class="mc_rep_continer" href="@Url.Action("IPRefundableReport","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                14. IP Refundable Report
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("ARAdjustmentDetailsOp","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                15. AR Adjustment Details OP
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("NewOpAdvancePayment","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                16. New OP Advance Payment Details
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("OPDCashCollection","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                17. OPD Cash Collection Report By Receptionist
+            </section>
+        </a>
+
+        @*<a class="mc_rep_continer" href="@Url.Action("IPDischargesStatement","FinanceReports")">*@
+        <a class="mc_rep_continer" href="@Url.Action("IPDischargesStatementVersion2","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                18. IP Discharges Statement
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("IPDischargesStatementVersion2","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                18.A IP Discharges Statement VERSION 2
+            </section>
+        </a>
+        <a class="mc_rep_continer" href="@Url.Action("IPDischargesStatementPinWise","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                19. IP Discharges Statement ( PIN WISE)
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("FinanceReport_SalesToSaudiCitizen_NoPharmacy","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                20. Sales To Saudi Citizen - No Pharmacy
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("FinanceReport_ZeroRatedSales_AllPharmacy","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                21. Zero Rated Sales - All  Pharmacy
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("PDNPDReportAfterCL","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                22. Package and Non Package Deal after Covering Letter  Report
+            </section>
+        </a>
+
+
+
+        <a class="mc_rep_continer" href="@Url.Action("Eod_DailyDoctorsTarget","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                23. Daily Doctors Target Report
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("Eod_DailyRevenueDetail","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                24. Daily Revenue Detail Report
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("NetRevenue","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                25. NET REVENUE Report
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("Monthly_CIP_REVENUE","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                26. Monthly CIP REVENUE
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("CSTAndPharmacyCostPrice","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                27. CST and Pharmacy Cost Price
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("CLDetailedReport","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                28. CL Detailed Report
+            </section>
+        </a>
+
+        <a class="mc_rep_continer" href="@Url.Action("CLRevenueRecon","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+                29. CL vs Revenue Report
+            </section>
+        </a>
+
+
+        <a class="mc_rep_continer" href="@Url.Action("CLRevenueRecon","FinanceReports")">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <section>
+               30. CL vs Revenue Report
+            </section>
+        </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    SecureFunction();
+</script>

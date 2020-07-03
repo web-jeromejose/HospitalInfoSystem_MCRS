@@ -1,0 +1,145 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.MrdAdmissionDischargeStats
+
+@{
+    ViewBag.Title = "QPS Reports";
+    AjaxOptions options = new AjaxOptions();
+
+    options.HttpMethod = "POST";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+    
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">ER Consultation Statistics per Hour</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+
+
+    <div class="panel-body" style="height: auto;">
+        @using (Ajax.BeginForm(options))
+        {
+
+            <div class="form">
+
+
+
+                <div class="col-xs-3 " style="width: auto;">
+                    @Html.HiddenFor(m=>m.RepType,Model.RepType)
+
+
+                    @Html.Label("Choose a Report", new { @class = "col-xs-12" })
+                    <div class="form-group">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="AdmissionAndDischarge" checked>
+                                Admission and Discharge
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="optionsRadios" id="optionsRadios2" value="AdmissionOnly">
+                                Admission Only
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="optionsRadios" id="optionsRadios3" value="DischargeOnly">
+                               Discharge Only
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                <div class="col-xs-offset-1 col-xs-6  ">
+                    <div class="form-inline">
+
+
+                    @Html.Label("Date Range", new { @class = "col-xs-10 text-center" })
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.StartDate, new { @class=" ",style=" " })&nbsp;&nbsp;
+                                    @Html.TextBoxFor(m => m.StartDate, Model.StartDate.ToString("dd-MMM-yyyy"), new { 
+                                        @readOnly="true",@class="datepicker form-control  ",style="margin-top: 5px;",data_bind="datepicker:$root.StartDate, datepickerOptions:{format:'dd-M-yyyy',autoclose:true}" 
+                                    })
+                        @*<span class="  ">
+                            <button data-bind="glyphfor:'@Html.IdFor(m=>m.StartDate)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-left: -2px; "></button>
+                        </span>*@
+
+                      
+                                    @Html.LabelFor(m => m.EndDate, new { @class="" })&nbsp;&nbsp;
+                                    @Html.TextBoxFor(m => m.EndDate, Model.EndDate.ToString("dd-MMM-yyyy"), new { 
+                                        @readOnly="true",@class="datepicker form-control",style="margin-top: 5px;",data_bind="datepicker:$root.EndDate, datepickerOptions:{format:'dd-M-yyyy',autoclose:true}" 
+                                    })
+                       @* <span class="  ">
+                            <button data-bind="glyphfor:'@Html.IdFor(m=>m.EndDate)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-left: -2px; "></button>
+                        </span>*@
+
+                    </div>
+                    </div>
+                </div>
+
+               @* <div class="col-xs-2 "></div>*@
+                <div class="col-xs-3" style="">
+                    <button id="RunReport" data-bind="click:$root.submit" type="submit" class="btn btn-success" value="RunReport">
+                        <span class="glyphicon glyphicon-tasks"></span>Run Report
+                    </button>
+
+                    <a id="Close"  href="@Url.Action("Index", "QpsReports")" class="btn btn-danger ">
+                        <span class="glyphicon glyphicon-off"></span>Close
+                    </a>
+                </div>
+
+                <div id="reportWrapper" class="col-xs-12 top10 container-fluid" style="min-height: 390px; background-color: #6C7A89;"></div>
+            </div>
+    
+        }
+
+
+    </div>
+
+</div>
+
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    <script type="text/javascript" src="~/Scripts/ManagementReports/FinanceReports/IPDischargesStatement.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/ManagementReports/MarketingReports/NoofCashVisit.js"></script>*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#RepType').val("1");
+            //console.log($('#RepType').val());
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            console.log(data);
+            var viewModel = new ViewModel(JSON.parse(data));
+            viewModel.inputUrlActions = $("#urlActions");
+            ko.applyBindings(viewModel);
+
+            $('input[type=radio][name=optionsRadios]').change(function () {
+                if (this.value == 'AdmissionAndDischarge') {
+                    $('#RepType').val("1");
+                }
+                else if (this.value == 'AdmissionOnly') {
+                    $('#RepType').val("2");
+                } else if (this.value == 'DischargeOnly') {
+                    $('#RepType').val("3");
+                }
+                //console.log($('#RepType').val());
+            });
+
+        });
+    </script>
+}

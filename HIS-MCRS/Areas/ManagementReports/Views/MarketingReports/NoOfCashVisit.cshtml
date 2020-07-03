@@ -1,0 +1,154 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.MRCashPatientVisit
+
+@{
+    ViewBag.Title = "Marketing Reports";
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+<div class="panel panel-default">
+    <div class="panel-heading" style="padding-top:0px;">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header info">No. of Cash Patient Visit with date range</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+    <div class="panel-body" style="height: auto;">
+       @*body*@
+
+          @using (Ajax.BeginForm(options))
+          {
+        <div class="form-group">
+            <div class="row">
+               <p class="col-xs-12"><strong>Report Date Range</strong></p>
+                
+                <div class="col-xs-3">
+                    @Html.LabelFor(m => m.StartDate, new { @class = "col-xs-4 top10" })
+ 
+                       <div class="col-xs-7 input-group top5">
+                          @Html.TextBoxFor(m => m.StartDate,Model.StartDate.ToString("dd-MMM-yyyy"),new
+                           {
+                               @class = "datepicker form-control",
+                               style = "z-index:0 !important;",
+                               data_bind = "datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                           })
+                             <span class="input-group-btn ">
+                                <button data-bind="glyphfor:'@Html.IdFor(m=>m.StartDate)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                         </span>
+                       </div>
+
+
+                     @Html.LabelFor(m=>m.EndDate, new { @class = "col-xs-4 top10" })
+              
+                <div class="col-xs-7 input-group top5">
+                      @Html.TextBoxFor(m => m.EndDate,Model.EndDate.ToString("dd-MMM-yyyy"),new
+                       {
+                           @class = "datepicker form-control",
+                           style = "z-index:0 !important;",
+                           data_bind = "datepicker:$root.EndDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                       })
+                         <span class="input-group-btn ">
+                            <button data-bind="glyphfor:'@Html.IdFor(m=>m.EndDate)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                     </span>
+                   </div>
+
+                </div> @*for col-xs-3*@
+                    
+
+                <div class="col-xs-3">
+
+                     @Html.LabelFor(m=>m.NoVisit, new { @class = "col-xs-6 top10" })
+              
+                <div class="col-xs-6 input-group top5">
+
+                    
+                                    <div class="input-group">
+                                        <!--select -->
+                                            <select  id="NoVisit" name="NoVisit" data-val="true"   class="form-control">
+                                                @for(var i = 1; i < 100; i++){
+
+                                                    if (Model.NoVisit == i)
+                                                    {
+                                                        <option value="@i" selected="selected" >@i</option> 
+                                                    }else{   
+                                                     <option value="@i" >@i</option> 
+                                                    }
+                                               
+                                                }
+                                            </select>
+
+                             
+                                        </div>
+
+                         
+                    
+                   </div>
+
+
+                </div> @*for col-xs-3*@
+
+                             <div class="col-xs-5 top10">
+                                <div class="pull-right col-xs-5 top10">
+                                    <button id="RunReport" type="submit" class="btn btn-sm btn-success col-xs-12" value="RunReport">
+                                        <span class="glyphicon glyphicon-tasks"></span> Run Report
+                                    </button>
+                                   <a id="Close"  href="@Url.Action("Index", "MarketingReports")" class="top5 btn btn-sm btn-danger col-xs-12">
+                                        <span class="glyphicon glyphicon-off"></span> Close
+                                    </a>
+
+                                </div>
+                            </div>
+
+  
+                     <div class="col-xs-12">
+                          <div id="reportWrapper" class="container-fluid"/>
+
+                    </div>
+
+
+            </div> @*for row*@
+        </div>
+          }
+    </div>
+</div>
+
+
+
+<input id="urlActions" class="hidden" 
+    data-searchcompanies="@Url.Action("SearchCompanies")"
+    data-searchdoctors="@Url.Action("SearchDoctors")" />
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+   @* <script src="~/Scripts/MCRS/patientstatistics/jqGlobal.js"></script>
+    <script src="~/Scripts/MCRS/patientstatistics/jqReport.js"></script>*@
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/ManagementReports/FinanceReports/IPDischargesStatement.js"></script>*@
+    <script type="text/javascript" src="~/Scripts/ManagementReports/MarketingReports/NoofCashVisit.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+        
+           var data = '@Html.Raw(Json.Encode(this.Model))';
+            console.log(data);
+            var viewModel = new ViewModel(JSON.parse(data));
+            viewModel.inputUrlActions = $("#urlActions");
+            ko.applyBindings(viewModel);
+
+
+
+       
+        });
+    </script>
+}

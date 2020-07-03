@@ -1,0 +1,252 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.PRListOfEmployees
+
+@{  
+    ViewBag.Title = "Human Resources Reports ";
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-9">
+                <h4><span class="navbar-header">Performance Evaluation Mapping</span></h4>
+            </div>
+            <div class="col-xs-2  ">
+
+                <a id="Close"  href="@Url.Action("Index", "HumanResources")" class="btn btn-danger pull-right ">
+                    <span class="glyphicon glyphicon-off"></span>Close
+                </a>
+            </div>
+        </div>
+    </div>
+
+<div class="panel-body" style="height: auto;">
+@using (Ajax.BeginForm(options))
+{
+    
+    <div class="col-xs-12">
+        <div class="col-xs-6">
+            <label class="col-xs-6">Department : </label>
+        <select id="@Html.IdFor(m=>m.DeptId)" name="@Html.NameFor(m=>m.DeptId)" class="col-xs-6" 
+                                data-bind="options:$root.DepartmentList, optionsText:'FullName', optionsValue:'EmployeeId', 
+                                           value: $root.SelectedDepartmentList, select2:{allowClear: true, placeholder:'Select Service'}">
+        </select>
+        </div>
+    </div>
+    <br />
+    <br />
+
+    <br />    <div class="col-xs-6" id="VaccineWrapper">
+        <fieldset>
+            <legend style="font-size: 15px;"><b>List of Employee</b></legend>
+
+      
+        <table class="table" style="background-color: #e3e9f9;">
+            <thead>
+                <tr>
+
+                    <th>Employee ID</th>
+                    <th>Employee Name</th>
+
+                </tr>
+            </thead>
+            <tbody class="border10" data-bind="dataTablesForEach:{data:$root.EmployeeData,dataTableOptions:{scrollY: 300 ,bDestroy: true,fnDestroy:true,fnClearTable:true,paging:false,bFilter: true, bInfo: true}}">
+
+                <tr data-bind="click: $root.clickLeftColumn ">
+                    <td style="padding: 0px !important;" data-bind="text:EmployeeId "></td>
+                    <td style="padding: 0px !important;" data-bind="text:FullName "></td>
+                </tr>
+            </tbody>
+
+        </table>
+        </fieldset>
+    </div>
+    
+    <div class="col-xs-6" id="SelectedEmployee">
+        <fieldset>
+            <legend style="font-size: 15px;"><b>Selected Employee</b></legend>
+
+
+            <table class="table" style="background-color: #e3e9f9;">
+            <thead>
+                <tr>
+
+                    <th>Employee ID</th>
+                    <th>Employee Name</th>
+
+                </tr>
+            </thead>
+            <tbody class="border10" data-bind="dataTablesForEach:{data:$root.SelectedEmployeeData,dataTableOptions:{scrollY: 100 ,bDestroy: true,fnDestroy:true,fnClearTable:true,paging:false,bFilter: false, bInfo: false}}">
+
+                <tr data-bind="click: $root.clickRightColumn ">
+                    <td style="padding: 0px !important;" data-bind="text:EmployeeId "></td>
+                    <td style="padding: 0px !important;" data-bind="text:FullName "></td>
+                </tr>
+            </tbody>
+
+        </table>
+
+            @*<textarea rows="1" cols="10" data-bind=" value: ko.toJSON($root.SelectedEmployeeIDs()) "></textarea>*@
+            <input id="SelectedEmpId" class="col-xs-12" name="SelectedEmpId" type="hidden" data-bind=" value: ko.toJSON($root.SelectedEmployeeIDs()) " />
+
+            <div class="col-xs-3" style="">
+
+                <button id="RunReport" onclick=" $('#ConfirmModal').modal('show'); " type="button" class="btn btn-success" value="RunReport">
+                    <span class="glyphicon glyphicon-tasks"></span> Save
+                </button>
+
+ 
+            </div>
+
+
+        </fieldset>
+    </div>
+    
+}
+</div>@*panel-body*@
+
+ 
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">MCRS</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Mapping has been saved.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="ConfirmModal" class="modal fade" role="dialog">
+        <div class="modal-dialog" style="width: 350px; z-index: 1300;">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header"  style="padding: 8px;">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">MCRS</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure to update?
+                        
+
+
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-default col-xs-2 pull-left" onclick="$('#form0').trigger('submit');" data-dismiss="modal"  data-bind="click:$root.submit">YES</button>
+                    <button  type="button" class="btn btn-sm btn-default col-xs-2 pull-right" data-dismiss="modal">NO</button>
+                </div>
+            </div>
+            
+
+        </div>
+
+    </div>
+
+
+</div>
+ 
+
+
+<input id="urlActions" class="hidden" data-getemployeebydeptid="getEmployeebyDeptId" />
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/MCRS/otherreports/js_generalexpenses.js"></script>*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            var viewModel = new ViewModel(JSON.parse(data));
+            viewModel.inputUrlActions = $("#urlActions");
+            ko.applyBindings(viewModel);
+
+           
+         
+        });
+
+        function ViewModel(model) {
+
+            self = this;
+            self.inputUrlActions = null;
+            self.EmployeeData = ko.observableArray([]);
+            self.SelectedEmployeeData = ko.observableArray([]);
+            self.SelectedEmployeeIDs = ko.observableArray([]);
+            
+            self.EmployeeData = ko.observableArray(model.EmployeeList);
+
+            self.SelectedDepartmentList = ko.observableArray();
+            self.DepartmentList = ko.observableArray(model.DepartmentList);
+
+            self.SelectedDepartmentList.subscribe(function () {
+                self.SelectedEmployeeData([]);
+                self.SelectedEmployeeIDs([]);
+                param = { DeptId: $('#DeptId').val() };
+                console.log(param);
+                url = self.inputUrlActions.data("getemployeebydeptid");
+                ajaxWrapper.GetWithLoading(url, param, $("#SelectedEmployee"), function (data, e) {
+                     
+                    ko.utils.arrayPushAll(self.SelectedEmployeeData, data);
+                    
+                    $.each(self.SelectedEmployeeData(), function (index, item) {
+                        self.SelectedEmployeeIDs.push(item.EmployeeId);
+                    });
+                });
+            });
+
+            self.clickLeftColumn = function (e) {
+                var jsontxt = ko.toJSON(self.SelectedEmployeeData());
+                if (jsontxt.indexOf(e.EmployeeId) <= -1)
+                {
+                    self.SelectedEmployeeData.push(e);
+                    self.SelectedEmployeeIDs.push(e.EmployeeId);
+                }
+            };
+            self.clickRightColumn = function (e) {
+                var obj = self.SelectedEmployeeData();
+                self.SelectedEmployeeData([]);
+                self.SelectedEmployeeIDs([]);
+
+                $.each(obj, function (index, item) {
+                    if (item.EmployeeId != e.EmployeeId) {
+                       
+                        self.SelectedEmployeeData.push(item);
+                        self.SelectedEmployeeIDs.push(item.EmployeeId);
+                    }
+                });
+            };
+        }
+
+        function OnSuccess(e) {
+
+            $('#myModal').modal('show');
+        };
+    </script>
+}
+
+
+

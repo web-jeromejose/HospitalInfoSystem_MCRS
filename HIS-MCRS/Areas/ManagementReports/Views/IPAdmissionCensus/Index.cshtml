@@ -1,0 +1,52 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.Models.ParamDateRangeModel
+
+@using System.Web.UI.WebControls
+@using ReportViewerForMvc
+
+<div class="panel panel-default ">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><b class="navbar-header">IP Admission Census</b></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+                @using (Html.BeginForm("Index", "IPAdmissionCensus", FormMethod.Post))
+                {
+                    <div class="col-xs-2">
+                        <label class="label-control">Date</label>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="input-group input-daterange">
+                            @Html.TextBoxFor(model => model.DateFrom, new { id = "txtFromDate", name = "DateFrom", @class = "form-control datepicker", @placeholder = "From Date", @onkeydown = "return false" })
+                            @*@Html.TextBox("txtFromDate", null, new {id = "txtFromDate", name = "param1", @class = "form-control datepicker", @placeholder = "From Date", @onkeydown = "return false"})*@
+                            <span class="input-group-addon">
+                            </span>
+                            @Html.TextBoxFor(model => model.DateTo, new { id = "txtToDate", name = "DateTo", @class = "form-control datepicker", @placeholder = "To Date", @onkeydown = "return false" })
+                            @*@Html.TextBox("txtToDate", null, new {id = "txtToDate", name = "param2", @class = "form-control datepicker", @placeholder = "To Date", @onkeydown = "return false"})*@
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <input id="button1" type="submit" value="Submit" class="btn btn-default" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>@*Header Panel*@
+    <div class="panel-body">
+        @if (ViewBag.ReportViewer != null)
+        {
+            @Html.ReportViewer(ViewBag.ReportViewer as Microsoft.Reporting.WebForms.ReportViewer, new { SizeToReportContent = true, Width = Unit.Percentage(100), Height = "450px" })
+        }
+    </div>@*Body*@
+</div>@*Panel Head*@
+
+@section scripts {
+    <script src="~/Scripts/MCRS/patientstatistics/jqGlobal.js"></script>
+    <script src="~/Scripts/MCRS/patientstatistics/jqReport.js"></script>
+}
+
+@*
+    <script src="~/Scripts/CATHLAB/jqCathLabGlobal.js"></script>
+    <script src="~/Scripts/CATHLAB/jqGlobal.js"></script>
+    <script src="~/Scripts/CATHLAB/jqCathReport.js"></script>
+*@

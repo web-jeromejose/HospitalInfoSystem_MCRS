@@ -1,0 +1,117 @@
+﻿@{
+    ViewBag.Title = "Patient Charity Letter Report";
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Patient Charity Letter Report</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+                <button type="button" class="btn btn-sm btn-primary" id="btn_show">
+                    <span class="glyphicon glyphicon-eye-open"></span> Show
+                </button>
+                <button type="button" class="btn btn-sm btn-info" id="btn_preview">
+                    <span class="glyphicon glyphicon-print"></span>&nbsp;Print Preview
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="IT_custom_filter_container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <form class="form-horizontal IT_custom_label_left_align">
+                        <label class="control-label col-sm-1">From</label>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <input type="text" class="form-control datepicker def_datepicker" id="fdate" name="fdate" value="@DateTime.Today.ToString("dd-MMM-yyyy")" data-date-end-date="0d" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" id="fdatebtn" type="button" onclick="_common.dateshow('#fdate');"><span class="glyphicon glyphicon-calendar"></span></button>
+                                </span>
+                            </div>
+                        </div>
+                        <label class="control-label col-sm-1">To</label>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <input type="text" class="form-control datepicker def_datepicker" id="tdate" name="tdate" value="@DateTime.Today.ToString("dd-MMM-yyyy") " />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" id="tdatebtn" type="button" onclick="_common.dateshow('#tdate');"><span class="glyphicon glyphicon-calendar"></span></button>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table id="dtdisplaytable" class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="width:98% !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Report Generated</h4>
+            </div>
+            <div class="modal-body">
+                <div id="report-container">
+                    <iframe id="myReport2"></iframe>
+                </div>
+                <div class="clear-botn"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-primary AR_custom_btn_fixed_width" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="url"
+       data-reporturl="@Url.Content("~/Areas/AROPBILLING/Reports/Reports.aspx")"
+       data-arcommon="@Url.Content("~/Common")"
+       data-get_ptcharityletterreport="@Url.Action("get_ptcharityletterreport")" />
+
+@Scripts.Render("~/Scripts/commonwrapper")
+@Scripts.Render("~/Scripts/jsPatientCharityLetterReport")
+
+

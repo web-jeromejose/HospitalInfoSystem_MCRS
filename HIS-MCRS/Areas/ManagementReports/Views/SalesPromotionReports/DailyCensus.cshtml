@@ -1,0 +1,153 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.SPCensusGraphs
+
+@{
+     ViewBag.Title = "Sales Promotion Reports";
+
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Sales Promotion Daily Census Report</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+    <div class="panel-body" style="height: auto;">
+        @using(Ajax.BeginForm(options)){
+            <div class="form-group">
+                <p><strong>Report Date Range </strong></p>
+                <div class="col-xs-4">
+                    @Html.LabelFor(m => m.StartDate, new { @class = "col-xs-3 top10" })
+
+                    <div class="col-xs-6 input-group top5">
+                        @Html.TextBoxFor(m => m.StartDate,Model.StartDate.ToString("dd-MMM-yyyy"),new
+                       {
+                           @readonly= true,
+                           @class = "datepicker form-control",
+                           style = "z-index:0 !important;",
+                           data_bind = "datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                       })
+                        <span class="input-group-btn ">
+                            <button data-bind="glyphfor:'@Html.IdFor(m=>m.StartDate)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                        </span>
+                    </div>
+
+
+                 @*   @Html.LabelFor(m=>m.EndDate, new { @class = "col-xs-3 top10" })
+
+                    <div class="col-xs-6 input-group top5">
+                        @Html.TextBoxFor(m => m.EndDate,Model.EndDate.ToString("dd-MMM-yyyy"),new
+                       {
+                           @readonly= true,
+                           @class = "datepicker form-control",
+                           style = "z-index:0 !important;",
+                           data_bind = "datepicker:$root.EndDate, datepickerOptions:{format: 'dd-M-yyyy',autoclose: true}"
+                       })
+                        <span class="input-group-btn ">
+                            <button data-bind="glyphfor:'@Html.IdFor(m=>m.EndDate)'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                        </span>
+                    </div>*@
+
+                </div>
+                <div class="col-xs-6">
+                    @*<div class="row">
+                        @Html.LabelFor(m=>m.ReportType, new {@class = "col-xs-3 top10"})
+                        <div class="col-xs-5">
+                            <select id="@Html.IdFor(m=>m.ReportType)" name="@Html.NameFor(m=>m.ReportType)" class="form-control top5"
+                                data-bind="options:$root.ReportTypeList,
+                                           value:$root.SelectedReportType, 
+                                           optionsText:'Value',
+                                           optionsValue:'Key'">
+                            </select>
+                        </div>
+                    </div>*@
+                    @* @Html.HiddenFor(m=>m.CategoryName)
+                    <div class="row top10">
+                        @Html.LabelFor(model => model.CategoryId, new { @class = "col-xs-2 " })
+                        <div class="col-xs-6 ">
+                            <select class="form-control select2"id="@Html.IdFor(model=>model.CategoryId)" name="@Html.NameFor(model=>model.CategoryId)"
+                                data-bind="options: $root.CategoryList, optionsValue:'Id', optionsText:'Name', value: $root.SelectedCategory, select2:{}">
+                            </select>
+                        </div>
+                    </div>*@
+
+                </div>
+                <div class="col-xs-2">
+                    <button id="RunReport" type="submit" class="btn btn-success col-xs-12 top5" value="RunReport">
+                        <span class="glyphicon glyphicon-tasks"></span>Run Report
+                    </button>
+                    <a id="Close"  href="@Url.Action("Index", "SalesPromotionReports")" class="top5 btn btn-danger col-xs-12">
+                        <span class="glyphicon glyphicon-off"></span>Close
+                    </a>
+                </div>
+
+                <div id="reportWrapper" class="col-xs-12 top10 container-fluid" style="min-height: 390px; background-color: #6C7A89;"></div>
+            </div>
+        }
+    </div>
+</div>
+
+<input id="urlActions" class="hidden" />
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/MCRS/salespromotion/js_censusgraphs.js"></script>*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            var viewModel = new ViewModel(JSON.parse(data));
+            ko.applyBindings(viewModel);
+        });
+        $(document).ready(function () {
+            $("#CategoryName").val($("#CategoryId").find("option:selected").text());
+            $("#CategoryId").change(function () {
+                //if ($(this).find("option:selected").text() != "All")
+                $("#CategoryName").val($("#CategoryId").find("option:selected").text());
+                //else
+                //    $("#AgeRangeName").val("");
+                console.log($("#CategoryName").val());
+            });
+            console.log($("#CategoryName").val());
+
+
+        });
+        function ViewModel(OPProcedureStatisctics) {
+            self = this;
+            self.StartDate = ko.observable(new Date(moment(OPProcedureStatisctics.StartDate)));
+            //self.EndDate = ko.observable(new Date(moment(OPProcedureStatisctics.EndDate)));
+            //self.SelectedReportType = ko.observable(OPProcedureStatisctics.ReportType);
+            //self.ReportTypeList = ko.observableArray(OPProcedureStatisctics.ReportTypeList);
+
+
+            //self.CategoryList = ko.observableArray(OPProcedureStatisctics.CategoryList);
+
+            //self.SelectedCategory = ko.observable(OPProcedureStatisctics.CategoryList[0].Id);
+
+
+
+
+
+
+        }
+
+
+    </script>
+}
+

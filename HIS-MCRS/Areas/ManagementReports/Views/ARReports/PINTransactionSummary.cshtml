@@ -1,0 +1,122 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.ARPINTransactionSummary
+
+@{
+    ViewBag.Title = "AR Reports";
+   AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "_indicator.Stop()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Pin Transaction Account Summary Details</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+
+    @using(Ajax.BeginForm(options)){
+    <div class="panel-body" >
+        
+        <div class=" col-xs-12">
+            <div class="col-xs-1">
+
+               @Html.LabelFor(m => m.StartDate, new { @class = "col-xs-12 top5" })
+               @Html.LabelFor(m => m.CategoryId, new { @class = "col-xs-12 top10" })
+            </div>
+            
+            <div class="col-xs-5">
+               <div  class="col-xs-5">
+                    <div class="col-xs-12 input-group">
+                            @Html.TextBoxFor(m => m.StartDate,Model.StartDate.ToString("dd-MMM-yyyy"), new { @readonly=true, @class = "datepicker form-control", style = "z-index:0 !important;", 
+                                                                    data_bind="datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy', autoclose: true}" })
+                            <span class="input-group-btn ">
+                                <button data-bind="glyphfor:'StartDate'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                            </span>
+                        </div>
+
+                </div>
+                   @Html.LabelFor(m => m.EndDate, new { @class = "col-xs-1 top5" })
+                <div  class="col-xs-5">
+                      <div class="col-xs-12 input-group">
+                            @Html.TextBoxFor(m => m.EndDate,Model.StartDate.ToString("dd-MMM-yyyy"), new {@readonly=true, @class = "datepicker form-control ", style = "z-index:0 !important;",
+                                                                  data_bind="datepicker:$root.EndDate, datepickerOptions:{format: 'dd-M-yyyy', autoclose: true}"})
+                            <span class="input-group-btn">
+                                <button  data-bind="glyphfor:'EndDate'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                            </span>
+                        </div>
+                 </div>
+                  
+            
+               <div class="col-xs-11 top5">
+                    <select id="@Html.IdFor(m=>m.CategoryId)" name="@Html.NameFor(m=>m.CategoryId)" class="form-control"
+                                data-bind="options:$root.CategoryList ,optionsValue:'Id',optionsText:'Name', 
+                                           value: $root.SelectedCategoryId, select2:{}">
+                    </select>
+                   @Html.HiddenFor(model=>model.CategoryText, new{data_bind="value:$root.Category"})
+               </div>
+            </div>
+          
+            <div class="col-xs-3">
+              <div class="col-xs-12 border10">
+                        <div class="col-xs-12">
+                            <div class="radio" style="margin: 0 0 0 0">
+                                @Html.RadioButtonFor(m => m.ReportOption, 1, new { id = "AllDepartment", data_bind="value:1, checked:$root.ReportOption" })
+                                <label class="row top5" style="font-size:12px;">All Department</label>
+                                <div class="radio" style="margin: 0 0 0 0">
+                                    @Html.RadioButtonFor(m => m.ReportOption, 2, new { id = "OtherDepartment", data_bind="value:2, checked:$root.ReportOption" })
+                                    <label class="row top5" style="font-size:12px;">Dental/Opthalmology/OB&GN</label>
+                                </div>
+                             
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="col-xs-1"></div>
+            <div class="col-xs-2">
+                <div class="pull-right col-xs-10">
+                    <button id="RunReport" type="submit" class="btn btn-success col-xs-12" value="RunReport">
+                        <span class="glyphicon glyphicon-tasks"></span> Run Report
+                    </button>
+                    <a id="Close"  href="@Url.Action("Index", "ARReports")" class="top5 btn btn-danger col-xs-12">
+                        <span class="glyphicon glyphicon-off"></span> Close
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div id="reportWrapper" class="container-fluid" style="margin-top:8%;min-height:28em;" />
+     
+
+    </div>
+    }
+</div>
+
+
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{ 
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    <script type="text/javascript" src="~/Scripts/ManagementReports/ARReports/ARPinTransactionSummary.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            var viewModel = new ViewModel(JSON.parse(data));
+            ko.applyBindings(viewModel);
+        });   
+    </script>
+}
+
+

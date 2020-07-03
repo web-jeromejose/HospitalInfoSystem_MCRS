@@ -1,0 +1,132 @@
+﻿@model HIS_MCRS.Areas.ManagementReports.ViewModels.ARCompanyCharges
+
+
+@{
+    ViewBag.Title = "AR Reports";
+   AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    //options.Confirm = "Do you wish to submit this form?";
+    options.OnBegin = "_indicator.Body()";
+    options.OnComplete = "initDataTable()";
+    //options.OnFailure = "OnFailure";
+    //options.OnSuccess = "OnSuccess";
+    //options.LoadingElementId = "loading";
+    options.LoadingElementDuration = 1000;
+    options.UpdateTargetId = "reportWrapper";
+    options.InsertionMode = InsertionMode.Replace;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-5">
+                <h4><span class="navbar-header">Company Charge Services</span></h4>
+            </div>
+            <div class="navbar-collapse navbar-right">
+            </div>
+        </div>
+    </div>
+
+    @using(Ajax.BeginForm(options)){
+    <div class="panel-body" >
+        
+        <div class=" col-xs-12">
+            <div class="col-xs-6 border10">
+               
+                @Html.LabelFor(m => m.StartDate, new { @class = "col-xs-2 top5" })
+                
+                <div  class="col-xs-4">
+                    
+                    <div class="input-group">
+                            @Html.TextBoxFor(m => m.StartDate,Model.StartDate.ToString("dd-MMM-yyyy"), new { @readonly=true, @class = "datepicker form-control", style = "z-index:0 !important;", 
+                                                                    data_bind="datepicker:$root.StartDate, datepickerOptions:{format: 'dd-M-yyyy', autoclose: true}" })
+                            <span class="input-group-btn ">
+                                <button data-bind="glyphfor:'StartDate'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                            </span>
+                        </div>
+
+                </div>
+                @Html.LabelFor(m => m.EndDate, new { @class = "col-xs-1 top5" })
+                <div  class="col-xs-4">
+                      <div class="input-group">
+                            @Html.TextBoxFor(m => m.EndDate,Model.StartDate.ToString("dd-MMM-yyyy"), new {@readonly=true, @class = "datepicker form-control ", style = "z-index:0 !important;",
+                                                                  data_bind="datepicker:$root.EndDate, datepickerOptions:{format: 'dd-M-yyyy', autoclose: true}"})
+                            <span class="input-group-btn">
+                                <button  data-bind="glyphfor:'EndDate'" class="btn btn-default glyphicon glyphicon-calendar" type="button" style="margin-top: -1px;"></button>
+                            </span>
+                        </div>
+                 </div>
+                  
+               @Html.LabelFor(m => m.CategoryId, new { @class = "col-xs-2 top10" })
+               <div class="col-xs-9 top5">
+                    <select id="@Html.IdFor(m=>m.CategoryId)" name="@Html.NameFor(m=>m.CategoryId)" class="form-control"
+                                data-bind="options:$root.CategoryList, optionsText:'Name', optionsValue:'Id', 
+                                           value: $root.SelectedCategoryId, select2:{}">
+                    </select>
+                   @Html.HiddenFor(m=>m.CategoryText, new {data_bind="value:$root.SelectedCategoryText"})
+               </div>
+            </div>
+          
+            <div class="col-xs-4">
+                <div class="col-xs-12 border10">
+               @Html.LabelFor(m => m.OPBServiceId, new { @class = "col-xs-3 top10" })
+               <div class="col-xs-9 top5">
+                    <select id="@Html.IdFor(m=>m.OPBServiceId)" name="@Html.NameFor(m=>m.OPBServiceId)" class="form-control"
+                                data-bind="options:$root.ServiceList, optionsText:'Name', optionsValue:'Id', 
+                                           value:$root.SelectedServiceId, select2:{}">
+                    </select>
+                    @Html.HiddenFor(m=>m.ServiceText, new {data_bind="value:$root.SelectedServiceText"})
+               </div>
+
+               
+                 @Html.LabelFor(m => m.BaseCharge, new { @class = "col-xs-12 top10" })
+                <div class="col-xs-6 top5">
+                    <input name="@Html.NameFor(m=>m.HasBaseCharge)" type="radio" data-bind="checked:$root.HasBaseCharge, value:false" /> All
+                    <input style="margin-left:10px;"  name="@Html.NameFor(m=>m.HasBaseCharge)" type="radio" data-bind="checked:$root.HasBaseCharge,value: true" /> More than
+                </div>
+                <div class="col-xs-6">@Html.TextBoxFor(m=>m.BaseCharge, new {@class="form-control", style="text-align: right;", data_bind="value:$root.BaseCharge, visible:$root.HasBaseCharge()", type="number"})</div>
+               </div>
+       
+             
+            </div>
+            
+            <div class="col-xs-2">
+                <div class="pull-right col-xs-10">
+                    <button id="RunReport" type="submit" class="btn btn-success col-xs-12" value="RunReport">
+                        <span class="glyphicon glyphicon-search"></span> Search
+                    </button>
+                     <button id="Print" data-bind="click:$root.Print, enable: $root.EnablePrint()" class="top5 btn btn-default col-xs-12">
+                        <span class="glyphicon glyphicon-print"></span> Print
+                    </button>
+                    <a id="Close"  href="@Url.Action("Index", "ARReports")" class="top5 btn btn-danger col-xs-12">
+                        <span class="glyphicon glyphicon-off"></span> Close
+                    </a>
+
+                </div>
+            </div>
+        </div>
+        
+        <div id="reportWrapper" class="container-fluid" style="margin-top:11%;" />
+     
+
+    </div>
+    }
+</div>
+
+<input id="urlInput" class="hidden" data-print="@Url.Action("Preview", "Print", new { Area = "" })" />
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/knockoutjs")
+@section Scripts{ 
+    <script type="text/javascript" src="~/Scripts/MCRS/global/dialogwrapper.js"></script>
+    <script type="text/javascript" src="~/Scripts/ManagementReports/ARReports/ARCompanyCharges.js"></script>
+    <script type="text/javascript">
+        var viewModel = ""
+        $(document).ready(function () {
+            var data = '@Html.Raw(Json.Encode(this.Model))';
+            viewModel = new ViewModel(JSON.parse(data), $("#urlInput"));
+            ko.applyBindings(viewModel);
+        });
+    </script>
+}
+
